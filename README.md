@@ -1,4 +1,6 @@
-# sphere-node-cli [![Build Status](https://secure.travis-ci.org/sphereio/sphere-node-cli.png?branch=master)](http://travis-ci.org/sphereio/sphere-node-cli)
+# SPHERE.IO CLI
+
+[![Build Status](https://secure.travis-ci.org/sphereio/sphere-node-cli.png?branch=master)](http://travis-ci.org/sphereio/sphere-node-cli)
 
 Node.js [Command Line Tool](http://en.wikipedia.org/wiki/Command-line_interface) for [SPHERE.IO HTTP APIs](http://dev.sphere.io/).
 

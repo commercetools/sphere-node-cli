@@ -1,12 +1,13 @@
-'use strict'
+process.env.NODE_ENV = 'test'
 
-sphere_node_cli = require('../lib/sphere.js')
+exec = require('child_process').exec
 
-describe 'Awesome', ->
+runCommand = (options, callback)->
+  exec "#{__dirname}/../bin/sphere #{options}", (err, stdout)-> callback(err, stdout)
 
-  beforeEach (done)->
-    # setup here
-    done()
+describe 'Sphere CLI', ->
 
-  it 'should print', ->
-    expect(sphere_node_cli.awesome()).toBe 'awesome'
+  it 'should output help when no options are passed', (done)->
+    runCommand '', (error, result)->
+      expect(result).toMatch /Usage\: sphere \[options\] \[command\]/
+      done()
