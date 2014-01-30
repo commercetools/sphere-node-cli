@@ -1,11 +1,37 @@
+fs      = require('fs')
 program = require('commander')
-prompt = require('prompt')
+nconf   = require('nconf')
+prompt  = require('prompt')
+
+ROOT = process.env.HOME or process.env.HOMEPATH or process.env.USERPROFILE
+ROOT_FOLDER = "#{ROOT}/.sphere-cli"
+PATH_TO_CREDENTIALS = "#{ROOT_FOLDER}/credentials.json"
+
+nconf.use 'file', file: PATH_TO_CREDENTIALS
 
 program.parse(process.argv)
 
 prompt.start()
 prompt.get ['client_id', 'client_secret', 'project_key'], (error, result)->
-  console.log 'Options received'
-  console.log "Client ID: #{result.client_id}"
-  console.log "Client SECRET: #{result.client_secret}"
-  console.log "Project Key: #{result.project_key}"
+  return console.log '' if error
+  nconf.set 'client_id', result.client_id
+  nconf.set 'client_secret', result.client_secret
+  nconf.set 'project_key', result.project_key
+
+  saveCredentials = ->
+    nconf.save (e)->
+      return e if e
+      console.log 'Credentials saved!'
+      nconf.load (e, data)->
+        return e if e
+        console.log PATH_TO_CREDENTIALS
+        console.log data
+
+  # check if path exist
+  if fs.existsSync ROOT_FOLDER
+    saveCredentials()
+  else
+    # create dir
+    fs.mkdir ROOT_FOLDER, (e)->
+      return e if e
+      saveCredentials()
