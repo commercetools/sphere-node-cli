@@ -1,6 +1,8 @@
-# SPHERE.IO CLI
+![SPHERE.IO icon](https://admin.sphere.io/assets/images/sphere_logo_rgb_long.png)
 
-[![Build Status](https://secure.travis-ci.org/sphereio/sphere-node-cli.png?branch=master)](http://travis-ci.org/sphereio/sphere-node-cli)
+# Node.js CLI
+
+[![Build Status](https://secure.travis-ci.org/sphereio/sphere-node-cli.png?branch=master)](http://travis-ci.org/sphereio/sphere-node-cli) [![Dependency Status](https://david-dm.org/sphereio/sphere-node-cli.png?theme=shields.io)](https://david-dm.org/sphereio/sphere-node-cli) [![devDependency Status](https://david-dm.org/sphereio/sphere-node-cli/dev-status.png?theme=shields.io)](https://david-dm.org/sphereio/sphere-node-cli#info=devDependencies)
 
 Node.js [Command Line Tool](http://en.wikipedia.org/wiki/Command-line_interface) for [SPHERE.IO HTTP APIs](http://dev.sphere.io/).
 
