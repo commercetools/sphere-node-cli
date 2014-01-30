@@ -10,6 +10,28 @@ Node.js [Command Line Tool](http://en.wikipedia.org/wiki/Command-line_interface)
 npm install sphere-node-cli -g
 ```
 
+```bash
+    __  __      __  __  __     __
+   /_  /_/ /_/ /_  /_/ /_   / /  /
+  __/ /   / / /_  / \ /_ . / /__/
+
+
+  Usage: sphere [options] [command]
+
+  Commands:
+
+    auth                   Provide credentials for authentication
+    products               Manage products for a project
+    help [cmd]             display help for [cmd]
+
+  Options:
+
+    -h, --help          output usage information
+    -V, --version       output the version number
+    -u, --user=email    account username
+    -p, --password=pwd  account password
+```
+
 ## Usage
 
 `sphere` is most self documenting. Try any of these commands to get started
