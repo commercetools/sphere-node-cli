@@ -7,14 +7,17 @@ createProduct = ->
   console.log "Creating product"
 
 program
-  .command('list')
   .option('-p, --project=key', 'project key to use')
+
+program
+  .command('list')
   .description('List products')
+  .action -> getProducts()
 
 program
   .command('create')
-  .option('-p, --project=key', 'project key to use')
   .description('Create a new product')
+  .action -> createProduct()
 
 program.parse(process.argv)
 
