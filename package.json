@@ -28,7 +28,8 @@
     "test": "grunt coverage"
   },
   "dependencies": {
-    "commander": "~2.1.0"
+    "commander": "~2.1.0",
+    "prompt": "~0.2.12"
   },
   "devDependencies": {
     "coveralls": "~2.7.0",

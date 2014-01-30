@@ -14,6 +14,7 @@ program
   .option('-J, --json-raw', 'output in raw JSON')
 
 program
+  .command('auth', 'Provide credentials for authentication')
   .command('products', 'Manage products for a project')
 
 program.parse(process.argv)
