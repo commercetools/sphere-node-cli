@@ -9,29 +9,46 @@ PATH_TO_CREDENTIALS = "#{ROOT_FOLDER}/credentials.json"
 
 nconf.use 'file', file: PATH_TO_CREDENTIALS
 
-program.parse(process.argv)
+saveCredentials = ->
+  prompt.start()
+  prompt.get ['client_id', 'client_secret', 'project_key'], (error, result)->
+    return console.log '' if error
+    nconf.set 'client_id', result.client_id
+    nconf.set 'client_secret', result.client_secret
+    nconf.set 'project_key', result.project_key
 
-prompt.start()
-prompt.get ['client_id', 'client_secret', 'project_key'], (error, result)->
-  return console.log '' if error
-  nconf.set 'client_id', result.client_id
-  nconf.set 'client_secret', result.client_secret
-  nconf.set 'project_key', result.project_key
-
-  saveCredentials = ->
-    nconf.save (e)->
-      return e if e
-      console.log 'Credentials saved!'
-      nconf.load (e, data)->
+    save = ->
+      nconf.save (e)->
         return e if e
-        console.log PATH_TO_CREDENTIALS
-        console.log data
+        console.log 'Credentials saved!'
+        nconf.load (e, data)->
+          return e if e
+          console.log PATH_TO_CREDENTIALS
+          console.log data
 
-  # check if path exist
-  if fs.existsSync ROOT_FOLDER
-    saveCredentials()
-  else
-    # create dir
-    fs.mkdir ROOT_FOLDER, (e)->
-      return e if e
-      saveCredentials()
+    # check if path exist
+    if fs.existsSync ROOT_FOLDER
+      save()
+    else
+      # create dir
+      fs.mkdir ROOT_FOLDER, (e)->
+        return e if e
+        save()
+
+loadCredentials = ->
+  nconf.load (e, data)->
+    return e if e
+    console.log data
+
+program
+  .command('save')
+  .description('Save auth credentials locally')
+  .action -> saveCredentials()
+
+program
+  .command('load')
+  .description('Load auth credentials')
+  .action -> loadCredentials()
+
+program.parse(process.argv)
+program.help() unless program.args.length

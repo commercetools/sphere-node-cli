@@ -18,5 +18,4 @@ program
   .command('products', 'Manage products for a project')
 
 program.parse(process.argv)
-
 program.help() unless program.args.length
