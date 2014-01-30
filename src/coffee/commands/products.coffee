@@ -1,13 +1,23 @@
 program = require('commander')
+nconf   = require('../helper').nconf
+SphereClient = require('sphere-node-client')
 
 getProducts = ->
-  console.log "Getting products"
+  nconf.load (e, data)->
+    return e if e
+    client = new SphereClient config: data
+    client.products.fetch().then (result)->
+      if program.jsonPretty
+        console.log JSON.stringify result, null, 4
+      else
+        console.log JSON.stringify result
 
 createProduct = ->
   console.log "Creating product"
 
 program
-  .option('-p, --project=key', 'project key to use')
+  .option('-J, --json-raw', 'output in raw JSON (default)')
+  .option('-j, --json-pretty', 'output in pretty-printed JSON')
 
 program
   .command('list')
