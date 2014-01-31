@@ -46,6 +46,20 @@ $ sphere
 $ sphere help products
 ```
 
+## Developing locally
+Install all needed dependencies, build the project and run the executable
+
+```bash
+$ npm install
+...
+
+$ grunt build
+...
+
+$ ./bin/sphere
+$ ./bin/sphere help
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 More info [here](CONTRIBUTING.md)
