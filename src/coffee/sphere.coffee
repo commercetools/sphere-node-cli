@@ -8,12 +8,11 @@ console.log ''
 
 program
   .version('0.0.1')
-  .option('-u, --user=email', 'account username')
-  .option('-p, --password=pwd', 'account password')
 
 program
   .command('auth', 'Provide credentials for authentication')
   .command('products', 'Manage products for a project')
+  .command('product-types', 'Manage product types for a project')
 
 program.parse(process.argv)
 program.help() unless program.args.length
