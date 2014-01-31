@@ -11,3 +11,24 @@ describe 'Sphere CLI', ->
     runCommand '', (error, result)->
       expect(result).toMatch /Usage\: sphere \[options\] \[command\]/
       done()
+
+  describe ':: auth', ->
+
+    it 'should output help when no options are passed', (done)->
+      runCommand 'auth', (error, result)->
+        expect(result).toMatch /Usage\: sphere-auth \[options\] \[command\]/
+        done()
+
+  describe ':: products', ->
+
+    it 'should output help when no options are passed', (done)->
+      runCommand 'products', (error, result)->
+        expect(result).toMatch /Usage\: sphere-products \[options\] \[command\]/
+        done()
+
+  describe ':: product-types', ->
+
+    it 'should output help when no options are passed', (done)->
+      runCommand 'product-types', (error, result)->
+        expect(result).toMatch /Usage\: sphere-product-types \[options\] \[command\]/
+        done()
