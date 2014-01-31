@@ -1,19 +1,6 @@
 program = require('commander')
-nconf   = require('../helper').nconf
 SphereClient = require('sphere-node-client')
-
-getProductTypes = ->
-  nconf.load (e, data)->
-    return e if e
-    client = new SphereClient config: data
-    client.productTypes.fetch().then (result)->
-      if program.jsonPretty
-        console.log JSON.stringify result, null, 4
-      else
-        console.log JSON.stringify result
-
-createProductType = ->
-  console.log "Creating product type"
+ClientUtils  = require('../utils/client')
 
 program
   .option('-J, --json-raw', 'output in raw JSON (default)')
@@ -22,12 +9,13 @@ program
 program
   .command('list')
   .description('List product types')
-  .action -> getProductTypes()
+  .action -> ClientUtils.fetch 'productTypes',
+    jsonPretty: program.jsonPretty
 
 program
   .command('create')
   .description('Create a new product type')
-  .action -> createProductType()
+  .action -> ClientUtils.create()
 
 program.parse(process.argv)
 
