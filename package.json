@@ -30,8 +30,10 @@
   "dependencies": {
     "commander": "~2.1.0",
     "nconf": "~0.6.9",
+    "optimist": "~0.6.0",
     "prompt": "~0.2.12",
-    "sphere-node-client": "~0.1.0"
+    "sphere-node-client": "~0.1.0",
+    "underscore": "~1.5.2"
   },
   "devDependencies": {
     "coveralls": "~2.7.0",

@@ -1,22 +1,41 @@
-program = require('commander')
-SphereClient = require('sphere-node-client')
-ClientUtils  = require('../utils/client')
+ClientUtils = require('../utils/client')
 
-program
-  .option('-J, --json-raw', 'output in raw JSON (default)')
-  .option('-j, --json-pretty', 'output in pretty-printed JSON')
+class ProductTypesCommand
 
-program
-  .command('list')
-  .description('List product types')
-  .action -> ClientUtils.fetch 'productTypes',
-    jsonPretty: program.jsonPretty
+  constructor: ->
+    ###*
+     * Expose `Command` object in order to spy on it
+    ###
+    @program = require('commander')
 
-program
-  .command('create')
-  .description('Create a new product type')
-  .action -> ClientUtils.create()
+  ###*
+   * `sphere-products` entry point
+   * @param {Object} argv Parsed command line options
+  ###
+  run: (argv)->
 
-program.parse(process.argv)
+    @program
+      .option('-J, --json-raw', 'output in raw JSON (default)')
+      .option('-j, --json-pretty', 'output in pretty-printed JSON')
 
-program.help() unless program.args.length
+    @program
+      .command('list')
+      .description('List product types')
+      .action => @_list
+        jsonPretty: @program.jsonPretty
+
+    @program
+      .command('create')
+      .description('Create a new product type')
+      .action => @_create {}
+
+    @program.parse(argv)
+    @program.help() unless @program.args.length
+
+
+  _list: (opts = {})-> ClientUtils.fetch 'productTypes', opts
+
+  _create: (opts = {})-> ClientUtils.create()
+
+
+module.exports = ProductTypesCommand

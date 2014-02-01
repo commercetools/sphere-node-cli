@@ -1,15 +1,36 @@
-program = require('commander')
-auth_utils = require('../utils/auth')
+AuthUtils = require('../utils/auth')
 
-program
-  .command('save')
-  .description('Save auth credentials locally')
-  .action -> auth_utils.saveCredentials()
+class AuthCommand
 
-program
-  .command('load')
-  .description('Load auth credentials')
-  .action -> auth_utils.loadCredentials()
+  constructor: ->
+    ###*
+     * Expose `Command` object in order to spy on it
+    ###
+    @program = require('commander')
 
-program.parse(process.argv)
-program.help() unless program.args.length
+  ###*
+   * `sphere-auth` entry point
+   * @param {Object} argv Parsed command line options
+  ###
+  run: (argv)->
+
+    @program
+      .command('save')
+      .description('Save auth credentials locally')
+      .action => @_save()
+
+    @program
+      .command('load')
+      .description('Load auth credentials')
+      .action => @_load()
+
+    @program.parse(argv)
+    @program.help() unless @program.args.length
+
+
+  _save: -> AuthUtils.saveCredentials()
+
+  _load: -> AuthUtils.loadCredentials()
+
+
+module.exports = AuthCommand

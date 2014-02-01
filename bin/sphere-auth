@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 
-require(__dirname + '/../lib/commands/auth')
+AuthCommand = require(__dirname + '/../lib/commands/auth')
+cmd = new AuthCommand
+cmd.run(process.argv)

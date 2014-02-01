@@ -50,6 +50,9 @@ module.exports = (grunt)->
           rename: (dest, matchedSrcPath)->
             dest + matchedSrcPath
           )
+      testHelper:
+        files:
+          'test/SpecHelper.js': 'src/spec/SpecHelper.coffee'
 
     concat:
       options:

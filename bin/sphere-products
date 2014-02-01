@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 
-require(__dirname + '/../lib/commands/products')
+ProductsCommand = require(__dirname + '/../lib/commands/products')
+cmd = new ProductsCommand
+cmd.run(process.argv)

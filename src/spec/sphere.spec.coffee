@@ -1,34 +1,18 @@
 process.env.NODE_ENV = 'test'
 
-exec = require('child_process').exec
-
-runCommand = (options, callback)->
-  exec "#{__dirname}/../bin/sphere #{options}", (err, stdout)-> callback(err, stdout)
+_ = require('underscore')._
+SpecHelper = require('./SpecHelper')
 
 describe 'Sphere CLI', ->
 
-  it 'should output help when no options are passed', (done)->
-    runCommand '', (error, result)->
-      expect(result).toMatch /Usage\: sphere \[options\] \[command\]/
-      done()
-
-  describe ':: auth', ->
-
-    it 'should output help when no options are passed', (done)->
-      runCommand 'auth', (error, result)->
-        expect(result).toMatch /Usage\: sphere-auth \[options\] \[command\]/
+  _.each ['', 'help', '-h', '--help'], (cmd)->
+    it "$ sphere #{cmd}", (done)->
+      SpecHelper.execCommand cmd, (error, result)->
+        expect(result).toMatch /Usage\: sphere \[options\] \[command\]/
         done()
 
-  describe ':: products', ->
-
-    it 'should output help when no options are passed', (done)->
-      runCommand 'products', (error, result)->
-        expect(result).toMatch /Usage\: sphere-products \[options\] \[command\]/
-        done()
-
-  describe ':: product-types', ->
-
-    it 'should output help when no options are passed', (done)->
-      runCommand 'product-types', (error, result)->
-        expect(result).toMatch /Usage\: sphere-product-types \[options\] \[command\]/
+  _.each ['-V', '--version'], (cmd)->
+    it "$ sphere #{cmd}", (done)->
+      SpecHelper.execCommand cmd, (error, result)->
+        expect(result).toMatch /(\d)\.(\d)\.(\d)/
         done()

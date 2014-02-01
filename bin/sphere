@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 
-require(__dirname + '/../lib/sphere')
+SphereCommand = require(__dirname + '/../lib/sphere')
+cmd = new SphereCommand
+cmd.run(process.argv)
