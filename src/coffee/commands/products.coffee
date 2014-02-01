@@ -1,27 +1,36 @@
 ClientUtils = require('../utils/client')
 
-class ProductsCommand
+module.exports = class
 
-  constructor: ->
-    ###*
-     * Expose `Command` object in order to spy on it
-    ###
-    @program = require('commander')
+  ###*
+   * Expose `Command` object in order to spy on it
+  ###
+  @program: require('commander')
 
   ###*
    * `sphere-products` entry point
    * @param {Object} argv Parsed command line options
   ###
-  run: (argv)->
+  @run: (argv)=>
 
     @program
       .option('-J, --json-raw', 'output in raw JSON (default)')
       .option('-j, --json-pretty', 'output in pretty-printed JSON')
+      .option('-p, --projection', 'return a projection of the product')
 
     @program
       .command('list')
-      .description('List products')
-      .action => @_list
+      .description('Query the full representations of products')
+      .action => @_get
+        isProjection: @program.projection
+        jsonPretty: @program.jsonPretty
+
+    @program
+      .command('get <id>')
+      .description('Get the full representation of a product by ID')
+      .action (id)=> @_get
+        id: id
+        isProjection: @program.projection
         jsonPretty: @program.jsonPretty
 
     @program
@@ -33,9 +42,8 @@ class ProductsCommand
     @program.help() unless @program.args.length
 
 
-  _list: (opts = {})-> ClientUtils.fetch 'products', opts
+  @_get: (opts = {})->
+    console.log 'Get called'
+    # ClientUtils.fetch 'products', opts
 
-  _create: (opts = {})-> ClientUtils.create()
-
-
-module.exports = ProductsCommand
+  @_create: (opts = {})-> ClientUtils.create()

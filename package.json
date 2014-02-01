@@ -2,6 +2,7 @@
   "name": "sphere-node-cli",
   "description": "SPHERE.IO CLI for Node.js",
   "version": "0.0.1",
+  "preferGlobal": true,
   "homepage": "https://github.com/sphereio/sphere-node-cli",
   "author": {
     "name": "Nicola Molinari",
@@ -20,12 +21,19 @@
       "url": "https://github.com/sphereio/sphere-node-cli/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "lib/sphere",
-  "engines": {
-    "node": ">= 0.10.0"
+  "directories": {
+    "lib": "./lib"
+  },
+  "main": "./lib/sphere",
+  "bin": {
+    "sphere": "./bin/sphere"
   },
   "scripts": {
+    "prepublish": "grunt build",
     "test": "grunt test"
+  },
+  "engines": {
+    "node": ">= 0.8.x"
   },
   "dependencies": {
     "commander": "~2.1.0",
@@ -46,7 +54,8 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt-shell": "~0.6.2",
     "istanbul": "~0.2.3",
-    "jasmine-node": "~1.13.0"
+    "jasmine-node": "~1.13.0",
+    "rewire": "~2.0.0"
   },
   "keywords": []
 }

@@ -1,5 +1,0 @@
-#!/usr/bin/env node
-
-ProductTypesCommand = require(__dirname + '/../lib/commands/product-types')
-cmd = new ProductTypesCommand
-cmd.run(process.argv)

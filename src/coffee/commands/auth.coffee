@@ -1,18 +1,17 @@
 AuthUtils = require('../utils/auth')
 
-class AuthCommand
+module.exports = class
 
-  constructor: ->
-    ###*
-     * Expose `Command` object in order to spy on it
-    ###
-    @program = require('commander')
+  ###*
+   * Expose `Command` object in order to spy on it
+  ###
+  @program: require('commander')
 
   ###*
    * `sphere-auth` entry point
    * @param {Object} argv Parsed command line options
   ###
-  run: (argv)->
+  @run: (argv)=>
 
     @program
       .command('save')
@@ -20,17 +19,21 @@ class AuthCommand
       .action => @_save()
 
     @program
-      .command('load')
-      .description('Load auth credentials')
-      .action => @_load()
+      .command('show')
+      .description('Show current stored authentication credentials')
+      .action => @_show()
+
+    @program
+      .command('clean')
+      .description('Clean the stored authentication credentials')
+      .action => @_clean()
 
     @program.parse(argv)
     @program.help() unless @program.args.length
 
 
-  _save: -> AuthUtils.saveCredentials()
+  @_save: -> AuthUtils.save()
 
-  _load: -> AuthUtils.loadCredentials()
+  @_show: -> AuthUtils.show()
 
-
-module.exports = AuthCommand
+  @_clean: -> AuthUtils.clean()

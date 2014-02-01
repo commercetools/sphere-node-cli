@@ -1,22 +1,23 @@
 SphereClient = require('sphere-node-client')
-nconf = require('../helper').nconf
+AuthUtils = require('./auth')
+{ log, logError } = require('../common')
 
 ###*
  * Utils for using 'SphereClient'
 ###
-module.exports =
+module.exports = class
 
-  fetch: (serviceName, opts = {})->
-    nconf.load (e, data)->
-      return e if e
+  @fetch: (serviceName, opts = {})->
+    AuthUtils.exist (data)->
       client = new SphereClient config: data
       service = client[serviceName]
       service = service.byId(opts.id) if opts.id
       service.fetch().then (result)->
+        # TODO: use helper to handle all responses
         if opts.jsonPretty
-          console.log JSON.stringify result, null, 4
+          log JSON.stringify result, null, 4
         else
-          console.log JSON.stringify result
+          log JSON.stringify result
+      .fail (e)-> logError e
 
-  create: ->
-    console.log "Coming soon"
+  @create: -> log "Coming soon"
