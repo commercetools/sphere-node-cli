@@ -16,47 +16,20 @@ describe 'Sphere CLI :: sphere-products', ->
         expect(result).toMatch /Usage\: sphere-products \[options\] \[command\]/
         done()
 
-  it "$ sphere products list", (done)->
-    ARGV = ['node', "#{__dirname}/../bin/sphere-products", 'list']
-    SpecHelper.runCommand @command, ARGV, '_get', (_cli)->
-      expect(_cli.program.parse).toHaveBeenCalledWith(ARGV)
-      expect(_cli._get).toHaveBeenCalledWith({})
-      done()
-
-  it "$ sphere products list -j", (done)->
-    ARGV = ['node', "#{__dirname}/../bin/sphere-products", 'list', '-j']
-    SpecHelper.runCommand @command, ARGV, '_get', (_cli)->
-      expect(_cli.program.parse).toHaveBeenCalledWith(ARGV)
-      expect(_cli._get).toHaveBeenCalledWith({jsonPretty: true})
-      done()
-
-  it "$ sphere products get 123", (done)->
-    ARGV = ['node', "#{__dirname}/../bin/sphere-products", 'get', '123']
-    SpecHelper.runCommand @command, ARGV, '_get', (_cli)->
-      expect(_cli.program.parse).toHaveBeenCalledWith(ARGV)
-      expect(_cli._get).toHaveBeenCalledWith({id: '123'})
-      done()
-
-  it "$ sphere products get 123 -j", (done)->
-    ARGV = ['node', "#{__dirname}/../bin/sphere-products", 'get', '123', '-j']
-    SpecHelper.runCommand @command, ARGV, '_get', (_cli)->
-      expect(_cli.program.parse).toHaveBeenCalledWith(ARGV)
-      expect(_cli._get).toHaveBeenCalledWith({id: '123', jsonPretty: true})
-      done()
-
-  it "$ sphere products get 123 -p", (done)->
-    ARGV = ['node', "#{__dirname}/../bin/sphere-products", 'get', '123', '-p']
-    SpecHelper.runCommand @command, ARGV, '_get', (_cli)->
-      expect(_cli.program.parse).toHaveBeenCalledWith(ARGV)
-      expect(_cli._get).toHaveBeenCalledWith({id: '123', isProjection: true})
-      done()
-
-  it "$ sphere products get 123 -j -p", (done)->
-    ARGV = ['node', "#{__dirname}/../bin/sphere-products", 'get', '123', '-j', '-p']
-    SpecHelper.runCommand @command, ARGV, '_get', (_cli)->
-      expect(_cli.program.parse).toHaveBeenCalledWith(ARGV)
-      expect(_cli._get).toHaveBeenCalledWith({id: '123', jsonPretty: true, isProjection: true})
-      done()
+  _.each [
+    {commands: ['list'], result: {}}
+    {commands: ['list', '-j'], result: {jsonPretty: true}}
+    {commands: ['get', '123'], result: {id: '123'}}
+    {commands: ['get', '123', '-j'], result: {id: '123', jsonPretty: true}}
+    {commands: ['get', '123', '-p'], result: {id: '123', isProjection: true}}
+    {commands: ['get', '123', '-j', '-p'], result: {id: '123', jsonPretty: true, isProjection: true}}
+  ], (cmd)->
+    it "$ sphere products #{cmd.commands.join(' ')}", (done)->
+      ARGV = _.union ['node', "#{__dirname}/../bin/sphere-products"], cmd.commands
+      SpecHelper.runCommand @command, ARGV, '_get', (_cli)->
+        expect(_cli.program.parse).toHaveBeenCalledWith(ARGV)
+        expect(_cli._get).toHaveBeenCalledWith(cmd.result)
+        done()
 
   it "$ sphere products create", (done)->
     ARGV = ['node', "#{__dirname}/../bin/sphere-products", 'create']

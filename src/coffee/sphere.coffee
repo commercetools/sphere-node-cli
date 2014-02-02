@@ -8,7 +8,6 @@ program
 program
   .command('auth', 'Provide credentials for authentication')
   .command('products', 'Manage products for a project')
-  .command('product-types', 'Manage product types for a project')
 
 program.on '--help', ->
   log ''

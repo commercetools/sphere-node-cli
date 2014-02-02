@@ -30,7 +30,7 @@
   },
   "scripts": {
     "prepublish": "grunt build",
-    "test": "grunt test"
+    "test": "grunt coverage"
   },
   "engines": {
     "node": ">= 0.8.x"
@@ -38,9 +38,8 @@
   "dependencies": {
     "commander": "~2.1.0",
     "nconf": "~0.6.9",
-    "optimist": "~0.6.0",
     "prompt": "~0.2.12",
-    "sphere-node-client": "~0.1.0",
+    "sphere-node-client": "~0.1.2",
     "underscore": "~1.5.2"
   },
   "devDependencies": {
