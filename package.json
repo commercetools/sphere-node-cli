@@ -29,7 +29,6 @@
     "sphere": "./bin/sphere"
   },
   "scripts": {
-    "prepublish": "grunt build",
     "test": "grunt coverage"
   },
   "engines": {
