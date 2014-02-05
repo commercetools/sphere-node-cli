@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'test'
-
 _ = require('underscore')._
 rewire = require("rewire")
 SpecHelper = require('../SpecHelper')

@@ -42,8 +42,6 @@ module.exports = class
     @program.help() unless @program.args.length
 
 
-  @_get: (opts = {})->
-    console.log 'Get called'
-    # ClientUtils.fetch 'products', opts
+  @_get: (opts = {})-> ClientUtils.fetch 'products', opts
 
   @_create: (opts = {})-> ClientUtils.create()
