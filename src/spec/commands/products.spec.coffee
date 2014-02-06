@@ -21,6 +21,7 @@ describe 'Sphere CLI :: sphere-products', ->
     {commands: ['get', '123', '-j'], result: {id: '123', jsonPretty: true}}
     {commands: ['get', '123', '-p'], result: {id: '123', isProjection: true}}
     {commands: ['get', '123', '-j', '-p'], result: {id: '123', jsonPretty: true, isProjection: true}}
+    {commands: ['list', '-p', '--per-page', '2', '-w', 'name(en=\"Foo\")'], result: {isProjection: true, where: 'name(en="Foo")', perPage: 2}}
   ], (cmd)->
     it "$ sphere products #{cmd.commands.join(' ')}", (done)->
       ARGV = _.union ['node', "#{__dirname}/../bin/sphere-products"], cmd.commands

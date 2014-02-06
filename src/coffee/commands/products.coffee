@@ -17,6 +17,14 @@ module.exports = class
       .option('-J, --json-raw', 'output in raw JSON (default)')
       .option('-j, --json-pretty', 'output in pretty-printed JSON')
       .option('-p, --projection', 'return a projection of the product')
+      .option('-w, --where <predicate>', 'define a query predicate')
+      .option('-o, --where-operator <operator>', 'define the logical operator
+        to combine multiple where parameters (default is and)')
+      .option('-n, --page <n>', 'define the page number to be requested
+        from the query result (default is 1)', parseInt)
+      .option('-t, --per-page <n>', 'define the number of results to return
+        from the query (default is 100). If set to 0 all results
+        are returned', parseInt)
 
     @program
       .command('list')
@@ -24,6 +32,10 @@ module.exports = class
       .action => @_get
         isProjection: @program.projection
         jsonPretty: @program.jsonPretty
+        where: @program.where
+        whereOperator: @program.whereOperator
+        page: @program.page
+        perPage: @program.perPage
 
     @program
       .command('get <id>')
@@ -42,6 +54,10 @@ module.exports = class
     @program.help() unless @program.args.length
 
 
-  @_get: (opts = {})-> ClientUtils.fetch 'products', opts
+  @_get: (opts = {})->
+    if opts.isProjection
+      ClientUtils.fetch 'productProjections', opts
+    else
+      ClientUtils.fetch 'products', opts
 
   @_create: (opts = {})-> ClientUtils.create()
