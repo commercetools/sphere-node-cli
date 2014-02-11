@@ -1,3 +1,4 @@
+_       = require('underscore')._
 fs      = require('fs')
 prompt  = require('prompt')
 nconf   = require('../helper').nconf
@@ -28,7 +29,7 @@ module.exports = class
     ], (error, result)->
       callback(error, result)
 
-  @save: ->
+  @save: (callback)->
     @prompt (error, result)->
       return logError error if error
       nconf.set 'client_id', result.client_id
@@ -43,6 +44,7 @@ module.exports = class
             return logError e if e
             log helper.PATH_TO_CREDENTIALS
             log data
+            callback data if _.isFunction callback
 
       # check if path exist
       if fs.existsSync helper.ROOT_FOLDER
@@ -53,16 +55,17 @@ module.exports = class
           return logError e if e
           _save()
 
-  @show: ->
+  @show: (callback)->
     nconf.load (e, data)->
       return logError e if e
       log data
+      callback data if _.isFunction callback
 
   @clean: ->
     logError 'Not implemented yet'
 
-  @exist: (cb)->
+  @exist: (callback)->
     nconf.load (e, data)->
       # TODO: prompt for credentials, if not found
       return logError 'Credentials not found' if e
-      cb(data)
+      callback data if _.isFunction callback

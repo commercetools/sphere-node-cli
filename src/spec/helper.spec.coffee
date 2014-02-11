@@ -9,7 +9,7 @@ describe 'Helper', ->
     expect(helper.ROOT_FOLDER).toMatch /\/.sphere-cli/
 
   it 'should export \'PATH_TO_CREDENTIALS\'', ->
-    expect(helper.PATH_TO_CREDENTIALS).toMatch /\/.sphere-cli\/credentials\.json/
+    expect(helper.PATH_TO_CREDENTIALS).toMatch /\/.sphere-cli\/credentials-test\.json/
 
   it 'should export nconf', ->
-    expect(helper.nconf.stores.file.file).toMatch /\/.sphere-cli\/credentials\.json/
+    expect(helper.nconf.stores.file.file).toMatch /\/.sphere-cli\/credentials-test\.json/
