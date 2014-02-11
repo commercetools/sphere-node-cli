@@ -1,3 +1,4 @@
+_ = require('underscore')._
 SphereClient = require('sphere-node-client')
 AuthUtils = require('./auth')
 { log, logError } = require('../common')
@@ -7,12 +8,13 @@ AuthUtils = require('./auth')
 ###
 module.exports = class
 
-  @fetch: (serviceName, opts = {})->
-    AuthUtils.exist (data)->
+  @client: (data)-> new SphereClient config: data
+
+  @fetch: (serviceName, opts = {}, callback)->
+    AuthUtils.exist (data)=>
       { id, jsonPretty, where, whereOperator, page, perPage } = opts
 
-      client = new SphereClient config: data
-      service = client[serviceName]
+      service = @client(data)[serviceName]
       service = service.byId(id) if id
 
       service
@@ -26,6 +28,7 @@ module.exports = class
           log JSON.stringify result, null, 4
         else
           log JSON.stringify result
+        callback result if _.isFunction callback
       .fail (e)-> logError e
 
   @create: -> log "Coming soon"
