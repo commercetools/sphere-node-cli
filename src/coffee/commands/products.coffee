@@ -25,6 +25,7 @@ module.exports = class
       .option('-t, --per-page <n>', 'define the number of results to return
         from the query (default is 100). If set to 0 all results
         are returned', parseInt)
+      .option('-d, --directory <path>', 'define the path to the required file')
 
     @program
       .command('list')
@@ -48,7 +49,9 @@ module.exports = class
     @program
       .command('create')
       .description('Create a new product')
-      .action => @_create {}
+      .action => @_create
+        path: @program.directory
+        jsonPretty: @program.jsonPretty
 
     @program.parse(argv)
     @program.help() unless @program.args.length
@@ -60,4 +63,4 @@ module.exports = class
     else
       ClientUtils.fetch 'products', opts
 
-  @_create: (opts = {})-> ClientUtils.create()
+  @_create: (opts = {})-> ClientUtils.create 'products', opts
