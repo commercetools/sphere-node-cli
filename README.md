@@ -13,11 +13,6 @@ npm install sphere-node-cli -g
 ```
 
 ```bash
-    __  __      __  __  __     __
-   /_  /_/ /_/ /_  /_/ /_   / /  /
-  __/ /   / / /_  / \ /_ . / /__/
-
-
   Usage: sphere [options] [command]
 
   Commands:
@@ -28,10 +23,13 @@ npm install sphere-node-cli -g
 
   Options:
 
-    -h, --help          output usage information
-    -V, --version       output the version number
-    -u, --user=email    account username
-    -p, --password=pwd  account password
+    -h, --help     output usage information
+    -V, --version  output the version number
+
+
+    __  __      __  __  __     __
+   /_  /_/ /_/ /_  /_/ /_   / /  /
+  __/ /   / / /_  / \ /_ . / /__/
 ```
 
 ## Usage
