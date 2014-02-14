@@ -1,8 +1,8 @@
 _             = require('underscore')._
-fs            = require('fs')
-SphereClient  = require('sphere-node-client')
-AuthUtils     = require('./auth')
-common        = require('../common')
+fs            = require 'fs'
+SphereClient  = require 'sphere-node-client'
+AuthUtils     = require './auth'
+common        = require '../common'
 { log, logError } = common
 
 ###*
@@ -10,10 +10,10 @@ common        = require('../common')
 ###
 module.exports = class
 
-  @client: (data)-> new SphereClient config: data
+  @client: (data) -> new SphereClient config: data
 
-  @fetch: (serviceName, opts = {}, callback)->
-    AuthUtils.exist (data)=>
+  @fetch: (serviceName, opts = {}, callback) ->
+    AuthUtils.exist (data) =>
       { id, jsonPretty, where, whereOperator, page, perPage } = opts
 
       service = @client(data)[serviceName]
@@ -24,20 +24,20 @@ module.exports = class
       .whereOperator(whereOperator)
       .page(page)
       .perPage(perPage)
-      .fetch().then (result)->
+      .fetch().then (result) ->
         # TODO: use helper to handle all responses
         if opts.jsonPretty
           log JSON.stringify result, null, 4
         else
           log JSON.stringify result
         callback result if _.isFunction callback
-      .fail (e)-> logError e
+      .fail (e) -> logError e
 
-  @create: (serviceName, opts = {}, callback)->
-    AuthUtils.exist (data)=>
+  @create: (serviceName, opts = {}, callback) ->
+    AuthUtils.exist (data) =>
       { path, jsonPretty } = opts
 
-      return logError "Missing path to JSON file for product creation (use --directory option)" unless path
+      return logError 'Missing path to JSON file for product creation (use --directory option)' unless path
 
       try
         jsonProduct = JSON.parse fs.readFileSync path, encoding: 'UTF-8'
@@ -46,11 +46,11 @@ module.exports = class
 
       service = @client(data)[serviceName]
       service.save(jsonProduct)
-      .then (result)->
+      .then (result) ->
         # TODO: use helper to handle all responses
         if opts.jsonPretty
           log JSON.stringify result, null, 4
         else
           log JSON.stringify result
         callback result if _.isFunction callback
-      .fail (e)-> logError e
+      .fail (e) -> logError e

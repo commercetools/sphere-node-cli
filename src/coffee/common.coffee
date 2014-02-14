@@ -1,8 +1,6 @@
-_ = require('underscore')
-
 module.exports = class
 
-  @logError: (error)=>
+  @logError: (error) =>
     @log error
     @die 1
 
@@ -10,5 +8,5 @@ module.exports = class
     unless process.env.NODE_ENV is 'test'
       console.log.apply null, Array::slice.call arguments
 
-  @die: (code)->
+  @die: (code) ->
     process.exit(code or 0)

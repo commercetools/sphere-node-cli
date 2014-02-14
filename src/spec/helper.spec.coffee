@@ -1,4 +1,4 @@
-helper = require('../lib/helper')
+helper = require '../lib/helper'
 
 describe 'Helper', ->
 

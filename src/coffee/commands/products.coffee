@@ -1,17 +1,17 @@
-ClientUtils = require('../utils/client')
+ClientUtils = require '../utils/client'
 
 module.exports = class
 
   ###*
    * Expose `Command` object in order to spy on it
   ###
-  @program: require('commander')
+  @program: require 'commander'
 
   ###*
    * `sphere-products` entry point
    * @param {Object} argv Parsed command line options
   ###
-  @run: (argv)=>
+  @run: (argv) =>
 
     @program
       .option('-J, --json-raw', 'output in raw JSON (default)')
@@ -41,7 +41,7 @@ module.exports = class
     @program
       .command('get <id>')
       .description('Get the full representation of a product by ID')
-      .action (id)=> @_get
+      .action (id) => @_get
         id: id
         isProjection: @program.projection
         jsonPretty: @program.jsonPretty
@@ -57,10 +57,10 @@ module.exports = class
     @program.help() unless @program.args.length
 
 
-  @_get: (opts = {})->
+  @_get: (opts = {}) ->
     if opts.isProjection
       ClientUtils.fetch 'productProjections', opts
     else
       ClientUtils.fetch 'products', opts
 
-  @_create: (opts = {})-> ClientUtils.create 'products', opts
+  @_create: (opts = {}) -> ClientUtils.create 'products', opts

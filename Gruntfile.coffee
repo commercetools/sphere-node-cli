@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = (grunt)->
+module.exports = (grunt) ->
   # project configuration
   grunt.initConfig
     # load package information
@@ -15,16 +15,7 @@ module.exports = (grunt)->
         '*/\n'
 
     coffeelint:
-      options:
-        indentation:
-          value: 2
-          level: 'error'
-        no_trailing_semicolons:
-          level: 'error'
-        no_trailing_whitespace:
-          level: 'error'
-        max_line_length:
-          level: 'ignore'
+      options: grunt.file.readJSON('node_modules/sphere-coffeelint/coffeelint.json')
       default: ['Gruntfile.coffee', 'src/**/*.coffee']
 
     clean:
@@ -39,7 +30,7 @@ module.exports = (grunt)->
           flatten: false
           cwd: 'src/coffee'
           ext: '.js'
-          rename: (dest, matchedSrcPath)->
+          rename: (dest, matchedSrcPath) ->
             dest + matchedSrcPath
           )
       test:
@@ -47,7 +38,7 @@ module.exports = (grunt)->
           flatten: false
           cwd: 'src/spec'
           ext: '.spec.js'
-          rename: (dest, matchedSrcPath)->
+          rename: (dest, matchedSrcPath) ->
             dest + matchedSrcPath
           )
       testHelper:
@@ -115,6 +106,6 @@ module.exports = (grunt)->
   grunt.registerTask 'build', ['clean', 'coffeelint', 'coffee', 'concat']
   grunt.registerTask 'test', ['build', 'shell:jasmine']
   grunt.registerTask 'coverage', ['build', 'shell:coverage']
-  grunt.registerTask 'release', 'Release a new version, push it and publish it', (target)->
+  grunt.registerTask 'release', 'Release a new version, push it and publish it', (target) ->
     target = 'patch' unless target
     grunt.task.run "bump-only:#{target}", 'test', 'bump-commit', 'shell:publish'

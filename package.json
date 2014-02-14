@@ -42,7 +42,7 @@
     "underscore": "~1.6.0"
   },
   "devDependencies": {
-    "coveralls": "~2.7.1",
+    "coveralls": "~2.8.0",
     "grunt": "~0.4.2",
     "grunt-bump": "~0.0.13",
     "grunt-coffeelint": "~0.0.8",
@@ -53,7 +53,8 @@
     "grunt-shell": "~0.6.4",
     "istanbul": "~0.2.4",
     "jasmine-node": "~1.13.1",
-    "rewire": "~2.0.0"
+    "rewire": "~2.0.0",
+    "sphere-coffeelint": "git://github.com/sphereio/sphere-coffeelint.git#master"
   },
   "keywords": []
 }

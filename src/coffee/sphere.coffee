@@ -1,6 +1,6 @@
-pkg = require('../package.json')
-program = require('commander')
-{ log } = require('./common')
+pkg = require '../package.json'
+program = require 'commander'
+{ log } = require './common'
 
 program
   .version(pkg.version)
@@ -18,6 +18,6 @@ program.on '--help', ->
 
 module.exports =
 
-  run: (argv)->
+  run: (argv) ->
     program.parse(argv)
     program.help() unless program.args.length

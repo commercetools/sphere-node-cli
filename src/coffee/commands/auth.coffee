@@ -1,17 +1,17 @@
-AuthUtils = require('../utils/auth')
+AuthUtils = require '../utils/auth'
 
 module.exports = class
 
   ###*
    * Expose `Command` object in order to spy on it
   ###
-  @program: require('commander')
+  @program: require 'commander'
 
   ###*
    * `sphere-auth` entry point
    * @param {Object} argv Parsed command line options
   ###
-  @run: (argv)=>
+  @run: (argv) =>
 
     @program
       .command('save')

@@ -1,9 +1,9 @@
 _       = require('underscore')._
-fs      = require('fs')
-prompt  = require('prompt')
-nconf   = require('../helper').nconf
-helper  = require('../helper')
-common  = require('../common')
+fs      = require 'fs'
+prompt  = require 'prompt'
+common  = require '../common'
+helper  = require '../helper'
+{ nconf } = require '../helper'
 { log, logError } = common
 
 ###*
@@ -12,7 +12,7 @@ common  = require('../common')
 
 module.exports = class
 
-  @prompt: (callback)->
+  @prompt: (callback) ->
     prompt.start()
     prompt.message = ''
     prompt.delimiter = ''
@@ -26,21 +26,21 @@ module.exports = class
       ,
         name: 'project_key'
         required: true
-    ], (error, result)->
+    ], (error, result) ->
       callback(error, result)
 
-  @save: (callback)->
-    @prompt (error, result)->
+  @save: (callback) ->
+    @prompt (error, result) ->
       return logError error if error
       nconf.set 'client_id', result.client_id
       nconf.set 'client_secret', result.client_secret
       nconf.set 'project_key', result.project_key
 
       _save = ->
-        nconf.save (e)->
+        nconf.save (e) ->
           return logError e if e
           log 'Credentials saved!'
-          nconf.load (e, data)->
+          nconf.load (e, data) ->
             return logError e if e
             log helper.PATH_TO_CREDENTIALS
             log data
@@ -51,12 +51,12 @@ module.exports = class
         _save()
       else
         # create dir
-        fs.mkdir helper.ROOT_FOLDER, (e)->
+        fs.mkdir helper.ROOT_FOLDER, (e) ->
           return logError e if e
           _save()
 
-  @show: (callback)->
-    nconf.load (e, data)->
+  @show: (callback) ->
+    nconf.load (e, data) ->
       return logError e if e
       log data
       callback data if _.isFunction callback
@@ -64,8 +64,8 @@ module.exports = class
   @clean: ->
     logError 'Not implemented yet'
 
-  @exist: (callback)->
-    nconf.load (e, data)->
+  @exist: (callback) ->
+    nconf.load (e, data) ->
       # TODO: prompt for credentials, if not found
       return logError 'Credentials not found' if e
       callback data if _.isFunction callback
