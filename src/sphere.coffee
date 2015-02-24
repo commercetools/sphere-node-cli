@@ -1,17 +1,18 @@
 debug = require('debug')('sphere')
-program = require 'commander'
 pkg = require '../package.json'
+{ENV} = require './utils/env'
 
-program
-  .version(pkg.version)
+module.exports = class
 
-program
-  .command('import', 'Import resources')
+  @program: require 'commander'
 
-module.exports =
-
-  run: (argv) ->
+  @run: (argv) =>
     debug 'parsing args: %s', argv
 
-    program.parse(argv)
-    program.help() unless program.args.length
+    @program
+      .version(pkg.version)
+      .command('import', 'Import resources')
+      .parse(argv)
+
+    if ENV isnt 'test' and not @program.args.length
+      @program.help()

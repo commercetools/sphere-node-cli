@@ -10,9 +10,11 @@ module.exports = class
     @program
       .option '-t, --type <name>', 'type of import'
       .option '-f, --from <path>', 'the source to read'
-      .parse(argv)
+
+    @program.parse(argv)
 
     # TODO:
+    # - use winston logger
     # - validate commands
     # - read input (stream)
     console.log('Hey, this is the import command. Given options: (type) %s, (from) %s', @program.type, @program.from)

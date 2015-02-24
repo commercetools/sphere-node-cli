@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "coffee --compile --output lib src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run build && jasmine-node --captureExceptions --coffee test"
   },
   "main": "./lib/sphere",
   "repository": {
@@ -37,7 +37,10 @@
     "sphere-node-sdk": "1.2.0"
   },
   "devDependencies": {
-    "coffee-script": "1.9.x"
+    "coffee-script": "1.9.x",
+    "jasmine-node": "1.14.5",
+    "rewire": "2.3.x",
+    "should": "5.0.x"
   },
   "licenses": "MIT"
 }
