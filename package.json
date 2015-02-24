@@ -9,11 +9,8 @@
     "sphere": "./bin/sphere"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "predeploy": "echo im about to deploy",
-    "postdeploy": "echo ive deployed",
-    "prepublish": "coffee --bare --compile --output lib/foo src/foo/*.coffee"
+    "build": "coffee --compile --output lib src",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "main": "./lib/sphere",
   "repository": {
@@ -32,13 +29,15 @@
     "export"
   ],
   "engines": {
-    "node": ">= 0.8.x"
+    "node": ">= 0.10.x"
   },
   "dependencies": {
     "commander": "2.6.0",
     "debug": "2.1.x",
     "sphere-node-sdk": "1.2.0"
   },
-  "devDependecies": {},
+  "devDependencies": {
+    "coffee-script": "1.9.x"
+  },
   "licenses": "MIT"
 }
