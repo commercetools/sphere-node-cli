@@ -1,8 +1,0 @@
-node_modules
-*.log
-src
-test
-coverage
-.travis.yml
-.coveralls.yml
-*.coffee

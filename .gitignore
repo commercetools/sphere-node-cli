@@ -1,6 +1,0 @@
-node_modules
-*.log
-lib
-test
-.coveralls.yml
-coverage
