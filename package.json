@@ -1,0 +1,44 @@
+{
+  "name": "sphere-node-cli",
+  "description": "A fast, performant, easy-to-use and stream-based CLI for SPHERE.IO",
+  "version": "0.0.1",
+  "preferGlobal": true,
+  "private": true,
+  "author": "Nicola Molinari <nicola.molinari@commercetools.de>",
+  "bin": {
+    "sphere": "./bin/sphere"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "predeploy": "echo im about to deploy",
+    "postdeploy": "echo ive deployed",
+    "prepublish": "coffee --bare --compile --output lib/foo src/foo/*.coffee"
+  },
+  "main": "./lib/sphere",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sphereio/sphere-node-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sphereio/sphere-node-cli/issues"
+  },
+  "keywords": [
+    "cli",
+    "sphere",
+    "sphere.io",
+    "stream",
+    "import",
+    "export"
+  ],
+  "engines": {
+    "node": ">= 0.8.x"
+  },
+  "dependencies": {
+    "commander": "2.6.0",
+    "debug": "2.1.x",
+    "sphere-node-sdk": "1.2.0"
+  },
+  "devDependecies": {},
+  "licenses": "MIT"
+}
