@@ -1,0 +1,36 @@
+{
+  "stocks": [
+    {
+      "sku": "A-01",
+      "quantityOnStock": 10
+    },
+    {
+      "sku": "B-01",
+      "quantityOnStock": 11
+    },
+    {
+      "sku": "C-01",
+      "quantityOnStock": 12
+    },
+    {
+      "sku": "D-01",
+      "quantityOnStock": 13
+    },
+    {
+      "sku": "E-01",
+      "quantityOnStock": 14
+    },
+    {
+      "sku": "F-01",
+      "quantityOnStock": 15
+    },
+    {
+      "sku": "G-01",
+      "quantityOnStock": 16
+    },
+    {
+      "sku": "H-01",
+      "quantityOnStock": 17
+    }
+  ]
+}

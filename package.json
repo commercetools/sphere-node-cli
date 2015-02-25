@@ -32,8 +32,11 @@
     "node": ">= 0.10.x"
   },
   "dependencies": {
+    "bluebird": "*",
     "commander": "2.6.0",
     "debug": "2.1.x",
+    "event-stream": "*",
+    "JSONStream": "*",
     "sphere-node-sdk": "1.2.0"
   },
   "devDependencies": {
