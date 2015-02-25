@@ -2,6 +2,7 @@ debug = require('debug')('sphere-import')
 fs = require 'fs'
 es = require 'event-stream'
 JSONStream = require 'JSONStream'
+log = require '../utils/logger'
 
 module.exports = class
 
@@ -20,16 +21,13 @@ module.exports = class
     @_process(@program.type, @program.from)
 
   @_validateOptions: (options) ->
-    # TODO:
-    # - aggregate errors?
-    # - use logger
-    # - exit(1)
-    throw new Error('Missing required option: type') unless options.type
-    throw new Error('Missing required option: from') unless options.from
+    errors = []
+    errors.push('Missing required option: type') unless options.type
+    errors.push('Missing required option: from') unless options.from
 
-  # TODO:
-  # - use winston logger
-  # - validate commands
+    if errors.length > 0
+      errors.forEach (e) -> log.error(e)
+      process.exit(1)
 
   @_process: (type, from) =>
     switch type
@@ -41,6 +39,6 @@ module.exports = class
     rs = fs.createReadStream(from, {encoding: 'utf-8'})
     rs.pipe(JSONStream.parse('stocks.*'))
     .pipe(es.map (data, cb) ->
-      console.log 'Chunk: %j', data
+      log.info 'Chunk:', data
     )
     .pipe(process.stdout)
