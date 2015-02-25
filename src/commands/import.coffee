@@ -1,7 +1,8 @@
 debug = require('debug')('sphere-import')
 fs = require 'fs'
-es = require 'event-stream'
+transform = require 'stream-transform'
 JSONStream = require 'JSONStream'
+StockImport = require '../services/stock-import'
 log = require '../utils/logger'
 
 module.exports = class
@@ -35,10 +36,18 @@ module.exports = class
       else
         throw new Error "Unsupported type: #{type}"
 
-  @_processStock: (from) =>
-    rs = fs.createReadStream(from, {encoding: 'utf-8'})
-    rs.pipe(JSONStream.parse('stocks.*'))
-    .pipe(es.map (data, cb) ->
-      log.info 'Chunk:', data
+  @_processStock: (from) ->
+    service = new StockImport(log, {})
+
+    fs.createReadStream(from, {encoding: 'utf-8'})
+    .pipe(JSONStream.parse('stocks.*'))
+    .on 'error', (e) -> log.error 'error while parsing JSON chunks: %j', e
+    .pipe(transform (record, cb) ->
+      log.info 'record: %j', record, {}
+      service.process(record, cb)
+    , {parallel: 1})
+    .on 'error', (e) -> log.error 'error while processing stocks: %j', e
+    .pipe(transform (record, cb) ->
+      log.info(record)
+      cb()
     )
-    .pipe(process.stdout)
