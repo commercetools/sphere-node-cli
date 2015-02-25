@@ -5,10 +5,12 @@ Promise = require 'bluebird'
 
 module.exports = class
 
-  # TODO: not sure if we need the logger here
+  # TODO:
+  # - not sure if we need the logger here
+  # - better way to load credentials
   constructor: (@log, opts) ->
     @_sync = new InventorySync
-    @_client = new SphereClient
+    @_client = new SphereClient require('../../config')
 
     @_resetSummary()
 
