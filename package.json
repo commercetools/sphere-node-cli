@@ -12,7 +12,8 @@
   "scripts": {
     "build": "coffee --compile --output lib src",
     "test": "npm run build && jasmine-node --captureExceptions --coffee test",
-    "test:watch": "npm run test -- --autotest --watch ."
+    "test:watch": "npm run test -- --autotest --watch .",
+    "test:features": "cucumber.js"
   },
   "main": "./lib/sphere",
   "repository": {
@@ -47,7 +48,9 @@
   },
   "devDependencies": {
     "coffee-script": "1.9.x",
+    "cucumber": "0.4.x",
     "jasmine-node": "1.14.5",
+    "mkdirp": "*",
     "rewire": "2.3.x",
     "should": "5.0.x"
   },
