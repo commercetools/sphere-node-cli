@@ -7,7 +7,6 @@ Promise = require 'bluebird'
 module.exports = class
 
   # TODO:
-  # - not sure if we need the logger here
   # - better way to load credentials
   constructor: (opts) ->
     @_sync = new InventorySync
