@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "coffee --compile --output lib src",
-    "test": "npm run build && jasmine-node --captureExceptions --coffee test"
+    "test": "npm run build && jasmine-node --captureExceptions --coffee test",
+    "test:watch": "npm run test -- --autotest --watch ."
   },
   "main": "./lib/sphere",
   "repository": {
