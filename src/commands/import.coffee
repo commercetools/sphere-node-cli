@@ -32,14 +32,14 @@ module.exports = class
 
   @_process: (options) =>
     switch options.type
-      when 'stock' then @_processStock(options)
+      when 'stock'
+        service = new StockImport(log, {})
+        @_stream(options, service, 'stocks.*')
       else
         log.error "Unsupported type: #{type}"
         process.exit(1)
 
-  @_processStock: (options) ->
-    service = new StockImport(log, {})
-
+  @_stream: (options, service, jsonPath) ->
     inputStream = if options.from
       fs.createReadStream(options.from, {encoding: 'utf-8'})
     else
@@ -49,7 +49,7 @@ module.exports = class
       process.stdin
 
     # TODO: error handling
-    transformStream = _(inputStream.pipe(JSONStream.parse('stocks.*')))
+    transformStream = _(inputStream.pipe(JSONStream.parse(jsonPath)))
     .batch(options.batch)
     .pipe(transform (chunk, cb) ->
       log.info 'chunk: %j', chunk, {}
