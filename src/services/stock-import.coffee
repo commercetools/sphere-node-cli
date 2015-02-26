@@ -36,7 +36,7 @@ module.exports = class
 
 
   process: (stocksToProcess, cb) ->
-
+    # TODO: limit batch size
     ie = @_client.inventoryEntries.all().whereOperator('or')
     debug 'chunk: %j', stocksToProcess
     uniqueStocksToProcessBySku = _.reduce stocksToProcess, (acc, stock) ->

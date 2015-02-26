@@ -16,11 +16,11 @@ module.exports = class
     @program
       .option '-t, --type <name>', 'type of import'
       .option '-f, --from <path>', 'the source to read'
+      .option '-b, --batch <n>', 'how many chunks should be processed in batches (default: 5)', parseInt, 5
 
     @program.parse(argv)
     @_validateOptions(@program)
-
-    @_process(@program.type, @program.from)
+    @_process(@program)
 
   @_validateOptions: (options) ->
     errors = []
@@ -30,17 +30,17 @@ module.exports = class
       errors.forEach (e) -> log.error(e)
       process.exit(1)
 
-  @_process: (type, from) =>
-    switch type
-      when 'stock' then @_processStock(from)
+  @_process: (options) =>
+    switch options.type
+      when 'stock' then @_processStock(options)
       else
         throw new Error "Unsupported type: #{type}"
 
-  @_processStock: (from) ->
+  @_processStock: (options) ->
     service = new StockImport(log, {})
 
-    inputStream = if from
-      fs.createReadStream(from, {encoding: 'utf-8'})
+    inputStream = if options.from
+      fs.createReadStream(options.from, {encoding: 'utf-8'})
     else
       log.info 'Reading data from stdin...'
       process.stdin.resume()
@@ -49,7 +49,7 @@ module.exports = class
 
     # TODO: error handling
     transformStream = _(inputStream.pipe(JSONStream.parse('stocks.*')))
-    .batch(5)
+    .batch(options.batch)
     .pipe(transform (chunk, cb) ->
       log.info 'chunk: %j', chunk, {}
       service.process(chunk, cb)
@@ -61,4 +61,4 @@ module.exports = class
     _(transformStream).reduce null, -> ''
     .pull (err, x) ->
       if err then log.error err
-      else log.info service.summaryReport(from)
+      else log.info service.summaryReport(options.from)
