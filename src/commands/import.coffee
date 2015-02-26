@@ -22,6 +22,10 @@ module.exports = class
     @_validateOptions(@program)
     @_process(@program)
 
+  @_die: ->
+    log.error.apply(null, arguments)
+    process.exit(1)
+
   @_validateOptions: (options) ->
     errors = []
     errors.push('Missing required option: type') unless options.type
@@ -36,8 +40,7 @@ module.exports = class
         service = new StockImport(log, {})
         @_stream(options, service, 'stocks.*')
       else
-        log.error "Unsupported type: #{type}"
-        process.exit(1)
+        @_die "Unsupported type: #{type}"
 
   @_stream: (options, service, jsonPath) ->
     inputStream = if options.from
@@ -48,8 +51,8 @@ module.exports = class
       process.stdin.setEncoding('utf8')
       process.stdin
 
-    # TODO: error handling
     transformStream = _(inputStream.pipe(JSONStream.parse(jsonPath)))
+    .stopOnError (e) => @_die 'Cannot parse chunk as JSON', e
     .batch(options.batch)
     .pipe(transform (chunk, cb) ->
       log.info 'chunk: %j', chunk, {}
@@ -60,6 +63,7 @@ module.exports = class
     # so that when we pull the value after that we know that all chunks have been processed
     # and we can display a final message
     _(transformStream).reduce null, -> ''
+    .stopOnError (e) => @_die 'Something went wrong while transforming chunks', e
     .pull (err, x) ->
       if err then log.error err
       else log.info service.summaryReport(options.from)
