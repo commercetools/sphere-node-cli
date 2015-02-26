@@ -1,5 +1,6 @@
 debug = require('debug')('sphere-import')
 fs = require 'fs'
+_ = require 'highland'
 transform = require 'stream-transform'
 JSONStream = require 'JSONStream'
 StockImport = require '../services/stock-import'
@@ -41,20 +42,23 @@ module.exports = class
     inputStream = if from
       fs.createReadStream(from, {encoding: 'utf-8'})
     else
-      log.info('Reading data from stdin...')
+      log.info 'Reading data from stdin...'
       process.stdin.resume()
       process.stdin.setEncoding('utf8')
       process.stdin
 
-    inputStream
-    .pipe(JSONStream.parse('stocks.*'))
-    .on 'error', (e) -> log.error 'error while parsing JSON chunks: %j', e
-    .pipe(transform (record, cb) ->
-      log.info 'record: %j', record, {}
-      service.process(record, cb)
-    , {parallel: 1})
-    .on 'error', (e) -> log.error 'error while processing stocks: %j', e
-    .pipe(transform (record, cb) ->
-      log.info(record)
-      cb()
-    )
+    # TODO: error handling
+    transformStream = _(inputStream.pipe(JSONStream.parse('stocks.*')))
+    .batch(5)
+    .pipe(transform (chunk, cb) ->
+      log.info 'chunk: %j', chunk, {}
+      service.process(chunk, cb)
+    , {parallel: 1}) # we want to process one chunk at a time (chunk size is determined by batch value)
+
+    # this trick allows to accumulate the stream to a single value ()
+    # so that when we pull the value after that we know that all chunks have been processed
+    # and we can display a final message
+    _(transformStream).reduce null, -> ''
+    .pull (err, x) ->
+      if err then log.error err
+      else log.info service.summaryReport(from)

@@ -35,29 +35,31 @@ module.exports = class
     message
 
 
-  process: (stock, cb) ->
-    # TODO:
-    # - currently `stock === chunk`, which means we process it one at a time
-    # - we want to process more then one in a batch
+  process: (stocksToProcess, cb) ->
 
-    debug 'chunk: %j', stock
-
-    if stock.sku
-      @_client.inventoryEntries.all()
-      .where("sku = \"#{stock.sku}\"")
-      .perPage(1)
-      .fetch()
-      .then (results) =>
-        queriedEntries = results.body.results
-        @_createOrUpdate [stock], queriedEntries
-      .then (results) =>
-        _.each results, (r) =>
-          switch r.statusCode
-            when 201 then @_summary.created++
-            when 200 then @_summary.updated++
-        debug 'processed stock: %s', stock.sku
-        cb(null, 'processed\n')
-    else cb()
+    ie = @_client.inventoryEntries.all().whereOperator('or')
+    debug 'chunk: %j', stocksToProcess
+    uniqueStocksToProcessBySku = _.reduce stocksToProcess, (acc, stock) ->
+      foundStock = _.find acc, (s) -> s.sku is stock.sku
+      acc.push stock unless foundStock
+      acc
+    , []
+    debug 'unique stocks: %j', uniqueStocksToProcessBySku
+    _.each uniqueStocksToProcessBySku, (s) =>
+      @_summary.emptySKU++ if _.isEmpty s.sku
+      # TODO: query also for channel?
+      ie.where("sku = \"#{s.sku}\"")
+    ie.sort('sku').fetch()
+    .then (results) =>
+      debug 'Fetched stocks: %j', results
+      queriedEntries = results.body.results
+      @_createOrUpdate stocksToProcess, queriedEntries
+    .then (results) =>
+      _.each results, (r) =>
+        switch r.statusCode
+          when 201 then @_summary.created++
+          when 200 then @_summary.updated++
+      cb() # IMPORTANT!
 
   _match: (entry, existingEntries) ->
     _.find existingEntries, (existingEntry) ->

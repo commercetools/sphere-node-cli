@@ -35,6 +35,7 @@
     "bluebird": "2.9.x",
     "commander": "2.6.0",
     "debug": "2.1.x",
+    "highland": "2.4.x",
     "JSONStream": "0.10.x",
     "sphere-node-sdk": "1.2.0",
     "stream-transform": "0.0.6",
