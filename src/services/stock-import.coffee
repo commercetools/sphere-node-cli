@@ -1,5 +1,6 @@
 debug = require('debug')('service-stock-import')
 _ = require 'underscore'
+_.mixin require('underscore-mixins')
 Promise = require 'bluebird'
 {SphereClient, InventorySync} = require 'sphere-node-sdk'
 
@@ -35,31 +36,37 @@ module.exports = class
     message
 
 
-  process: (stocksToProcess, cb) ->
-    # TODO: limit batch size
-    ie = @_client.inventoryEntries.all().whereOperator('or')
-    debug 'chunk: %j', stocksToProcess
-    uniqueStocksToProcessBySku = _.reduce stocksToProcess, (acc, stock) ->
-      foundStock = _.find acc, (s) -> s.sku is stock.sku
-      acc.push stock unless foundStock
-      acc
-    , []
-    debug 'unique stocks: %j', uniqueStocksToProcessBySku
-    _.each uniqueStocksToProcessBySku, (s) =>
-      @_summary.emptySKU++ if _.isEmpty s.sku
-      # TODO: query also for channel?
-      ie.where("sku = \"#{s.sku}\"")
-    ie.sort('sku').fetch()
-    .then (results) =>
-      debug 'Fetched stocks: %j', results
-      queriedEntries = results.body.results
-      @_createOrUpdate stocksToProcess, queriedEntries
-    .then (results) =>
-      _.each results, (r) =>
-        switch r.statusCode
-          when 201 then @_summary.created++
-          when 200 then @_summary.updated++
-      cb() # IMPORTANT!
+  process: (chunk, cb) ->
+    # chunk is an array of parsed stocks
+    # if the array is too big, we need to make sure we process
+    # a max amount of stocks at a time
+    batchedList = _.batchList(chunk, 25)
+    Promise.map batchedList, (stocksToProcess) =>
+      ie = @_client.inventoryEntries.all().whereOperator('or')
+      debug 'chunk: %j', stocksToProcess
+      uniqueStocksToProcessBySku = _.reduce stocksToProcess, (acc, stock) ->
+        foundStock = _.find acc, (s) -> s.sku is stock.sku
+        acc.push stock unless foundStock
+        acc
+      , []
+      debug 'unique stocks: %j', uniqueStocksToProcessBySku
+      _.each uniqueStocksToProcessBySku, (s) =>
+        @_summary.emptySKU++ if _.isEmpty s.sku
+        # TODO: query also for channel?
+        ie.where("sku = \"#{s.sku}\"")
+      ie.sort('sku').fetch()
+      .then (results) =>
+        debug 'Fetched stocks: %j', results
+        queriedEntries = results.body.results
+        @_createOrUpdate stocksToProcess, queriedEntries
+      .then (results) =>
+        _.each results, (r) =>
+          switch r.statusCode
+            when 201 then @_summary.created++
+            when 200 then @_summary.updated++
+        Promise.resolve()
+    , {concurrency: 1}
+    .then -> cb() # IMPORTANT!
 
   _match: (entry, existingEntries) ->
     _.find existingEntries, (existingEntry) ->
