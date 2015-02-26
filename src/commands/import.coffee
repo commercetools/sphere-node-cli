@@ -24,7 +24,6 @@ module.exports = class
   @_validateOptions: (options) ->
     errors = []
     errors.push('Missing required option: type') unless options.type
-    errors.push('Missing required option: from') unless options.from
 
     if errors.length > 0
       errors.forEach (e) -> log.error(e)
@@ -39,7 +38,15 @@ module.exports = class
   @_processStock: (from) ->
     service = new StockImport(log, {})
 
-    fs.createReadStream(from, {encoding: 'utf-8'})
+    inputStream = if from
+      fs.createReadStream(from, {encoding: 'utf-8'})
+    else
+      log.info('Reading data from stdin...')
+      process.stdin.resume()
+      process.stdin.setEncoding('utf8')
+      process.stdin
+
+    inputStream
     .pipe(JSONStream.parse('stocks.*'))
     .on 'error', (e) -> log.error 'error while parsing JSON chunks: %j', e
     .pipe(transform (record, cb) ->
