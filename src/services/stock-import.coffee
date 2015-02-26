@@ -41,18 +41,16 @@ module.exports = class
     # a max amount of stocks at a time
     batchedList = _.batchList(chunk, 25)
     Promise.map batchedList, (stocksToProcess) =>
-      ie = @_client.inventoryEntries.all().whereOperator('or')
       debug 'chunk: %j', stocksToProcess
-      uniqueStocksToProcessBySku = _.reduce stocksToProcess, (acc, stock) ->
-        foundStock = _.find acc, (s) -> s.sku is stock.sku
-        acc.push stock unless foundStock
-        acc
-      , []
-      debug 'unique stocks: %j', uniqueStocksToProcessBySku
+      uniqueStocksToProcessBySku = @_uniqueStocksBySku(stocksToProcess)
+      debug 'chunk (unique stocks): %j', uniqueStocksToProcessBySku
+
+      ie = @_client.inventoryEntries.all().whereOperator('or')
       _.each uniqueStocksToProcessBySku, (s) =>
         @_summary.emptySKU++ if _.isEmpty s.sku
         # TODO: query also for channel?
         ie.where("sku = \"#{s.sku}\"")
+
       ie.sort('sku').fetch()
       .then (results) =>
         debug 'Fetched stocks: %j', results
@@ -66,6 +64,13 @@ module.exports = class
         Promise.resolve()
     , {concurrency: 1}
     .then -> cb() # IMPORTANT!
+
+  _uniqueStocksBySku: (stocks) ->
+    _.reduce stocks, (acc, stock) ->
+      foundStock = _.find acc, (s) -> s.sku is stock.sku
+      acc.push stock unless foundStock
+      acc
+    , []
 
   _match: (entry, existingEntries) ->
     _.find existingEntries, (existingEntry) ->
