@@ -9,7 +9,7 @@ module.exports = class
   # TODO:
   # - not sure if we need the logger here
   # - better way to load credentials
-  constructor: (@log, opts) ->
+  constructor: (opts) ->
     @_sync = new InventorySync
     @_client = new SphereClient require('../../config')
 
@@ -29,9 +29,8 @@ module.exports = class
         "(#{@_summary.created} were new and #{@_summary.updated} were updates)"
 
     if @_summary.emptySKU > 0
-      warning = "Found #{@_summary.emptySKU} empty SKUs from file input"
-      warning += " '#{filename}'" if filename
-      @log.warn warning
+      message += "\nFound #{@_summary.emptySKU} empty SKUs from file input"
+      message += " '#{filename}'" if filename
 
     message
 

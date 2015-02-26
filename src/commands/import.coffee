@@ -1,6 +1,7 @@
 debug = require('debug')('sphere-import')
 fs = require 'fs'
-_ = require 'highland'
+_ = require 'underscore'
+___ = require 'highland'
 transform = require 'stream-transform'
 JSONStream = require 'JSONStream'
 StockImport = require '../services/stock-import'
@@ -19,8 +20,9 @@ module.exports = class
       .option '-b, --batch <n>', 'how many chunks should be processed in batches (default: 5)', parseInt, 5
 
     @program.parse(argv)
-    @_validateOptions(@program)
-    @_process(@program)
+    options = _.pick(@program, 'type', 'from', 'batch')
+    @_validateOptions(options)
+    @_process(options)
 
   @_die: ->
     log.error.apply(null, arguments)
@@ -28,16 +30,15 @@ module.exports = class
 
   @_validateOptions: (options) ->
     errors = []
-    errors.push('Missing required option: type') unless options.type
+    errors.push('type') unless options.type
 
     if errors.length > 0
-      errors.forEach (e) -> log.error(e)
-      process.exit(1)
+      @_die "Missing required options: #{errors.join(', ')}"
 
   @_process: (options) =>
     switch options.type
       when 'stock'
-        service = new StockImport(log, {})
+        service = new StockImport
         @_stream(options, service, 'stocks.*')
       else
         @_die "Unsupported type: #{type}"
@@ -51,7 +52,7 @@ module.exports = class
       process.stdin.setEncoding('utf8')
       process.stdin
 
-    transformStream = _(inputStream.pipe(JSONStream.parse(jsonPath)))
+    transformStream = ___(inputStream.pipe(JSONStream.parse(jsonPath)))
     .stopOnError (e) => @_die 'Cannot parse chunk as JSON', e
     .batch(options.batch)
     .pipe(transform (chunk, cb) ->
@@ -62,7 +63,7 @@ module.exports = class
     # this trick allows to accumulate the stream to a single value ()
     # so that when we pull the value after that we know that all chunks have been processed
     # and we can display a final message
-    _(transformStream).reduce null, -> ''
+    ___(transformStream).reduce null, -> ''
     .stopOnError (e) => @_die 'Something went wrong while transforming chunks', e
     .pull (err, x) ->
       if err then log.error err
