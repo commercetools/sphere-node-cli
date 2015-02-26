@@ -6,7 +6,8 @@
   "private": true,
   "author": "Nicola Molinari <nicola.molinari@commercetools.de>",
   "bin": {
-    "sphere": "./bin/sphere"
+    "sphere": "./bin/sphere",
+    "sphere-import": "./bin/sphere-import"
   },
   "scripts": {
     "build": "coffee --compile --output lib src",
