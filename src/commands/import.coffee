@@ -34,7 +34,8 @@ module.exports = class
     switch options.type
       when 'stock' then @_processStock(options)
       else
-        throw new Error "Unsupported type: #{type}"
+        log.error "Unsupported type: #{type}"
+        process.exit(1)
 
   @_processStock: (options) ->
     service = new StockImport(log, {})
