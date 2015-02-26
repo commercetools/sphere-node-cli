@@ -39,6 +39,7 @@ module.exports = ->
 
       callback()
 
+
   @Then /^the exit status should be ([0-9]+)$/, (code, callback) ->
 
     actualCode = if @lastRun.error then @lastRun.error.code else '0'
@@ -51,12 +52,21 @@ module.exports = ->
 
   @Then /^the output should contain:$/, (expectedOutput, callback) ->
 
-    actualOutput = @lastRun['stdout']
-
-    actualOutput = normalizeText(actualOutput)
+    actualOutput = normalizeText(@lastRun['stdout'])
     expectedOutput = normalizeText(expectedOutput)
 
     if actualOutput.indexOf(expectedOutput) < 0
+      throw new Error "Expected output to match the following:\n'#{expectedOutput}'\n" +
+                      "Got:\n'#{actualOutput}'.\n" + getAdditionalErrorText(@lastRun)
+
+    callback()
+
+
+  @Then /^the output should be a version number$/, (callback) ->
+
+    actualOutput = normalizeText(@lastRun['stdout'])
+
+    unless new RegExp(/\d\.\d\.\d/).test(actualOutput)
       throw new Error "Expected output to match the following:\n'#{expectedOutput}'\n" +
                       "Got:\n'#{actualOutput}'.\n" + getAdditionalErrorText(@lastRun)
 
