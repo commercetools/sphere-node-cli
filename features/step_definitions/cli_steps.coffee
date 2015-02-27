@@ -29,7 +29,7 @@ module.exports = ->
     process.chdir(tmpDir)
 
     runtimePath = joinPathSegments [baseDir, 'bin', 'sphere']
-    command = "#{runtimePath} #{args}"
+    command = runtimePath + args
     exec command, (error, stdout, stderr) =>
       @lastRun =
         error:  error
