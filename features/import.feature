@@ -50,3 +50,17 @@ Feature: CLI - Import command
       """
       Summary: there were 2 imported stocks (2 were new and 0 were updates)
       """
+
+  Scenario: Show error if chunk cannot be parsed as JSON
+    Given a file named "stock.json" with:
+      """
+      {
+        "foo:
+      }
+      """
+    When I run `sphere import -t stock -f stock.json`
+    Then the exit status should be 1
+    Then the output should contain:
+      """
+      Cannot parse chunk as JSON.
+      """

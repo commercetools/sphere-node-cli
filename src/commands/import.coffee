@@ -53,7 +53,7 @@ module.exports = class
       process.stdin
 
     transformStream = ___(inputStream.pipe(JSONStream.parse(jsonPath)))
-    .stopOnError (e) => @_die 'Cannot parse chunk as JSON', e
+    .stopOnError (e) => @_die 'Cannot parse chunk as JSON.\n', e
     .batch(options.batch)
     .pipe(transform (chunk, cb) ->
       log.info 'chunk: %j', chunk, {}
