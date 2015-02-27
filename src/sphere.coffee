@@ -11,7 +11,7 @@ module.exports = class
 
     @program
       .version(pkg.version)
-      .command('import', 'Import resources')
+      .command 'import', 'Import resources'
       .parse(argv)
 
     if ENV isnt 'test' and not @program.args.length

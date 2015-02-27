@@ -4,6 +4,7 @@ _ = require 'underscore'
 ___ = require 'highland'
 transform = require 'stream-transform'
 JSONStream = require 'JSONStream'
+credentials = require '../utils/credentials'
 StockImport = require '../services/stock-import'
 log = require '../utils/logger'
 
@@ -15,12 +16,14 @@ module.exports = class
     debug 'parsing args: %s', argv
 
     @program
+      .option '-C, --credentials <path>', 'the path to a JSON file where to read ' +
+        'the SPHERE.IO credentials from (default ./sphere-credentials.json)'
       .option '-t, --type <name>', 'type of import'
-      .option '-f, --from <path>', 'the source to read'
+      .option '-f, --from <path>', 'the path to a JSON file where to read from'
       .option '-b, --batch <n>', 'how many chunks should be processed in batches (default: 5)', parseInt, 5
 
     @program.parse(argv)
-    options = _.pick(@program, 'type', 'from', 'batch')
+    options = _.pick(@program, 'credentials', 'type', 'from', 'batch')
     @_validateOptions(options)
     @_process(options)
 
@@ -30,6 +33,7 @@ module.exports = class
 
   @_validateOptions: (options) ->
     errors = []
+    errors.push('credentials') unless credentials.validate(options.credentials)
     errors.push('type') unless options.type
 
     if errors.length > 0
@@ -38,7 +42,7 @@ module.exports = class
   @_process: (options) =>
     switch options.type
       when 'stock'
-        service = new StockImport
+        service = new StockImport options.credentials
         @_stream(options, service, 'stocks.*')
       else
         @_die "Unsupported type: #{type}"

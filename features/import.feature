@@ -9,6 +9,10 @@ Feature: CLI - Import command
       """
     Then the output should contain:
       """
+      -C, --credentials <path>
+      """
+    Then the output should contain:
+      """
       -t, --type <name>
       """
     Then the output should contain:
@@ -26,6 +30,14 @@ Feature: CLI - Import command
     Then the output should contain:
       """
       Missing required options: type
+      """
+
+  Scenario: Show missing option error if credentials file does not exist
+    When I run `sphere import -C foo.json`
+    Then the exit status should be 1
+    Then the output should contain:
+      """
+      Missing required options: credentials, type
       """
 
   Scenario: Import stock by reading file as stream
