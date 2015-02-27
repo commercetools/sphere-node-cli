@@ -52,6 +52,7 @@
     "jasmine-node": "1.14.5",
     "mkdirp": "*",
     "rewire": "2.3.x",
+    "rimraf": "*",
     "should": "5.0.x"
   },
   "licenses": "MIT"

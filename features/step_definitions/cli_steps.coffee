@@ -1,4 +1,6 @@
+_ = require 'underscore'
 fs = require 'fs'
+rimraf = require 'rimraf'
 exec = require('child_process').exec
 mkdirp = require 'mkdirp'
 
@@ -9,7 +11,14 @@ module.exports = ->
   cleansingNeeded = true
   mkdirp(tmpDir)
 
+  uniqueId = (prefix) -> _.uniqueId "#{prefix}#{new Date().getTime()}_"
+
   joinPathSegments = (segments) -> segments.join('/')
+
+  cleanseIfNeeded = ->
+    if cleansingNeeded
+      try rimraf.sync(tmpDir) catch e # ignore
+      cleansingNeeded = false
 
   normalizeText = (text) ->
     text
@@ -22,6 +31,22 @@ module.exports = ->
   getAdditionalErrorText = (lastRun) ->
     "Additional error:\n'#{lastRun['error']}'.\nstderr:\n'#{lastRun['stderr']}'."
 
+  @Given /^a file named "(.*)" with:$/, (filePath, fileContent, callback) ->
+
+    cleanseIfNeeded()
+    absoluteFilePath = "#{tmpDir}/#{filePath}"
+    filePathSegments = absoluteFilePath.split('/')
+    fileName         = filePathSegments.pop()
+    dirName          = joinPathSegments(filePathSegments)
+
+    # replace placeholder for generate unique ids
+    fileContent = fileContent.replace(/\<id\-(\w)\>/gi, (match, g1) -> uniqueId(g1))
+
+    mkdirp dirName, (err) ->
+      throw new Error(err) if err
+      fs.writeFile absoluteFilePath, fileContent, (err) ->
+        throw new Error(err) if err
+        callback()
 
   @When /^I run `sphere(| .+)`$/, (args, callback) ->
 
@@ -36,7 +61,7 @@ module.exports = ->
         stdout: stdout
         stderr: stderr
       process.chdir(initialCwd)
-
+      cleansingNeeded = true
       callback()
 
 

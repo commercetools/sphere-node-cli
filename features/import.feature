@@ -27,3 +27,26 @@ Feature: CLI - Import command
       """
       Missing required options: type
       """
+
+  Scenario: Import stock by reading file as stream
+    Given a file named "stock.json" with:
+      """
+      {
+        "stocks": [
+          {
+            "sku": "<id-a>",
+            "quantityOnStock": 10
+          },
+          {
+            "sku": "<id-b>",
+            "quantityOnStock": 20
+          }
+        ]
+      }
+      """
+    When I run `sphere import -t stock -f stock.json`
+    Then the exit status should be 0
+    Then the output should contain:
+      """
+      Summary: there were 2 imported stocks (2 were new and 0 were updates)
+      """
