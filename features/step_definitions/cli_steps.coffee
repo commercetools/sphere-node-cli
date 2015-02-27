@@ -20,7 +20,7 @@ module.exports = ->
     .replace(/[ \t]+\n/g, '\n')
 
   getAdditionalErrorText = (lastRun) ->
-    "Error:\n'#{lastRun[error]}'.\nstderr:\n'#{lastRun[stderr]}'."
+    "Additional error:\n'#{lastRun['error']}'.\nstderr:\n'#{lastRun['stderr']}'."
 
 
   @When /^I run `sphere(| .+)`$/, (args, callback) ->
@@ -44,7 +44,7 @@ module.exports = ->
 
     actualCode = if @lastRun.error then @lastRun.error.code else '0'
 
-    if actualCode isnt code
+    if "#{actualCode}" isnt "#{code}"
       throw new Error "Exit code expected: \"#{code}\"\nGot: \"#{actualCode}\"\n"
 
     callback()
@@ -52,7 +52,7 @@ module.exports = ->
 
   @Then /^the output should contain:$/, (expectedOutput, callback) ->
 
-    actualOutput = normalizeText(@lastRun['stdout'])
+    actualOutput = normalizeText((if @lastRun.error then @lastRun['stderr'] else @lastRun['stdout']))
     expectedOutput = normalizeText(expectedOutput)
 
     if actualOutput.indexOf(expectedOutput) < 0

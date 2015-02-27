@@ -25,5 +25,5 @@ Feature: CLI - Import command
     Then the exit status should be 1
     Then the output should contain:
       """
-      error:   Missing required options: type
+      Missing required options: type
       """
