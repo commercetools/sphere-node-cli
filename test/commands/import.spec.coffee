@@ -12,7 +12,7 @@ describe 'sphere-import', ->
     spyOn(@command, '_die')
     spyOn(@command, '_process') # just to stub it
     @command.run(['node', "#{BIN_DIR}/sphere-import"])
-    @command.program.name.should.be.a.Function;
+    @command.program.name.should.be.a.Function
     @command.program.name().should.equal('sphere-import')
     @command.program.commands.should.have.lengthOf(0)
     @command.program.options[0].flags.should.equal('-t, --type <name>')
@@ -34,4 +34,3 @@ describe 'sphere-import', ->
       from: './foo.json'
       batch: 5
     , jasmine.any(Object), 'stocks.*'
-

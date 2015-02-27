@@ -22,7 +22,7 @@ module.exports = ->
 
   normalizeText = (text) ->
     text
-    .replace(/\033\[[0-9;]*m/g, '')
+    #.replace(/\033\[[0-9;]*m/g, '')
     .replace(/\r\n|\r/g, '\n')
     .replace(/^\s+/g, '')
     .replace(/\s+$/g, '')
@@ -57,7 +57,7 @@ module.exports = ->
     command = runtimePath + args
     exec command, (error, stdout, stderr) =>
       @lastRun =
-        error:  error
+        error: error
         stdout: stdout
         stderr: stderr
       process.chdir(initialCwd)
