@@ -4,6 +4,22 @@
 
 [![Build Status](https://travis-ci.org/sphereio/sphere-node-cli.svg?branch=master)](https://travis-ci.org/sphereio/sphere-node-cli)
 
+The next generation Command-Line-Interface for SPHERE.IO.
+
+## Getting Started
+
+```bash
+$ npm install -g sphere-node-cli
+
+# show help
+$ sphere -h
+```
+
 # Still under development!
 
-The next generation Command-Line-Interface for SPHERE.IO.
+```bash
+$ npm i
+
+$ npm test
+$ npm run test:features
+```
