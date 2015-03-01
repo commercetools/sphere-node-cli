@@ -12,6 +12,7 @@ module.exports = class
     @_sync = new InventorySync
     @_client = new SphereClient
       config: credentials
+      user_agent: 'sphere-node-cli'
 
     @_resetSummary()
 
