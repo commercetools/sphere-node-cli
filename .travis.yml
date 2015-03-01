@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - '0.10'
+script:
+  - npm test
+  - npm run test:features
+env:
+  global:
+    - secure: HAPhZ+gv96M1QsnRMWdhiTFeEYKEac1doKdHtO+UjbUDGq4ZhaZV0JGzw3lout2fr/Th4xLgHwszR9h/v8JTeXSVEnMIwoYfknpsHK+/tbz4/8P9i9td49RX/XsVFbvXes2gatUfF1tgTeMRCbnO2HmnfbHY6bTj+4WKtgVep1c=
+    - secure: rCk4/pEvesJLfjjqV48LfOyrzDGferBwUuW7jIdCelnHW6yKSvBEG1c28y2c8g5pRQvkLsqWTzlDIEhqew+137MgiXR8NFf+Tmihmv4uMGa0g0g7guW9oucHfqKkqK4W8862gOfFaKfGCHDm5SR2CEUODuXJ3H+Igx4P1GYz1cI=
+    - secure: V9sqQ1DKjdxTqSWMt+8rwETxq42r2jhgoo8i5KoxMUUmylp/qBSTILrixOYDsrHBudHWMwbTcT0rVVfF9IG6Aea/lDvvsOCct0eH/bDkr2P1MpRLUABvsuzsBn9tA7eAgMuOtz5j5RQe3t4SUgfhckGfFNhsmv+cR1gSW1nVJL8=
+notifications:
+  hipchat:
+    rooms:
+      - secure: IgvC+QzmthloYNdIBVN60DN5+0cIeSB/3YuazAUW6ZNFdFxYa7ewetV2fxrLpw6/JMzFk/DWgLJOoj5qPftwnUf+3J879d64UCCTdO66Inn9i7HQeqYd5rN+IIrcFot3QUSRhq2NcD5W3BVFfa8VsWgfqv6RfxAM6A2/0mgCc5o=
+    template:
+      - '%{repository}#%{build_number} (%{author}): %{message} (<a href="%{build_url}">Details</a>/<a href="%{compare_url}">Compare</a>)'
+    format: html
+    on_success: change
+    on_failure: change
