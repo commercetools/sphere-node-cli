@@ -3,10 +3,15 @@ _.mixin require('underscore-mixins')
 Promise = require 'bluebird'
 StockImport = require '../../src/services/stock-import.coffee'
 
+FAKE_CREDENTIALS =
+  project_key: 'foo'
+  client_id: '123'
+  client_secret: 'abc'
+
 describe 'StockImport', ->
 
   beforeEach ->
-    @service = new StockImport
+    @service = new StockImport FAKE_CREDENTIALS
 
   it 'should initialize service', ->
     expect(@service._client).toBeDefined()

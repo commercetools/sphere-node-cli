@@ -9,7 +9,7 @@ Feature: CLI - Import command
       """
     Then the output should contain:
       """
-      -C, --credentials <path>
+      -p, --project <key>
       """
     Then the output should contain:
       """
@@ -32,12 +32,12 @@ Feature: CLI - Import command
       Missing required options: type
       """
 
-  Scenario: Show missing option error if credentials file does not exist
-    When I run `sphere import -C foo.json`
+  Scenario: Show error if cannot lookup credentials for a project key
+    When I run `sphere import -p foo -t stock`
     Then the exit status should be 1
     Then the output should contain:
       """
-      Missing required options: credentials, type
+      Can't find credentials for project 'foo'
       """
 
   Scenario: Import stock by reading file as stream

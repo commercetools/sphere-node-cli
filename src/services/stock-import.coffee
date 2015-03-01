@@ -3,16 +3,15 @@ _ = require 'underscore'
 _.mixin require('underscore-mixins')
 Promise = require 'bluebird'
 {SphereClient, InventorySync} = require 'sphere-node-sdk'
-credentials = require '../utils/credentials'
 
 module.exports = class
 
   # TODO:
   # - better way to load credentials
-  constructor: (credentialsPath) ->
+  constructor: (credentials) ->
     @_sync = new InventorySync
     @_client = new SphereClient
-      config: credentials.load(credentialsPath)
+      config: credentials
 
     @_resetSummary()
 

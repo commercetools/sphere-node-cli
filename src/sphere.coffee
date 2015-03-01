@@ -1,6 +1,7 @@
 debug = require('debug')('sphere')
 pkg = require '../package.json'
 {ENV} = require './utils/env'
+help = require './utils/help'
 
 module.exports = class
 
@@ -12,6 +13,7 @@ module.exports = class
     @program
       .version(pkg.version)
       .command 'import', 'Import resources'
+      .on '--help', help
       .parse(argv)
 
     if ENV isnt 'test' and not @program.args.length
