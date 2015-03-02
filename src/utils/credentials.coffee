@@ -2,6 +2,7 @@ debug = require('debug')('sphere-credentials')
 _ = require 'underscore'
 Promise = require 'bluebird'
 {ProjectCredentialsConfig} = require 'sphere-node-utils'
+{ENV} = require './env'
 
 module.exports =
 

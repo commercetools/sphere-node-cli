@@ -1,10 +1,11 @@
 should = require 'should'
+SphereCommand = require '../src/sphere'
 BIN_DIR = "#{__dirname}/../bin"
 
-describe 'sphere', ->
+describe 'SphereCommand', ->
 
   beforeEach ->
-    @command = require '../src/sphere'
+    @command = new SphereCommand
     @command.program = require('rewire')('commander')
     @command.run(['node', "#{BIN_DIR}/sphere"])
 

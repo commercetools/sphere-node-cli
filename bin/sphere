@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 
-require(__dirname + '/../lib/sphere').run(process.argv)
+var cmd = require(__dirname + '/../lib/sphere')
+new cmd().run(process.argv)

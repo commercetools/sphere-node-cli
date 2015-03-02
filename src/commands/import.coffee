@@ -4,15 +4,13 @@ _ = require 'underscore'
 ___ = require 'highland'
 transform = require 'stream-transform'
 JSONStream = require 'JSONStream'
-credentials = require '../utils/credentials'
+BaseCommand = require '../utils/command'
 StockImport = require '../services/stock-import'
 log = require '../utils/logger'
 
-module.exports = class
+module.exports = class extends BaseCommand
 
-  @program: require 'commander'
-
-  @run: (argv) =>
+  run: (argv) ->
     debug 'parsing args: %s', argv
 
     @program
@@ -24,28 +22,10 @@ module.exports = class
 
     @program.parse(argv)
     options = _.pick(@program, 'project', 'type', 'from', 'batch')
-    @_validateOptions(options)
+    @_validateOptions(options, 'type')
     @_preProcess(options)
 
-  @_die: ->
-    log.error.apply(null, arguments)
-    process.exit(1)
-
-  @_validateOptions: (options) ->
-    errors = []
-    errors.push('type') unless options.type
-
-    if errors.length > 0
-      @_die "Missing required options: #{errors.join(', ')}"
-
-  @_preProcess: (options) ->
-    credentials.load(options.project)
-    .then (credentials) =>
-      debug 'loaded credentials: %j', credentials
-      @_process(_.extend options, {credentials: credentials})
-    .catch (err) => @_die err.message
-
-  @_process: (options) =>
+  _process: (options) ->
     switch options.type
       when 'stock'
         service = new StockImport options.credentials
@@ -53,7 +33,7 @@ module.exports = class
       else
         @_die "Unsupported type: #{type}"
 
-  @_stream: (options, service, jsonPath) ->
+  _stream: (options, service, jsonPath) ->
     inputStream = if options.from
       fs.createReadStream(options.from, {encoding: 'utf-8'})
     else

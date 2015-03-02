@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 
-require(__dirname + '/../lib/commands/import').run(process.argv)
+var cmd = require(__dirname + '/../lib/commands/import')
+new cmd().run(process.argv)

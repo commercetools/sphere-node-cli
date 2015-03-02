@@ -5,9 +5,10 @@ help = require './utils/help'
 
 module.exports = class
 
-  @program: require 'commander'
+  constructor: ->
+    @program = require 'commander'
 
-  @run: (argv) =>
+  run: (argv) ->
     debug 'parsing args: %s', argv
 
     @program

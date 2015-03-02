@@ -1,5 +1,6 @@
 _ = require 'underscore'
 should = require 'should'
+ImportCommand = require '../../src/commands/import'
 BIN_DIR = "#{__dirname}/../../bin"
 
 FAKE_CREDENTIALS =
@@ -7,10 +8,10 @@ FAKE_CREDENTIALS =
   client_id: '123'
   client_secret: 'abc'
 
-describe 'sphere-import', ->
+describe 'ImportCommand', ->
 
   beforeEach ->
-    @command = require '../../src/commands/import'
+    @command = new ImportCommand
     @command.program = require('rewire')('commander')
 
   it 'should initialize command', ->
@@ -28,7 +29,7 @@ describe 'sphere-import', ->
     @command.program.options[3].flags.should.equal('-b, --batch <n>')
     @command.program.should.not.have.property('type')
     @command.program.should.not.have.property('from')
-    expect(@command._validateOptions).toHaveBeenCalledWith({batch: 5})
+    expect(@command._validateOptions).toHaveBeenCalledWith({batch: 5}, 'type')
     expect(@command._die).toHaveBeenCalledWith('Missing required options: type')
 
   it 'should process command', ->
