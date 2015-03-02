@@ -5,7 +5,6 @@ logger = new winston.Logger
   transports: [
     # TODO: provide custom options
     new winston.transports.Console
-      colorize: true
       prettyPrint: true
   ]
   colors: _.extend winston.config.cli.colors,

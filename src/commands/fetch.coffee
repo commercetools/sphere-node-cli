@@ -33,4 +33,4 @@ module.exports = class extends BaseCommand
         @_die "Unsupported resource type: #{type}"
 
   _fetch: (service) ->
-    service.fetch().then (result) -> console.log result
+    service.fetch().then (result) -> log.info '%j', result, {}

@@ -37,9 +37,5 @@ Feature: CLI - Fetch command
     Then the exit status should be 0
     Then the output should contain:
       """
-      statusCode: 200
-      """
-    Then the output should contain:
-      """
-      body: { offset:
+      "statusCode":200,"body"
       """
