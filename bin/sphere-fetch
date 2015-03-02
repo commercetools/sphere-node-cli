@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+var cmd = require(__dirname + '/../lib/commands/fetch')
+new cmd().run(process.argv)

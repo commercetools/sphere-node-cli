@@ -7,6 +7,14 @@ Feature: CLI
       """
       Usage: sphere
       """
+    Then the output should contain:
+      """
+      import
+      """
+    Then the output should contain:
+      """
+      fetch
+      """
 
     When I run `sphere -h`
     Then the exit status should be 0
