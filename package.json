@@ -43,6 +43,7 @@
     "JSONStream": "0.10.x",
     "sphere-node-sdk": "1.2.0",
     "sphere-node-utils": "0.6.x",
+    "sphere-stock-import": "0.6.x",
     "stream-transform": "0.0.6",
     "underscore": "*",
     "underscore-mixins": "*",

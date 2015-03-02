@@ -51,4 +51,4 @@ describe 'ImportCommand', ->
       from: './foo.json'
       batch: 5
       credentials: FAKE_CREDENTIALS
-    , jasmine.any(Object), 'stocks.*'
+    , 'stocks.*', jasmine.any(Function), jasmine.any(Function)

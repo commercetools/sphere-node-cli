@@ -4,8 +4,8 @@ _ = require 'underscore'
 ___ = require 'highland'
 transform = require 'stream-transform'
 JSONStream = require 'JSONStream'
+StockImport = require 'sphere-stock-import'
 BaseCommand = require '../utils/command'
-StockImport = require '../services/stock-import'
 log = require '../utils/logger'
 
 module.exports = class extends BaseCommand
@@ -28,12 +28,16 @@ module.exports = class extends BaseCommand
   _process: (options) ->
     switch options.type
       when 'stock'
-        service = new StockImport options.credentials
-        @_stream(options, service, 'stocks.*')
+        service = new StockImport null,
+          config: options.credentials
+          user_agent: 'sphere-node-cli'
+        processFn = _.bind(service.performStream, service)
+        finishFn = -> log.info service.summaryReport(options.from)
+        @_stream(options, 'stocks.*', processFn, finishFn)
       else
         @_die "Unsupported type: #{type}"
 
-  _stream: (options, service, jsonPath) ->
+  _stream: (options, jsonPath, processFn, finishFn) ->
     inputStream = if options.from
       fs.createReadStream(options.from, {encoding: 'utf-8'})
     else
@@ -47,14 +51,14 @@ module.exports = class extends BaseCommand
     .batch(options.batch)
     .pipe(transform (chunk, cb) ->
       log.info 'chunk: %j', chunk, {}
-      service.process(chunk, cb)
+      processFn(chunk, cb)
     , {parallel: 1}) # we want to process one chunk at a time (chunk size is determined by batch value)
 
     # this trick allows to accumulate the stream to a single value ()
     # so that when we pull the value after that we know that all chunks have been processed
     # and we can display a final message
     ___(transformStream).reduce null, -> ''
-    .stopOnError (e) => @_die 'Something went wrong while transforming chunks', e
+    .stopOnError (e) => @_die 'Something went wrong while transforming chunks.\n', e
     .pull (err, x) ->
       if err then log.error err
-      else log.info service.summaryReport(options.from)
+      else finishFn()
