@@ -2,7 +2,7 @@
 
 # Node.js CLI
 
-[![Build Status](https://travis-ci.org/sphereio/sphere-node-cli.svg?branch=master)](https://travis-ci.org/sphereio/sphere-node-cli)
+[![npm](https://img.shields.io/npm/v/sphere-node-cli.svg)](https://www.npmjs.com/package/sphere-node-cli) [![Build Status](https://travis-ci.org/sphereio/sphere-node-cli.svg?branch=master)](https://travis-ci.org/sphereio/sphere-node-cli)
 
 The next generation Command-Line-Interface for SPHERE.IO.
 
@@ -15,11 +15,35 @@ $ npm install -g sphere-node-cli
 $ sphere -h
 ```
 
-# Still under development!
+# !!!Still under development!!!
+> Each released version is tested and stable, so you can already install the CLI and use it.
+
+Features will be implemented step-by-step (see also Issues).
+
+Here a general roadmap:
+- `import` command for some API resources (stock, product, category, ...)
+- commands for CRUD operations
+- `export` command (TBD)
+
+
+## Development
+
+See [Contribution guidelines](CONTRIBUTING.md)
 
 ```bash
 $ npm i
 
+# build sources
+$ npm run build
+
+# run tests
 $ npm test
+$ npm run test:watch
 $ npm run test:features
+
+# release (bump version, create tag, push it and publish to npm)
+$ npm run release # alias for patch
+$ npm run release:patch
+$ npm run release:minor
+$ npm run release:major
 ```
