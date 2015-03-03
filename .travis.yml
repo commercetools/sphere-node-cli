@@ -6,6 +6,9 @@ before_script:
 script:
   - npm test
   - npm run test:features
+branches:
+  except:
+    - /^v[0-9]\.[0-9]\.[0-9]$/
 env:
   global:
     - secure: HAPhZ+gv96M1QsnRMWdhiTFeEYKEac1doKdHtO+UjbUDGq4ZhaZV0JGzw3lout2fr/Th4xLgHwszR9h/v8JTeXSVEnMIwoYfknpsHK+/tbz4/8P9i9td49RX/XsVFbvXes2gatUfF1tgTeMRCbnO2HmnfbHY6bTj+4WKtgVep1c=
