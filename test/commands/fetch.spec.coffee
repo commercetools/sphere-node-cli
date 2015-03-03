@@ -15,7 +15,7 @@ describe 'FetchCommand', ->
     @command.program = require('rewire')('commander')
 
   it 'should initialize command', ->
-    spyOn(@command, '_validateOptions').andCallThrough()
+    spyOn(@command, '_validateOptions').and.callThrough()
     spyOn(@command, '_die')
     spyOn(@command, '_preProcess') # just to stub it
     @command.run(['node', "#{BIN_DIR}/sphere-fetch"])
@@ -32,8 +32,8 @@ describe 'FetchCommand', ->
 
   it 'should process command', ->
     spyOn(@command, '_fetch')
-    spyOn(@command, '_process').andCallThrough()
-    spyOn(@command, '_preProcess').andCallFake (opts) =>
+    spyOn(@command, '_process').and.callThrough()
+    spyOn(@command, '_preProcess').and.callFake (opts) =>
       @command._process _.extend opts, {credentials: FAKE_CREDENTIALS}
     @command.run(['node', "#{BIN_DIR}/sphere-fetch", '-p', 'foo', '-t', 'products'])
     @command.program.project.should.be.equal('foo')

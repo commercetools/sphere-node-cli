@@ -15,7 +15,7 @@ describe 'ImportCommand', ->
     @command.program = require('rewire')('commander')
 
   it 'should initialize command', ->
-    spyOn(@command, '_validateOptions').andCallThrough()
+    spyOn(@command, '_validateOptions').and.callThrough()
     spyOn(@command, '_die')
     spyOn(@command, '_preProcess') # just to stub it
     @command.run(['node', "#{BIN_DIR}/sphere-import"])
@@ -36,8 +36,8 @@ describe 'ImportCommand', ->
 
   it 'should process command', ->
     spyOn(@command, '_stream')
-    spyOn(@command, '_process').andCallThrough()
-    spyOn(@command, '_preProcess').andCallFake (opts) =>
+    spyOn(@command, '_process').and.callThrough()
+    spyOn(@command, '_preProcess').and.callFake (opts) =>
       @command._process _.extend opts, {credentials: FAKE_CREDENTIALS}
     @command.run(['node', "#{BIN_DIR}/sphere-import", '-p', 'foo', '-t', 'stock', '-f', './foo.json'])
     @command.program.project.should.be.equal('foo')

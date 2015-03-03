@@ -26,7 +26,7 @@ describe 'BaseCommand', ->
     , 'type'
     expect(@command._die).toHaveBeenCalledWith 'Missing required options: type'
 
-  it 'should load credentials and call _process', ->
+  it 'should load credentials and call _process', (done) ->
     # we need to inject the `credentials` dependency in order to mock it
     # (we don't want to actually read real credentials)
     BaseCommandStub = require('rewire')('../../src/utils/command')
@@ -36,17 +36,19 @@ describe 'BaseCommand', ->
     command = new BaseCommandStub
     # we manually create a spy (`spyOn(command, '_process')` doesn't seem to work!)
     command._process = jasmine.createSpy('process')
+    command._preProcess({foo: 'bar', project: 'test'})
 
-    # now the fun part:
-    # - we first execute the method that reads the credentials
-    # - the credentials are mocked and a promise is returned
-    # - then we wait for our spied function to be called (async workflow)
-    # - finally we check that the spy was correctly called
-    runs -> command._preProcess({foo: 'bar', project: 'test'})
-    waitsFor -> command._process.calls.length is 1
-    runs ->
-      expect(command._process).toHaveBeenCalledWith
-        foo: 'bar'
-        project: 'test'
-        credentials:
-          project_key: 'test'
+    checkCall = ->
+      if command._process.calls.count() is 1
+        expect(command._process).toHaveBeenCalledWith
+          foo: 'bar'
+          project: 'test'
+          credentials:
+            project_key: 'test'
+        clearInterval(interval)
+        done()
+
+    # since _preProcess executes a promise we need to check
+    # the call in a async way
+    # (haven't found a better way to do it)
+    interval = setInterval(checkCall, 100)

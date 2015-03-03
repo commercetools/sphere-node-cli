@@ -12,8 +12,8 @@
   "scripts": {
     "build": "npm run lint && coffee --compile --output lib src",
     "lint": "coffeelint -f ./node_modules/sphere-coffeelint/coffeelint.json src test",
-    "test": "npm run build && jasmine-node --captureExceptions --coffee test",
-    "test:watch": "npm run test -- --autotest --watch .",
+    "test": "npm run build && jasmine-node --coffee test",
+    "test:watch": "npm run test -- --autoTest --watchFolders .",
     "test:features": "npm run lint -- features && cucumber.js"
   },
   "main": "./lib/sphere",
@@ -53,7 +53,7 @@
     "coffeelint": "1.9.x",
     "coffee-script": "1.9.x",
     "cucumber": "0.4.x",
-    "jasmine-node": "1.14.5",
+    "jasmine-node": "2.0.0-beta4",
     "mkdirp": "*",
     "rewire": "2.3.x",
     "rimraf": "*",
