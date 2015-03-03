@@ -11,7 +11,12 @@
   },
   "scripts": {
     "build": "npm run lint && coffee --compile --output lib src",
+    "clean": "rimraf lib",
     "lint": "coffeelint -f ./node_modules/sphere-coffeelint/coffeelint.json src test",
+    "release": "mversion patch -m",
+    "release:patch": "mversion patch -m",
+    "release:minor": "mversion minor -m",
+    "release:major": "mversion major -m",
     "test": "npm run build && jasmine-node --coffee test",
     "test:watch": "npm run test -- --autoTest --watchFolders .",
     "test:features": "npm run lint -- features && cucumber.js"
@@ -55,6 +60,7 @@
     "cucumber": "0.4.x",
     "jasmine-node": "2.0.0-beta4",
     "mkdirp": "*",
+    "mversion": "1.9.x",
     "rewire": "2.3.x",
     "rimraf": "*",
     "should": "5.0.x",
