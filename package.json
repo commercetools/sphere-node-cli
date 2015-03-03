@@ -3,7 +3,7 @@
   "description": "A fast, performant, easy-to-use and stream-based CLI for SPHERE.IO",
   "version": "0.0.2",
   "preferGlobal": true,
-  "private": true,
+  "private": false,
   "author": "Nicola Molinari <nicola.molinari@commercetools.de>",
   "bin": {
     "sphere": "./bin/sphere",
