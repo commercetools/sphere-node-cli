@@ -5,6 +5,7 @@ ___ = require 'highland'
 transform = require 'stream-transform'
 JSONStream = require 'JSONStream'
 StockImport = require 'sphere-stock-import'
+{ProductImport} = require 'sphere-product-sync'
 BaseCommand = require '../utils/command'
 log = require '../utils/logger'
 
@@ -34,6 +35,13 @@ module.exports = class extends BaseCommand
         processFn = _.bind(service.performStream, service)
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'stocks.*', processFn, finishFn)
+      when 'product'
+        service = new ProductImport null,
+          config: options.credentials
+          user_agent: 'sphere-node-cli'
+        processFn = _.bind(service.performStream, service)
+        finishFn = -> log.info service.summaryReport(options.from)
+        @_stream(options, 'products.*', processFn, finishFn)
       else
         @_die "Unsupported type: #{type}"
 
