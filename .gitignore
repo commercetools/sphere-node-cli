@@ -4,5 +4,6 @@ lib
 tmp
 config.js
 *credentials.json
+*credentials
 .idea
 *.iml
