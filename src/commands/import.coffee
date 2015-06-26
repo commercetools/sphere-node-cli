@@ -5,7 +5,7 @@ ___ = require 'highland'
 transform = require 'stream-transform'
 JSONStream = require 'JSONStream'
 StockImport = require 'sphere-stock-import'
-{ProductImport} = require 'sphere-product-sync'
+{ProductImport} = require 'sphere-product-import'
 BaseCommand = require '../utils/command'
 log = require '../utils/logger'
 
