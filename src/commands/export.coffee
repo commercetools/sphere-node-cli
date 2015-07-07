@@ -2,6 +2,7 @@ debug = require('debug')('sphere-export')
 fs = require 'fs'
 _ = require 'underscore'
 _.mixin require('underscore.inflection')
+Promise = require 'bluebird'
 {ProductExport} = require 'sphere-product-import'
 BaseCommand = require '../utils/command'
 log = require '../utils/logger'
