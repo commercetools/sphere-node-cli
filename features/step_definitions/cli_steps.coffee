@@ -70,7 +70,8 @@ module.exports = ->
     actualCode = if @lastRun.error then @lastRun.error.code else '0'
 
     if "#{actualCode}" isnt "#{code}"
-      throw new Error "Exit code expected: \"#{code}\"\nGot: \"#{actualCode}\"\n"
+      throw new Error "Exit code expected: \"#{code}\"\n" +
+                      "Got: \"#{actualCode}\"\n" + getAdditionalErrorText(@lastRun)
 
     callback()
 
