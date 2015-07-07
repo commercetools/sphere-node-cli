@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+var cmd = require(__dirname + '/../lib/commands/export')
+new cmd().run(process.argv)

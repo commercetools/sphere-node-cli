@@ -41,7 +41,7 @@ Feature: CLI - Import command
       """
 
   Scenario: Import stock by reading file as stream
-    Given a file named "stock.json" with:
+    Given a file named "stocks.json" with:
       """
       {
         "stocks": [
@@ -56,7 +56,7 @@ Feature: CLI - Import command
         ]
       }
       """
-    When I run `sphere import -t stock -f stock.json`
+    When I run `sphere import -t stock -f stocks.json`
     Then the exit status should be 0
     Then the output should contain:
       """
@@ -64,13 +64,13 @@ Feature: CLI - Import command
       """
 
   Scenario: Show error if chunk cannot be parsed as JSON
-    Given a file named "stock.json" with:
+    Given a file named "stocks.json" with:
       """
       {
         "foo:
       }
       """
-    When I run `sphere import -t stock -f stock.json`
+    When I run `sphere import -t stock -f stocks.json`
     Then the exit status should be 1
     Then the output should contain:
       """

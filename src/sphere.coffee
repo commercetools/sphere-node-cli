@@ -13,8 +13,9 @@ module.exports = class
 
     @program
       .version(pkg.version)
-      .command 'import', 'Import resources'
       .command 'fetch', 'Fetch resources'
+      .command 'export', 'Export resources'
+      .command 'import', 'Import resources'
       .on '--help', help
       .parse(argv)
 

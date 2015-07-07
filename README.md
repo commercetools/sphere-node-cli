@@ -23,9 +23,8 @@ $ sphere -h
 Features will be implemented step-by-step (see also Issues).
 
 Here a general roadmap:
-- `import` command for some API resources (stock, product, category, ...)
+- `import`, `export` command for some API resources (stock, product, category, ...)
 - commands for CRUD operations
-- `export` command (TBD)
 
 
 ## Development
