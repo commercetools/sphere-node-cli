@@ -8,6 +8,7 @@ StockImport = require 'sphere-stock-import'
 {ProductImport, PriceImport} = require 'sphere-product-import'
 BaseCommand = require '../utils/command'
 log = require '../utils/logger'
+{USER_AGENT} = require '../utils/env'
 
 module.exports = class extends BaseCommand
 
@@ -31,14 +32,14 @@ module.exports = class extends BaseCommand
       when 'stock'
         service = new StockImport null,
           config: options.credentials
-          user_agent: 'sphere-node-cli'
+          user_agent: USER_AGENT
         processFn = _.bind(service.performStream, service)
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'stocks.*', processFn, finishFn)
       when 'product'
         service = new ProductImport null,
           config: options.credentials
-          user_agent: 'sphere-node-cli'
+          user_agent: USER_AGENT
         processFn = _.bind(service.performStream, service)
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'products.*', processFn, finishFn)
