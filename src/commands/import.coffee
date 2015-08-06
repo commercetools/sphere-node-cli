@@ -65,7 +65,7 @@ module.exports = class extends BaseCommand
     .stopOnError (e) => @_die 'Cannot parse chunk as JSON.\n', e
     .batch(options.batch)
     .pipe(transform (chunk, cb) ->
-      log.info 'chunk: %j', chunk, {}
+      process.stdout.write('.')
       processFn(chunk, cb)
     , {parallel: 1}) # we want to process one chunk at a time (chunk size is determined by batch value)
 
