@@ -27,6 +27,6 @@ module.exports = class
     .then (credentials) =>
       debug 'loaded credentials: %j', credentials
       @_process _.extend(options, {credentials: credentials})
-    .catch (err) => @_die err.message
+    .catch (err) => @_die err.message or err
 
   _process: (options) -> throw new Error 'Base _process method must be overridden'
