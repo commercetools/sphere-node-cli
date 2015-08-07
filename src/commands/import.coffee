@@ -9,6 +9,8 @@ StockImport = require 'sphere-stock-import'
 BaseCommand = require '../utils/command'
 log = require '../utils/logger'
 {USER_AGENT} = require '../utils/env'
+fs = require 'fs-extra'
+path = require 'path'
 
 module.exports = class extends BaseCommand
 
@@ -21,9 +23,10 @@ module.exports = class extends BaseCommand
       .option '-t, --type <name>', 'type of import'
       .option '-f, --from <path>', 'the path to a JSON file where to read from'
       .option '-b, --batch <n>', 'how many chunks should be processed in batches (default: 5)', parseInt, 5
+      .option '-el, --errorLimit <n>', 'maximum number of errors to log (default: 30)', parseInt, 30
 
     @program.parse(argv)
-    options = _.pick(@program, 'project', 'type', 'from', 'batch')
+    options = _.pick(@program, 'project', 'type', 'from', 'batch', 'errorLimit')
     @_validateOptions(options, 'type')
     @_preProcess(options)
 
@@ -37,16 +40,26 @@ module.exports = class extends BaseCommand
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'stocks.*', processFn, finishFn)
       when 'product'
-        service = new ProductImport null,
-          config: options.credentials
-          user_agent: USER_AGENT
+        errorDir = path.join(__dirname, '../errors/product')
+        fs.emptyDirSync(errorDir)
+        service = new ProductImport log,
+          clientConfig:
+            config: options.credentials
+            user_agent: USER_AGENT
+          errorDir: errorDir
+          errorLimit: options.errorLimit
         processFn = _.bind(service.performStream, service)
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'products.*', processFn, finishFn)
       when 'price'
-        service = new PriceImport null,
-          config: options.credentials
-          user_agent: 'sphere-node-cli'
+        errorDir = path.join(__dirname, '../errors/price')
+        fs.emptyDirSync(errorDir)
+        service = new PriceImport log,
+          clientConfig:
+            config: options.credentials
+            user_agent: 'sphere-node-cli'
+          errorDir: errorDir
+          errorLimit: options.errorLimit
         processFn = _.bind(service.performStream, service)
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'prices.*', processFn, finishFn)
