@@ -27,20 +27,20 @@ describe 'ImportCommand', ->
     @command.program.options[1].flags.should.equal('-t, --type <name>')
     @command.program.options[2].flags.should.equal('-f, --from <path>')
     @command.program.options[3].flags.should.equal('-b, --batch <n>')
-    @command.program.options[4].flags.should.equal('-el, --errorLimit <n>')
+    @command.program.options[4].flags.should.equal('-c, --config <object>')
     @command.program.should.not.have.property('project')
     @command.program.should.not.have.property('type')
     @command.program.should.not.have.property('from')
+    @command.program.should.not.have.property('config')
     @command.program.should.have.property('batch')
-    @command.program.should.have.property('errorLimit')
-    expect(@command._validateOptions).toHaveBeenCalledWith({ batch: 5, errorLimit: 30 }, 'type')
+    expect(@command._validateOptions).toHaveBeenCalledWith({ batch: 5 }, 'type')
     expect(@command._die).toHaveBeenCalledWith('Missing required options: type')
 
   it 'should process stock command', ->
     spyOn(@command, '_stream')
     spyOn(@command, '_process').and.callThrough()
     spyOn(@command, '_preProcess').and.callFake (opts) =>
-      @command._process _.extend opts, {credentials: FAKE_CREDENTIALS}
+      @command._process _.extend opts, {config: {}, credentials: FAKE_CREDENTIALS}
     @command.run(['node', "#{BIN_DIR}/sphere-import", '-p', 'foo', '-t', 'stock', '-f', './foo.json'])
     @command.program.project.should.be.equal('foo')
     @command.program.type.should.be.equal('stock')
@@ -52,7 +52,7 @@ describe 'ImportCommand', ->
       type: 'stock'
       from: './foo.json'
       batch: 5
-      errorLimit: 30
+      config: {}
       credentials: FAKE_CREDENTIALS
     , 'stocks.*', jasmine.any(Function), jasmine.any(Function)
 
@@ -60,7 +60,7 @@ describe 'ImportCommand', ->
     spyOn(@command, '_stream')
     spyOn(@command, '_process').and.callThrough()
     spyOn(@command, '_preProcess').and.callFake (opts) =>
-      @command._process _.extend opts, {credentials: FAKE_CREDENTIALS}
+      @command._process _.extend opts, {config: {}, credentials: FAKE_CREDENTIALS}
     @command.run(['node', "#{BIN_DIR}/sphere-import", '-p', 'foo', '-t', 'product', '-f', './foo.json'])
     @command.program.project.should.be.equal('foo')
     @command.program.type.should.be.equal('product')
@@ -72,7 +72,7 @@ describe 'ImportCommand', ->
       type: 'product'
       from: './foo.json'
       batch: 5
-      errorLimit: 30
+      config: {}
       credentials: FAKE_CREDENTIALS
     , 'products.*', jasmine.any(Function), jasmine.any(Function)
 
@@ -80,7 +80,7 @@ describe 'ImportCommand', ->
     spyOn(@command, '_stream')
     spyOn(@command, '_process').and.callThrough()
     spyOn(@command, '_preProcess').and.callFake (opts) =>
-      @command._process _.extend opts, {credentials: FAKE_CREDENTIALS}
+      @command._process _.extend opts, {config: {}, credentials: FAKE_CREDENTIALS}
     @command.run(['node', "#{BIN_DIR}/sphere-import", '-p', 'foo', '-t', 'price', '-f', './foo.json'])
     @command.program.project.should.be.equal('foo')
     @command.program.type.should.be.equal('price')
@@ -92,6 +92,6 @@ describe 'ImportCommand', ->
       type: 'price'
       from: './foo.json'
       batch: 5
-      errorLimit: 30
+      config: {}
       credentials: FAKE_CREDENTIALS
     , 'prices.*', jasmine.any(Function), jasmine.any(Function)

@@ -43,6 +43,7 @@ describe 'BaseCommand', ->
         expect(command._process).toHaveBeenCalledWith
           foo: 'bar'
           project: 'test'
+          config: {}
           credentials:
             project_key: 'test'
         clearInterval(interval)
@@ -52,3 +53,22 @@ describe 'BaseCommand', ->
     # the call in a async way
     # (haven't found a better way to do it)
     interval = setInterval(checkCall, 100)
+
+  it 'should parse config', (done) ->
+    @command._parseConfig(JSON.stringify({foo: 'bar'}))
+    .then (config) ->
+      expect(config).toEqual {foo: 'bar'}
+      done()
+    .catch done
+
+  it 'should resolve if config option is not provided', (done) ->
+    @command._parseConfig()
+    .then (config) ->
+      expect(config).toEqual {}
+      done()
+    .catch done
+
+  it 'should throw if config cannot be parsed', ->
+    spyOn(@command, '_die')
+    @command._parseConfig('foo=bar')
+    expect(@command._die).toHaveBeenCalledWith 'Cannot parse config', jasmine.any(Object)

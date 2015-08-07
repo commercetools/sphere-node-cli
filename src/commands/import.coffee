@@ -9,8 +9,6 @@ StockImport = require 'sphere-stock-import'
 BaseCommand = require '../utils/command'
 log = require '../utils/logger'
 {USER_AGENT} = require '../utils/env'
-fs = require 'fs-extra'
-path = require 'path'
 
 module.exports = class extends BaseCommand
 
@@ -23,10 +21,11 @@ module.exports = class extends BaseCommand
       .option '-t, --type <name>', 'type of import'
       .option '-f, --from <path>', 'the path to a JSON file where to read from'
       .option '-b, --batch <n>', 'how many chunks should be processed in batches (default: 5)', parseInt, 5
-      .option '-el, --errorLimit <n>', 'maximum number of errors to log (default: 30)', parseInt, 30
+      .option '-c, --config <object>', 'a JSON object as a string to be passed to the related library, ' +
+        'usually containing specific configuration options'
 
     @program.parse(argv)
-    options = _.pick(@program, 'project', 'type', 'from', 'batch', 'errorLimit')
+    options = _.pick(@program, 'project', 'type', 'from', 'batch', 'config')
     @_validateOptions(options, 'type')
     @_preProcess(options)
 
@@ -40,26 +39,18 @@ module.exports = class extends BaseCommand
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'stocks.*', processFn, finishFn)
       when 'product'
-        errorDir = path.join(__dirname, '../errors/product')
-        fs.emptyDirSync(errorDir)
-        service = new ProductImport log,
+        service = new ProductImport log, _.extend({}, options.config,
           clientConfig:
             config: options.credentials
-            user_agent: USER_AGENT
-          errorDir: errorDir
-          errorLimit: options.errorLimit
+            user_agent: USER_AGENT)
         processFn = _.bind(service.performStream, service)
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'products.*', processFn, finishFn)
       when 'price'
-        errorDir = path.join(__dirname, '../errors/price')
-        fs.emptyDirSync(errorDir)
-        service = new PriceImport log,
+        service = new PriceImport log, _.extend({}, options.config,
           clientConfig:
             config: options.credentials
-            user_agent: USER_AGENT
-          errorDir: errorDir
-          errorLimit: options.errorLimit
+            user_agent: USER_AGENT)
         processFn = _.bind(service.performStream, service)
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'prices.*', processFn, finishFn)
