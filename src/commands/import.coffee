@@ -57,7 +57,7 @@ module.exports = class extends BaseCommand
         service = new PriceImport log,
           clientConfig:
             config: options.credentials
-            user_agent: 'sphere-node-cli'
+            user_agent: USER_AGENT
           errorDir: errorDir
           errorLimit: options.errorLimit
         processFn = _.bind(service.performStream, service)
