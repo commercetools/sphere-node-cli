@@ -23,6 +23,10 @@ Feature: CLI - Import command
       """
       -b, --batch <n>
       """
+    Then the output should contain:
+      """
+      -c, --config <object>
+      """
 
   Scenario: Show missing option error
     When I run `sphere import`
@@ -38,6 +42,14 @@ Feature: CLI - Import command
     Then the output should contain:
       """
       Can't find credentials for project 'foo'
+      """
+
+  Scenario: Show error if cannot parse config
+    When I run `sphere import -t stock -c 'foo=bar'`
+    Then the exit status should be 1
+    Then the output should contain:
+      """
+      Cannot parse config SyntaxError: Unexpected token o
       """
 
   Scenario: Import stock by reading file as stream

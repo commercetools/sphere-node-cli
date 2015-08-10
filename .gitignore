@@ -9,3 +9,4 @@ config.js
 .idea
 *.iml
 output
+data

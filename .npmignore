@@ -10,3 +10,4 @@ config.js
 .travis.yml
 *.coffee
 output
+data

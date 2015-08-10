@@ -51,7 +51,7 @@
     "sphere-node-sdk": "1.4.1",
     "sphere-node-utils": "0.7.0",
     "sphere-stock-import": "0.7.3",
-    "sphere-product-import": "0.3.2",
+    "sphere-product-import": "0.5.3",
     "stream-transform": "0.1.0",
     "underscore": "1.8.3",
     "underscore-mixins": "0.1.4",
