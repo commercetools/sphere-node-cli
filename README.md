@@ -59,7 +59,7 @@ $ npm run release:major
 
 A sample command for running product import 
 
-`./bin/sphere import -p sample_project -t product -f sample_dir/products.json -c '{"errorDir":"../productErrors"}'`
+`sphere import -p sample_project -t product -f sample_dir/products.json -c '{"errorDir":"./productErrors"}'`
 
 A sample JSON acceptable for the import module can be found [here](https://github.com/sphereio/sphere-product-import/blob/master/samples/sample-products.json)
 
