@@ -3,6 +3,9 @@ _ = require 'underscore'
 {SphereClient} = require 'sphere-node-sdk'
 BaseCommand = require '../utils/command'
 log = require '../utils/logger'
+types = require '../utils/types'
+
+allowedTypes = _.pick(types, 'product')
 
 module.exports = class extends BaseCommand
 
@@ -14,7 +17,7 @@ module.exports = class extends BaseCommand
     @program
       .option '-p, --project <key>', 'the key of a SPHERE.IO project for credentials lookup ' +
         '(if not provided, will try to read credentials from ENV variables)'
-      .option '-t, --type <name>', 'type of API resource to fetch'
+      .option '-t, --type <name>', "type of API resource to fetch (#{_.keys(allowedTypes).join(' | ')})"
 
     @program.parse(argv)
     options = _.pick(@program, 'project', 'type')
@@ -27,10 +30,10 @@ module.exports = class extends BaseCommand
       user_agent: 'sphere-node-cli'
 
     switch options.type
-      when 'products'
+      when allowedTypes.product
         @_fetch client.products
       else
-        @_die "Unsupported resource type: #{type}"
+        @_die "Unsupported resource type: #{options.type}"
 
   _fetch: (service) ->
     service.fetch().then (result) -> log.info '%j', result, {}

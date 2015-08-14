@@ -25,7 +25,7 @@ Feature: CLI - Fetch command
       """
 
   Scenario: Show error if cannot lookup credentials for a project key
-    When I run `sphere fetch -p foo -t products`
+    When I run `sphere fetch -p foo -t product`
     Then the exit status should be 1
     Then the output should contain:
       """
@@ -33,7 +33,7 @@ Feature: CLI - Fetch command
       """
 
   Scenario: Fetch products
-    When I run `sphere fetch -t products`
+    When I run `sphere fetch -t product`
     Then the exit status should be 0
     Then the output should contain:
       """

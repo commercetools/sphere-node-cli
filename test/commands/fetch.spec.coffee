@@ -35,9 +35,9 @@ describe 'FetchCommand', ->
     spyOn(@command, '_process').and.callThrough()
     spyOn(@command, '_preProcess').and.callFake (opts) =>
       @command._process _.extend opts, {credentials: FAKE_CREDENTIALS}
-    @command.run(['node', "#{BIN_DIR}/sphere-fetch", '-p', 'foo', '-t', 'products'])
+    @command.run(['node', "#{BIN_DIR}/sphere-fetch", '-p', 'foo', '-t', 'product'])
     @command.program.project.should.be.equal('foo')
-    @command.program.type.should.be.equal('products')
+    @command.program.type.should.be.equal('product')
     expect(@command._preProcess).toHaveBeenCalled()
     expect(@command._process).toHaveBeenCalled()
 

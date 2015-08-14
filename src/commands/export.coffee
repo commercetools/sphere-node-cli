@@ -6,6 +6,9 @@ Promise = require 'bluebird'
 {ProductExport} = require 'sphere-product-import'
 BaseCommand = require '../utils/command'
 log = require '../utils/logger'
+types = require '../utils/types'
+
+allowedTypes = _.pick(types, 'product')
 
 module.exports = class extends BaseCommand
 
@@ -15,7 +18,7 @@ module.exports = class extends BaseCommand
     @program
       .option '-p, --project <key>', 'the key of a SPHERE.IO project for credentials lookup ' +
         '(if not provided, will try to read credentials from ENV variables)'
-      .option '-t, --type <name>', 'type of export'
+      .option '-t, --type <name>', "type of export (#{_.keys(allowedTypes).join(' | ')})"
       .option '-o, --output <path>', 'the output path where to write the JSON'
       .option '--pretty', 'whether the output JSON should be prettified'
 
@@ -26,7 +29,7 @@ module.exports = class extends BaseCommand
 
   _process: (options) ->
     switch options.type
-      when 'product'
+      when allowedTypes.product
         # TODO: make the query configurable
         # - predicate
         service = new ProductExport null,
@@ -36,7 +39,7 @@ module.exports = class extends BaseCommand
         finishFn = -> log.info "Output written to #{options.output}"
         @_stream(options, processFn, finishFn)
       else
-        @_die "Unsupported type: #{type}"
+        @_die "Unsupported type: #{options.type}"
 
   _stream: (options, processFn, finishFn) ->
     isFirst = true

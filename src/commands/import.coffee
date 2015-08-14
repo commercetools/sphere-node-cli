@@ -9,6 +9,9 @@ StockImport = require 'sphere-stock-import'
 BaseCommand = require '../utils/command'
 log = require '../utils/logger'
 {USER_AGENT} = require '../utils/env'
+types = require '../utils/types'
+
+allowedTypes = _.pick(types, 'product', 'stock', 'price')
 
 module.exports = class extends BaseCommand
 
@@ -18,7 +21,7 @@ module.exports = class extends BaseCommand
     @program
       .option '-p, --project <key>', 'the key of a SPHERE.IO project for credentials lookup ' +
         '(if not provided, will try to read credentials from ENV variables)'
-      .option '-t, --type <name>', 'type of import'
+      .option '-t, --type <name>', "type of import (#{_.keys(allowedTypes).join(' | ')})"
       .option '-f, --from <path>', 'the path to a JSON file where to read from'
       .option '-b, --batch <n>', 'how many chunks should be processed in batches (default: 5)', parseInt, 5
       .option '-c, --config <object>', 'a JSON object as a string to be passed to the related library, ' +
@@ -31,14 +34,14 @@ module.exports = class extends BaseCommand
 
   _process: (options) ->
     switch options.type
-      when 'stock'
+      when allowedTypes.stock
         service = new StockImport null,
           config: options.credentials
           user_agent: USER_AGENT
         processFn = _.bind(service.performStream, service)
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'stocks.*', processFn, finishFn)
-      when 'product'
+      when allowedTypes.product
         service = new ProductImport log, _.extend({}, options.config,
           clientConfig:
             config: options.credentials
@@ -46,7 +49,7 @@ module.exports = class extends BaseCommand
         processFn = _.bind(service.performStream, service)
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'products.*', processFn, finishFn)
-      when 'price'
+      when allowedTypes.price
         service = new PriceImport log, _.extend({}, options.config,
           clientConfig:
             config: options.credentials
@@ -55,7 +58,7 @@ module.exports = class extends BaseCommand
         finishFn = -> log.info service.summaryReport(options.from)
         @_stream(options, 'prices.*', processFn, finishFn)
       else
-        @_die "Unsupported type: #{type}"
+        @_die "Unsupported type: #{options.type}"
 
   _stream: (options, jsonPath, processFn, finishFn) ->
     inputStream = if options.from
