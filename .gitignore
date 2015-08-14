@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 *.log
-lib
+dist
+src
 tmp
 config.js
 *credentials.json
