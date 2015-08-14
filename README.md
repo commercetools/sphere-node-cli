@@ -53,3 +53,18 @@ $ npm run release:patch
 $ npm run release:minor
 $ npm run release:major
 ```
+## Usage Examples
+
+#### Product Import
+
+A sample command for running product import 
+
+`./bin/sphere import -p sample_project -t product -f sample_dir/products.json -c '{"errorDir":"../productErrors"}'`
+
+A sample JSON acceptable for the import module can be found [here](https://github.com/sphereio/sphere-product-import/blob/master/samples/sample-products.json)
+
+A detailed documentation about the product importer module can be found [here](https://github.com/sphereio/sphere-product-import/wiki/Product-Importer)
+
+#### Price Import
+
+A sample JSON and detailed documentation about the price importer can be found [here](https://github.com/sphereio/sphere-product-import/wiki/Price-Importer)
