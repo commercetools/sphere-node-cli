@@ -20,10 +20,13 @@ $ sphere -h
 $ sphere help <cmd>
 ```
 
-# !!!Still under development!!!
+The CLI is **still under development** but already provides a bunch of commands.<br/>
+The idea behind it is to operate as a _proxy_ for the different libraries that are used underneath. For example the `import` command will stream chunks from a given JSON file and pass them to the related library that will handled the rest.
+
+## !!!Still under development!!!
 > Each released version is tested and stable, so you can already install the CLI and use it.
 
-Features will be implemented step-by-step (see also Issues).
+Features will be implemented step-by-step.
 
 Current available commands:
 
@@ -31,6 +34,23 @@ Current available commands:
 - **export** (`product`)
 - **fetch** (`product`)
 
+## Usage Examples
+
+#### Product Import
+
+A sample command for running product import 
+
+```bash
+sphere import -p sample_project -t product -f sample_dir/products.json -c '{"errorDir":"./productErrors"}'
+```
+
+A sample JSON acceptable for the import module can be found [here](https://github.com/sphereio/sphere-product-import/blob/master/samples/sample-products.json)
+
+A detailed documentation about the product importer module can be found [here](https://github.com/sphereio/sphere-product-import/wiki/Product-Importer)
+
+#### Price Import
+
+A sample JSON and detailed documentation about the price importer can be found [here](https://github.com/sphereio/sphere-product-import/wiki/Price-Importer)
 
 ## Development
 
@@ -53,18 +73,3 @@ $ npm run release:patch
 $ npm run release:minor
 $ npm run release:major
 ```
-## Usage Examples
-
-#### Product Import
-
-A sample command for running product import 
-
-`sphere import -p sample_project -t product -f sample_dir/products.json -c '{"errorDir":"./productErrors"}'`
-
-A sample JSON acceptable for the import module can be found [here](https://github.com/sphereio/sphere-product-import/blob/master/samples/sample-products.json)
-
-A detailed documentation about the product importer module can be found [here](https://github.com/sphereio/sphere-product-import/wiki/Product-Importer)
-
-#### Price Import
-
-A sample JSON and detailed documentation about the price importer can be found [here](https://github.com/sphereio/sphere-product-import/wiki/Price-Importer)
