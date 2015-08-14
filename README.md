@@ -13,8 +13,11 @@ The next generation Command-Line-Interface for SPHERE.IO.
 ```bash
 $ npm install -g sphere-node-cli
 
-# show help
+# show general help
 $ sphere -h
+
+# show help for a command (e.g.: import, export)
+$ sphere help <cmd>
 ```
 
 # !!!Still under development!!!
@@ -22,9 +25,11 @@ $ sphere -h
 
 Features will be implemented step-by-step (see also Issues).
 
-Here a general roadmap:
-- `import`, `export` command for some API resources (stock, product, category, ...)
-- commands for CRUD operations
+Current available commands:
+
+- **import** (`stock`, `product`, `price`)
+- **export** (`product`)
+- **fetch** (`product`)
 
 
 ## Development
