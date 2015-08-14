@@ -12,9 +12,9 @@
     "sphere-import": "./bin/sphere-import"
   },
   "scripts": {
-    "build": "npm run lint && coffee --compile --output lib src",
+    "build": "npm run lint && npm run clean && babel lib --out-dir dist",
     "clean": "rimraf dist",
-    "lint": "eslint lib",
+    "lint": "eslint lib test",
     "release": "mversion patch -m",
     "release:patch": "mversion patch -m",
     "release:minor": "mversion minor -m",
@@ -23,7 +23,7 @@
     "test:watch": "npm run test -- --autoTest --watchFolders .",
     "test:features": "npm run lint -- features && cucumber.js"
   },
-  "main": "./lib/sphere",
+  "main": "./dist/sphere",
   "license": "MIT",
   "repository": {
     "type": "git",
