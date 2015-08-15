@@ -12,15 +12,15 @@
     "sphere-import": "./bin/sphere-import"
   },
   "scripts": {
-    "build": "npm run lint && npm run clean && babel lib --out-dir dist",
+    "build": "npm run lint && npm run clean && babel --optional runtime lib --out-dir dist",
     "clean": "rimraf dist",
-    "lint": "eslint lib test",
+    "lint": "eslint lib",
     "release": "mversion patch -m",
     "release:patch": "mversion patch -m",
     "release:minor": "mversion minor -m",
     "release:major": "mversion major -m",
-    "test": "npm run build && jasmine-node --coffee test",
-    "test:watch": "npm run test -- --autoTest --watchFolders .",
+    "test": "npm run lint && NODE_ENV=test mocha --compilers js:babel/register --recursive test/*.spec.js test/**/*.spec.js",
+    "test:watch": "npm test -- --watch",
     "test:features": "npm run lint -- features && cucumber.js"
   },
   "main": "./dist/sphere",
@@ -44,8 +44,9 @@
     "node": ">= 0.10"
   },
   "dependencies": {
+    "babel-runtime": "5.8.20",
     "bluebird": "2.9.33",
-    "commander": "2.8.1",
+    "commander": "emmenko/commander.js#patch-help",
     "debug": "2.2.0",
     "highland": "2.5.1",
     "JSONStream": "1.0.4",
@@ -72,6 +73,7 @@
     "mversion": "1.10.0",
     "rewire": "2.3.4",
     "rimraf": "2.4.1",
+    "sinon": "1.15.4",
     "should": "7.0.2"
   }
 }
