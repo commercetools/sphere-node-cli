@@ -7,6 +7,5 @@ tmp
 config.js
 *credentials.json
 .travis.yml
-*.coffee
 output
 data
