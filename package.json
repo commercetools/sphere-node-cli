@@ -14,14 +14,14 @@
   "scripts": {
     "build": "npm run lint && npm run clean && babel --optional runtime lib --out-dir dist",
     "clean": "rimraf dist",
-    "lint": "eslint lib",
+    "lint": "eslint lib test",
     "release": "mversion patch -m",
     "release:patch": "mversion patch -m",
     "release:minor": "mversion minor -m",
     "release:major": "mversion major -m",
     "test": "npm run lint && NODE_ENV=test mocha --compilers js:babel/register --recursive test/*.spec.js test/**/*.spec.js",
     "test:watch": "npm test -- --watch",
-    "test:features": "npm run lint -- features && cucumber.js"
+    "test:features": "npm run build && babel-node $(npm bin)/cucumber.js"
   },
   "main": "./dist/sphere",
   "license": "MIT",

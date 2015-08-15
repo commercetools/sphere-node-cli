@@ -41,7 +41,7 @@ Feature: CLI - Export command
       """
 
   Scenario: Export products by writing to a file
-    When I run `sphere export -t product -o export.json`
+    When I run `sphere export -t product -o tmp/export.json`
     Then the exit status should be 0
     Then the output should contain:
       """
