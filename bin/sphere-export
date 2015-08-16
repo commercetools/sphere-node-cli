@@ -1,4 +1,6 @@
 #!/usr/bin/env node
 
-var cmd = require(__dirname + '/../lib/commands/export')
+var isTest = process.env.NODE_ENV === 'test'
+var cmdPath = isTest ? '/../lib/commands/export' : '/../dist/commands/export'
+var cmd = require(__dirname + cmdPath)
 new cmd().run(process.argv)

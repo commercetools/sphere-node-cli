@@ -2,12 +2,10 @@
 node_modules
 *.log
 features
-src
 test
 tmp
 config.js
 *credentials.json
 .travis.yml
-*.coffee
 output
 data

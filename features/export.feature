@@ -25,7 +25,7 @@ Feature: CLI - Export command
       """
 
   Scenario: Show missing option error
-    When I run `sphere export`
+    When I run `sphere export -p foo`
     Then the exit status should be 1
     Then the output should contain:
       """
