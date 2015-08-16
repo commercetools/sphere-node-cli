@@ -1,18 +1,19 @@
 /* eslint-disable new-cap */
 import fs from 'fs'
-import _ from 'underscore'
 import mkdirp from 'mkdirp'
 import rimraf from 'rimraf'
 import { exec } from 'child_process'
 
 export default function cliSteps () {
   let cleansingNeeded = true
+  let idCounter = 0
   const baseDir = fs.realpathSync(`${__dirname}/../..`)
   const tmpDir = `${baseDir}/tmp`
   mkdirp(tmpDir)
 
   function uniqueId (prefix) {
-    return _.uniqueId(`${prefix}${new Date().getTime()}_`)
+    const id = `${++idCounter}`
+    return `${prefix + id}${new Date().getTime()}_`
   }
 
   function joinPathSegments (segments) {
