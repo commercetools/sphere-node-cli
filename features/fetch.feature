@@ -17,7 +17,7 @@ Feature: CLI - Fetch command
       """
 
   Scenario: Show missing option error
-    When I run `sphere fetch`
+    When I run `sphere fetch -p foo`
     Then the exit status should be 1
     Then the output should contain:
       """

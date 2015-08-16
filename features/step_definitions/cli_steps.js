@@ -47,6 +47,7 @@ export default function cliSteps () {
       cleanseIfNeeded()
       const absoluteFilePath = `${tmpDir}/${filePath}`
       const filePathSegments = absoluteFilePath.split('/')
+      filePathSegments.pop()
       const dirName = joinPathSegments(filePathSegments)
 
       // replace placeholder for generate unique ids
@@ -54,10 +55,10 @@ export default function cliSteps () {
         .replace(/\<id\-(\w)\>/gi, (match, g1) => uniqueId(g1))
 
       mkdirp(dirName, err1 => {
-        if (err1) throw new Error(err)
+        if (err1) throw new Error(err1)
 
         fs.writeFile(absoluteFilePath, replacedFileContent, err2 => {
-          if (err2) throw new Error(err)
+          if (err2) throw new Error(err2)
           callback()
         })
       })

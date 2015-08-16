@@ -25,7 +25,7 @@ Feature: CLI - Export command
       """
 
   Scenario: Show missing option error
-    When I run `sphere export`
+    When I run `sphere export -p foo`
     Then the exit status should be 1
     Then the output should contain:
       """
@@ -41,7 +41,7 @@ Feature: CLI - Export command
       """
 
   Scenario: Export products by writing to a file
-    When I run `sphere export -t product -o tmp/export.json`
+    When I run `sphere export -t product -o export.json`
     Then the exit status should be 0
     Then the output should contain:
       """
