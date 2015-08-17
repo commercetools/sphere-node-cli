@@ -44,6 +44,12 @@ Commands expects at least a `-t, --type` option which may vary for each command.
 
 Imports a resource `type` by streaming the input JSON file.
 
+```bash
+$ sphere import -p my-project-key -t product \
+  -f sample_dir/products.json \
+  -c '{"errorDir": "./productErrors"}'
+```
+
 The input must be a valid JSON following a specific schema (`import-type-key` is the _plural_ form of the `type` option, e.g.: `products`, `stocks`, etc.).
 
 ```json
@@ -62,14 +68,6 @@ The input must be a valid JSON following a specific schema (`import-type-key` is
   "additionalProperties": false,
   "required": ["<import-type-key>"]
 }
-```
-
-
-```bash
-# import some products
-$ sphere import -p my-project-key -t product \
-  -f sample_dir/products.json \
-  -c '{"errorDir": "./productErrors"}'
 ```
 
 > If you don't provide a file to read _from_, the CLI listens from `stdin` so you can i.e. pipe in something.
