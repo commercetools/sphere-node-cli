@@ -26,7 +26,30 @@ The idea behind it is to operate as a _proxy_ for the different libraries that a
 
 ## Credentials
 
-TBD
+The CLI has a lookup mechanism to load SPHERE.IO project credentials.<br/>
+If you specify a `-p, --project` option, the CLI will try to load the credentials for that project from the following locations:
+
+```
+./.sphere-project-credentials
+./.sphere-project-credentials.json
+~/.sphere-project-credentials
+~/.sphere-project-credentials.json
+/etc/sphere-project-credentials
+/etc/sphere-project-credentials.json
+```
+
+There are 2 supported formats: `csv` and `json`.
+
+- **csv**: `project_key:client_id:client_secret`
+- **json**: `{ "project_key": { "client_id": "", "client_secret": "" } }`
+
+If no `-p, --project` option is provided, the CLI tries to read the credentials from ENV variables:
+
+```
+export SPHERE_PROJECT_KEY=""
+export SPHERE_CLIENT_ID=""
+export SPHERE_CLIENT_SECRET=""
+```
 
 ## Commands
 
@@ -79,6 +102,13 @@ Each import type might have / expect some extra specific configuration. In that 
 - [Price import](https://github.com/sphereio/sphere-product-import/wiki/Price-Importer)
 - [Stock import]() _TBD_
 
+#### `sphere-export`
+
+TBD
+
+#### `sphere-fetch`
+
+TBD
 
 ## Development
 
