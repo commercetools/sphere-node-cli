@@ -44,9 +44,25 @@ Commands expects at least a `-t, --type` option which may vary for each command.
 
 Imports a resource `type` by streaming the input JSON file.
 
-The input must be a valid JSON following a specific schema.
+The input must be a valid JSON following a specific schema (`import-type-key` is the _plural_ form of the `type` option, e.g.: `products`, `stocks`, etc.).
 
-_(TBD schema)_
+```json
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "SPHERE.IO CLI import schema",
+  "type": "object",
+  "properties": {
+    "<import-type-key>": {
+      "type": "array",
+      "items": {
+        "$ref": "https://github.com/sphereio/sphere-json-schemas/tree/master/schema"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": ["<import-type-key>"]
+}
+```
 
 
 ```bash
