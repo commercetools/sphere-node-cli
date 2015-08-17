@@ -1,11 +1,11 @@
 # Contributing
 
 ## Styleguide
-We <3 CoffeeScript! So please have a look at this [referenced coffeescript](https://github.com/polarmobile/coffeescript-style-guide) styleguide when doing changes to the code.
-Regarding code style like indentation and whitespace, **follow the conventions you see used in the source already**.
+The source code is written with ES6 syntax and linted by `eslint`. Regardless, please try to follow the conventions used in the source code.
 
 ## Submitting pull requests
-1. Follow code styleguides
-2. Include thoughtfully-worded, well-structured [Jasmine](http://jasmine.github.io/) specs
-3. Update the documentation to reflect any changes
-4. Push to your fork and submit a pull request
+1. Follow code styleguides.
+2. Include thoughtfully-worded, well-structured [Mocha](http://mochajs.org/) specs. We also use [sinon](http://sinonjs.org/) for test spies / stubs.
+3. Make sure to provide also feature scenarios
+3. Update the documentation to reflect any changes.
+4. Push to your fork and submit a pull request.

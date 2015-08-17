@@ -130,6 +130,9 @@ $ npm i
 # build sources
 $ npm run build
 
+# lint code
+$ npm run lint
+
 # run tests
 $ npm test
 $ npm run test:watch
