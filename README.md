@@ -8,6 +8,16 @@ The next generation Command-Line-Interface for SPHERE.IO.
 
 > If you were using the [old ruby CLI](https://github.com/sphereio/sphere-cli) make sure to uninstall it first.
 
+# Table of Content
+
+- [Getting Started](#getting-started)
+- [Credentials](#credentials)
+- [Commands](#commands)
+  - [`sphere-import`](#sphere-import)
+  - [`sphere-export`](#sphere-export)
+  - [`sphere-fetch`](#sphere-fetch)
+- [Development](#development)
+
 ## Getting Started
 
 ```bash
