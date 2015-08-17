@@ -23,27 +23,48 @@ $ sphere help <cmd>
 The CLI is **still under development** but already provides a bunch of commands.<br/>
 The idea behind it is to operate as a _proxy_ for the different libraries that are used underneath. For example the `import` command will stream chunks from a given JSON file and pass them to the related library that will handled the rest.
 
+
+## Credentials
+
+TBD
+
+## Commands
+
+The CLI has _git-like_ sub-commands which can be invoked as `sphere <cmd>`.
+
 Current available commands:
 
 - **import** (`stock`, `product`, `price`)
 - **export** (`product`)
 - **fetch** (`product`)
 
-## Commands
+Commands expects at least a `-t, --type` option which may vary for each command.
 
-### `sphere-import`
+#### `sphere-import`
+
+Imports a resource `type` by streaming the input JSON file.
+
+The input must be a valid JSON following a specific schema.
+
+_(TBD schema)_
+
 
 ```bash
 # import some products
-sphere import -p sample_project -t product -f sample_dir/products.json -c '{"errorDir":"./productErrors"}'
+$ sphere import -p my-project-key -t product \
+  -f sample_dir/products.json \
+  -c '{"errorDir": "./productErrors"}'
 ```
 
-- a sample product JSON acceptable for the import module can be found [here](https://github.com/sphereio/sphere-product-import/blob/master/samples/sample-products.json)
-- a detailed documentation about the product importer module can be found [here](https://github.com/sphereio/sphere-product-import/wiki/Product-Importer)
-- a sample price JSON and detailed documentation about the price importer can be found [here](https://github.com/sphereio/sphere-product-import/wiki/Price-Importer)
+> If you don't provide a file to read _from_, the CLI listens from `stdin` so you can i.e. pipe in something.
 
-TBD:
-- JSON schema
+
+Each import type might have / expect some extra specific configuration. In that case you have to refer to the related documentation.
+
+- [Product import](https://github.com/sphereio/sphere-product-import/wiki/Product-Importer)
+- [Price import](https://github.com/sphereio/sphere-product-import/wiki/Price-Importer)
+- [Stock import]() _TBD_
+
 
 ## Development
 
