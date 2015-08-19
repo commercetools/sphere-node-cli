@@ -50,10 +50,10 @@
     "highland": "2.5.1",
     "inflection": "1.7.1",
     "JSONStream": "1.0.4",
-    "sphere-node-sdk": "1.4.2",
+    "sphere-node-sdk": "1.4.3",
     "sphere-node-utils": "0.7.0",
     "sphere-stock-import": "0.7.4",
-    "sphere-product-import": "0.5.3",
+    "sphere-product-import": "0.5.4",
     "stream-transform": "0.1.0",
     "winston": "1.0.1"
   },
