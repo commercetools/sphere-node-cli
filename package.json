@@ -53,7 +53,7 @@
     "sphere-node-sdk": "1.4.3",
     "sphere-node-utils": "0.7.0",
     "sphere-stock-import": "0.7.4",
-    "sphere-product-import": "0.5.4",
+    "sphere-product-import": "0.5.5",
     "stream-transform": "0.1.0",
     "winston": "1.0.1"
   },
