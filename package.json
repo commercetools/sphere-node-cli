@@ -53,24 +53,24 @@
     "sphere-node-sdk": "1.4.3",
     "sphere-node-utils": "0.7.0",
     "sphere-stock-import": "0.7.4",
-    "sphere-product-import": "0.5.5",
+    "sphere-product-import": "0.5.6",
     "stream-transform": "0.1.0",
     "winston": "1.0.1"
   },
   "devDependencies": {
-    "babel": "^5.8.21",
-    "babel-eslint": "^4.0.7",
+    "babel": "^5.8.23",
+    "babel-eslint": "^4.1.0",
     "cucumber": "^0.5.2",
-    "eslint": "^1.1.0",
-    "eslint-config-airbnb": "^0.0.7",
-    "eslint-plugin-react": "^3.2.2",
+    "eslint": "^1.2.1",
+    "eslint-config-airbnb": "^0.0.8",
+    "eslint-plugin-react": "^3.3.0",
     "expect": "^1.9.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.2.5",
-    "mversion": "^1.10.0",
+    "mversion": "^1.10.1",
     "rewire": "^2.3.4",
-    "rimraf": "^2.4.2",
-    "should": "^7.0.4",
-    "sinon": "^1.15.4"
+    "rimraf": "^2.4.3",
+    "should": "^7.1.0",
+    "sinon": "^1.16.1"
   }
 }
