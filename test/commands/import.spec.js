@@ -6,9 +6,9 @@ import ImportCommand from '../../lib/commands/import'
 const BIN_DIR = `${__dirname}/../../bin`
 
 const fakeCredentials = {
-  project_key: 'foo',
-  client_id: '123',
-  client_secret: 'abc'
+  'project_key': 'foo',
+  'client_id': '123',
+  'client_secret': 'abc'
 }
 
 describe('ImportCommand', () => {

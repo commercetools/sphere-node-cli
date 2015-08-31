@@ -38,7 +38,7 @@ describe('Command', () => {
           project: 'test',
           config: {},
           credentials: {
-            project_key: 'test'
+            'project_key': 'test'
           }
         })
         clearInterval(interval)
