@@ -24,7 +24,7 @@ export default function cliSteps () {
     if (cleansingNeeded) {
       try {
         rimraf.sync(tmpDir)
-      } catch(e) {} // eslint-disable-line no-empty
+      } catch (e) {} // eslint-disable-line no-empty
       cleansingNeeded = false
     }
   }
