@@ -138,4 +138,28 @@ describe('ImportCommand', () => {
     expect(spy1.args[0].length).toBe(4)
     expect(spy2.calledOnce).toBe(true)
   })
+
+  it('should process discount command', () => {
+    const spy1 = sinon.stub(command, '_stream')
+    const spy2 = sinon.stub(command, '_preProcess', opts => {
+      return command._process(
+          Object.assign(opts, { config: {}, credentials: fakeCredentials }))
+    })
+    command.run(['node', `${BIN_DIR}/sphere-import`,
+      '-p', 'foo', '-t', 'discount', '-f', './foo.json'])
+    command.program.project.should.be.equal('foo')
+    command.program.type.should.be.equal('discount')
+    command.program.from.should.be.equal('./foo.json')
+    expect(spy1.args[0][0]).toEqual({
+      project: 'foo',
+      type: 'discount',
+      from: './foo.json',
+      batch: 5,
+      config: {},
+      credentials: fakeCredentials
+    })
+    expect(spy1.args[0][1]).toBe('discounts.*')
+    expect(spy1.args[0].length).toBe(4)
+    expect(spy2.calledOnce).toBe(true)
+  })
 })

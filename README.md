@@ -67,7 +67,7 @@ The CLI has _git-like_ sub-commands which can be invoked as `sphere <cmd>`.
 
 Current available commands:
 
-- **import** (`stock`, `product`, `price`, `category`)
+- **import** (`stock`, `product`, `price`, `category`, `discount`)
 - **export** (`product`)
 - **fetch** (`product`)
 
@@ -111,6 +111,7 @@ Each import type might have / expect some extra specific configuration. In that 
 - [Product import](https://github.com/sphereio/sphere-product-import/wiki/Product-Importer)
 - [Price import](https://github.com/sphereio/sphere-product-import/wiki/Price-Importer)
 - [Category import](https://github.com/sphereio/sphere-category-sync#json-format)
+- [Product Discount import](https://github.com/sphereio/sphere-product-import/wiki/Product-Discounts-Importer)
 - [Stock import]() _TBD_
 
 #### `sphere-export`
