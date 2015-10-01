@@ -1,10 +1,12 @@
 FROM node:0.12
-MAINTAINER Panshul Gupta <panshul.gupta@commercetools.de>
+
+MAINTAINER SPHERE.IO Support <support@sphere.io>
 
 WORKDIR /app
 
+COPY ./container/files /
 COPY . /app
 
-ENV NODE_ENV production
+RUN ./container/compile
 
-ENTRYPOINT ["./bin/sphere"]
+ENTRYPOINT ["/app/bin/sphere"]

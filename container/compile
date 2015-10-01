@@ -1,0 +1,4 @@
+#!/bin/bash
+
+npm config set registry http://registry.npmjs.org/ && npm i --unsafe-perm --no-optional
+npm run build
