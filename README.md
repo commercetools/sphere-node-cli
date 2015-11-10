@@ -72,14 +72,15 @@ You need to have a working docker client! The [Docker Toolbox](https://www.docke
 Show help
 ```bash
 docker run \
--v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json \
 sphereio/sphere-node-cli -h
 ```
 
 Import a product (host folder `/sample_dir/` mounted as docker volume)
 ```bash
 docker run \
--v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json \
+-e SPHERE_PROJECT_KEY=<KEY>
+-e SPHERE_CLIENT_ID=<ID>
+-e SPHERE_CLIENT_SECRET=<SECRET>
 -v /sample_dir/:/sample_dir/ \
 sphereio/sphere-node-cli
 import -p my-project-key -t product -f /sample_dir/products.json'
