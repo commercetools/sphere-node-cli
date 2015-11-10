@@ -76,13 +76,6 @@ docker run \
 sphereio/sphere-node-cli -h
 ```
 
-Show help
-```bash
-docker run \
--v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json \
-sphereio/sphere-node-cli -h
-```
-
 Import a product (host folder `/sample_dir/` mounted as docker volume)
 ```bash
 docker run \
