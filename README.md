@@ -65,6 +65,8 @@ export SPHERE_CLIENT_SECRET=""
 
 [![Docker build](http://dockeri.co/image/sphereio/sphere-node-cli)](https://registry.hub.docker.com/u/sphereio/sphere-node-cli/)
 
+You need to have a working docker client! The [Docker Toolbox](https://www.docker.com/toolbox) is an installer to quickly and easily install and setup a Docker environment on your computer. Available for both Windows and Mac, the Toolbox installs Docker Client, Machine, Compose, Kitematic and VirtualBox.
+
 ### Example
 
 ```bash
