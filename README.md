@@ -67,16 +67,37 @@ export SPHERE_CLIENT_SECRET=""
 
 You need to have a working docker client! The [Docker Toolbox](https://www.docker.com/toolbox) is an installer to quickly and easily install and setup a Docker environment on your computer. Available for both Windows and Mac, the Toolbox installs Docker Client, Machine, Compose, Kitematic and VirtualBox.
 
-### Example
+### Examples
 
+Show help
 ```bash
-docker run -v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json sphereio/sphere-node-cli -h
+docker run \
+-v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json \
+sphereio/sphere-node-cli -h
+```
+
+Show help
+```bash
+docker run \
+-v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json \
+sphereio/sphere-node-cli -h
+```
+
+Import a product (host folder `/sample_dir/` mounted as docker volume)
+```bash
+docker run \
+-v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json \
+-v /sample_dir/:/sample_dir/ \
+sphereio/sphere-node-cli
+import -p my-project-key -t product -f /sample_dir/products.json'
 ```
 
 You can also set an alias for repeated calls:
 
 ```bash
-alias sphere='docker run -v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json sphereio/sphere-node-cli'
+alias sphere='docker run \
+-v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json \
+sphereio/sphere-node-cli'
 ```
 
 ## Commands
