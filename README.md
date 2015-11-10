@@ -61,6 +61,22 @@ export SPHERE_CLIENT_ID=""
 export SPHERE_CLIENT_SECRET=""
 ```
 
+## Docker
+
+[![Docker build](http://dockeri.co/image/sphereio/sphere-node-cli)](https://registry.hub.docker.com/u/sphereio/sphere-node-cli/)
+
+### Example
+
+```bash
+docker run -v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json sphereio/sphere-node-cli -h
+```
+
+You can also set an alias for repeated calls:
+
+```bash
+alias sphere='docker run -v /etc/sphere-project-credentials.json:/etc/sphere-project-credentials.json sphereio/sphere-node-cli'
+```
+
 ## Commands
 
 The CLI has _git-like_ sub-commands which can be invoked as `sphere <cmd>`.
