@@ -141,10 +141,10 @@ The input must be a valid JSON following a specific schema (`import-type-key` is
 
 Each import type might have / expect some extra specific configuration. In that case you have to refer to the related documentation.
 
-- [Product import](https://github.com/sphereio/sphere-product-import/wiki/Product-Importer)
-- [Price import](https://github.com/sphereio/sphere-product-import/wiki/Price-Importer)
+- [Product import](https://github.com/sphereio/sphere-product-import/blob/master/readme/product-import.md)
+- [Price import](https://github.com/sphereio/sphere-product-import/blob/master/readme/price-importer.md)
 - [Category import](https://github.com/sphereio/sphere-category-sync#json-format)
-- [Product Discount import](https://github.com/sphereio/sphere-product-import/wiki/Product-Discounts-Importer)
+- [Product Discount import](https://github.com/sphereio/sphere-product-import/blob/master/readme/product-discounts-importer.md)
 - [Stock import]() _TBD_
 
 #### `sphere-export`
