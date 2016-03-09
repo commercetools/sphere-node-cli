@@ -88,3 +88,24 @@ Feature: CLI - Import command
       """
       Cannot parse chunk as JSON.
       """
+
+  Scenario: Import customers by reading file as stream
+    Given a file named "customers.json" with:
+      """
+      {
+        "customers": [
+          {
+            "email": "<id-a>"
+          },
+          {
+            "email": "<id-b>"
+          }
+        ]
+      }
+      """
+    When I run `sphere import -t customer -f customers.json`
+    Then the exit status should be 0
+    Then the output should contain:
+      """
+      "successfullImports": 2
+      """
