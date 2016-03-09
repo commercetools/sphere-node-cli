@@ -44,17 +44,18 @@
     "node": ">= 0.10"
   },
   "dependencies": {
+    "JSONStream": "1.0.7",
     "babel-runtime": "5.8.20",
     "commander": "emmenko/commander.js#patch-help",
+    "ct-customer-import": "0.2.0",
     "debug": "2.2.0",
     "highland": "2.5.1",
     "inflection": "1.8.0",
-    "JSONStream": "1.0.7",
+    "sphere-category-sync": "~0.2.6",
     "sphere-node-sdk": "~1.8.1",
     "sphere-node-utils": "0.7.0",
-    "sphere-stock-import": "~0.7.5",
     "sphere-product-import": "~0.5.14",
-    "sphere-category-sync": "~0.2.6",
+    "sphere-stock-import": "~0.7.5",
     "stream-transform": "0.1.1",
     "winston": "1.0.1"
   },
