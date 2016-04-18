@@ -145,6 +145,7 @@ Each import type might have / expect some extra specific configuration. In that 
 - [Price import](https://github.com/sphereio/sphere-product-import/blob/master/readme/price-importer.md)
 - [Category import](https://github.com/sphereio/sphere-category-sync#json-format)
 - [Product Discount import](https://github.com/sphereio/sphere-product-import/blob/master/readme/product-discounts-importer.md)
+- [Customer import](https://github.com/sphereio/customer-import)
 - [Stock import]() _TBD_
 
 #### `sphere-export`
