@@ -109,3 +109,26 @@ Feature: CLI - Import command
       """
       "successfullImports": 2
       """
+
+  Scenario: Import productTypes by reading file as stream
+    Given a file named "productTypes.json" with:
+      """
+      {
+        "productTypes": [
+          {
+            "name": "<id-a>",
+            "description": "<desc-a>"
+          },
+          {
+            "name": "<id-b>",
+            "description": "<desc-b>"
+          }
+        ]
+      }
+      """
+    When I run `sphere import -t productType -f productTypes.json`
+    Then the exit status should be 0
+    Then the output should contain:
+      """
+      "successfullImports": 2
+      """
