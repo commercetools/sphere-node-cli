@@ -47,7 +47,7 @@
     "JSONStream": "1.0.7",
     "babel-runtime": "5.8.20",
     "commander": "emmenko/commander.js#patch-help",
-    "sphere-customer-import": "1.0.1",
+    "sphere-customer-import": "1.0.2",
     "debug": "2.2.0",
     "highland": "2.5.1",
     "inflection": "1.8.0",
