@@ -52,7 +52,7 @@
     "highland": "2.5.1",
     "inflection": "1.8.0",
     "sphere-category-sync": "~0.2.6",
-    "sphere-node-sdk": "~1.13.0",
+    "sphere-node-sdk": "^1.14.0",
     "sphere-node-utils": "0.7.0",
     "sphere-product-import": "~0.11.1",
     "sphere-product-type-import": "1.0.0",
