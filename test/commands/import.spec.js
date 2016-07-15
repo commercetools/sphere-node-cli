@@ -33,6 +33,7 @@ describe('ImportCommand', () => {
     command.program.options[2].flags.should.equal('-f, --from <path>')
     command.program.options[3].flags.should.equal('-b, --batch <n>')
     command.program.options[4].flags.should.equal('-c, --config <object>')
+    command.program.options[5].flags.should.equal('--plugin <path>')
     command.program.should.not.have.property('project')
     command.program.should.not.have.property('type')
     command.program.should.not.have.property('from')
