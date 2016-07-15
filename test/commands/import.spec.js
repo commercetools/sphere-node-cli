@@ -27,7 +27,7 @@ describe('ImportCommand', () => {
     command.program.name.should.be.a.Function
     command.program.name().should.equal('sphere-import')
     command.program.commands.should.have.lengthOf(0)
-    command.program.options.should.have.lengthOf(5)
+    command.program.options.should.have.lengthOf(6)
     command.program.options[0].flags.should.equal('-p, --project <key>')
     command.program.options[1].flags.should.equal('-t, --type <name>')
     command.program.options[2].flags.should.equal('-f, --from <path>')
