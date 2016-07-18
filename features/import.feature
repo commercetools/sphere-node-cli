@@ -27,6 +27,10 @@ Feature: CLI - Import command
       """
       -c, --config <object>
       """
+    Then the output should contain:
+      """
+      --plugin <path>
+      """
 
   Scenario: Show missing option error
     When I run `sphere import -p foo`
@@ -131,4 +135,31 @@ Feature: CLI - Import command
     Then the output should contain:
       """
       "successfullImports": 2
+      """
+
+  Scenario: Import stock by using a custom plugin
+    Given a file named "stocks.json" with:
+      """
+      {
+        "stocks": [
+          {
+            "sku": "<id-a>",
+            "quantityOnStock": 10
+          },
+          {
+            "sku": "<id-b>",
+            "quantityOnStock": 20
+          }
+        ]
+      }
+      """
+    When I run `sphere import --plugin $(pwd)/../plugins/custom-stock.js -f stocks.json`
+    Then the exit status should be 0
+    Then the output should contain:
+      """
+      quantityOnStock: 10
+      """
+    Then the output should contain:
+      """
+      Finished
       """
