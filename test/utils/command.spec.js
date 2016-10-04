@@ -25,7 +25,7 @@ describe('Command', () => {
     expect(spy.args[0][0]).toEqual('Missing required options: type')
   })
 
-  it('should load credentials and call _process', done => {
+  it('should load credentials and call _process', (done) => {
     let interval
 
     const spy = sinon.stub(command, '_process')
@@ -38,8 +38,8 @@ describe('Command', () => {
           project: 'test',
           config: {},
           credentials: {
-            'project_key': 'test'
-          }
+            project_key: 'test',
+          },
         })
         clearInterval(interval)
         done()
@@ -52,18 +52,18 @@ describe('Command', () => {
     interval = setInterval(checkCall, 100)
   })
 
-  it('should parse config', done => {
+  it('should parse config', (done) => {
     command._parseConfig(JSON.stringify({ foo: 'bar' }))
-    .then(config => {
+    .then((config) => {
       expect(config).toEqual({ foo: 'bar' })
       done()
     })
     .catch(done)
   })
 
-  it('should resolve if config option is not provided', done => {
+  it('should resolve if config option is not provided', (done) => {
     command._parseConfig()
-    .then(config => {
+    .then((config) => {
       expect(config).toEqual({})
       done()
     })

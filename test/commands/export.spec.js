@@ -3,12 +3,14 @@ import sinon from 'sinon'
 import expect from 'expect'
 import ExportCommand from '../../lib/commands/export'
 
+const rewire = require('rewire')('commander')
+
 const BIN_DIR = `${__dirname}/../../bin`
 
 const fakeCredentials = {
-  'project_key': 'foo',
-  'client_id': '123',
-  'client_secret': 'abc'
+  project_key: 'foo',
+  client_id: '123',
+  client_secret: 'abc',
 }
 
 describe('ExportCommand', () => {
@@ -16,7 +18,7 @@ describe('ExportCommand', () => {
 
   beforeEach(() => {
     command = new ExportCommand()
-    command.program = require('rewire')('commander')
+    command.program = rewire
   })
 
   it('should initialize command', () => {
@@ -24,6 +26,7 @@ describe('ExportCommand', () => {
     const spy2 = sinon.stub(command, '_die')
     sinon.stub(command, '_preProcess') // just to stub it
     command.run(['node', `${BIN_DIR}/sphere-export`])
+    // eslint-disable-next-line no-unused-expressions
     command.program.name.should.be.a.Function
     command.program.name().should.equal('sphere-export')
     command.program.commands.should.have.lengthOf(0)
@@ -43,10 +46,9 @@ describe('ExportCommand', () => {
 
   it('should process command', () => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
-        Object.assign(opts, { credentials: fakeCredentials }))
-    })
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
+      Object.assign(opts, { credentials: fakeCredentials }))
+    )
     command.run(['node', `${BIN_DIR}/sphere-export`,
       '-p', 'foo', '-t', 'product', '-o', './export.json'])
     command.program.project.should.be.equal('foo')
@@ -56,7 +58,7 @@ describe('ExportCommand', () => {
       project: 'foo',
       type: 'product',
       output: './export.json',
-      credentials: fakeCredentials
+      credentials: fakeCredentials,
     })
     expect(spy1.args[0].length).toBe(3)
     expect(spy2.calledOnce).toBe(true)

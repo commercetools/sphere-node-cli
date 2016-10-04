@@ -3,12 +3,14 @@ import sinon from 'sinon'
 import expect from 'expect'
 import ImportCommand from '../../lib/commands/import'
 
+const rewire = require('rewire')('commander')
+
 const BIN_DIR = `${__dirname}/../../bin`
 
 const fakeCredentials = {
-  'project_key': 'foo',
-  'client_id': '123',
-  'client_secret': 'abc'
+  project_key: 'foo',
+  client_id: '123',
+  client_secret: 'abc',
 }
 
 describe('ImportCommand', () => {
@@ -16,7 +18,7 @@ describe('ImportCommand', () => {
 
   beforeEach(() => {
     command = new ImportCommand()
-    command.program = require('rewire')('commander')
+    command.program = rewire
   })
 
   it('should initialize command', () => {
@@ -24,6 +26,7 @@ describe('ImportCommand', () => {
     const spy2 = sinon.stub(command, '_die')
     sinon.stub(command, '_preProcess') // just to stub it
     command.run(['node', `${BIN_DIR}/sphere-import`])
+    // eslint-disable-next-line no-unused-expressions
     command.program.name.should.be.a.Function
     command.program.name().should.equal('sphere-import')
     command.program.commands.should.have.lengthOf(0)
@@ -46,10 +49,9 @@ describe('ImportCommand', () => {
 
   it('should process stock command', () => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
-        Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
+      Object.assign(opts, { config: {}, credentials: fakeCredentials }))
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'stock', '-f', './foo.json'])
     command.program.project.should.be.equal('foo')
@@ -61,7 +63,7 @@ describe('ImportCommand', () => {
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
+      credentials: fakeCredentials,
     })
     expect(spy1.args[0][1]).toBe('stocks.*')
     expect(spy1.args[0].length).toBe(4)
@@ -70,10 +72,9 @@ describe('ImportCommand', () => {
 
   it('should process product command', () => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
         Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'product', '-f', './foo.json'])
     command.program.project.should.be.equal('foo')
@@ -85,7 +86,7 @@ describe('ImportCommand', () => {
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
+      credentials: fakeCredentials,
     })
     expect(spy1.args[0][1]).toBe('products.*')
     expect(spy1.args[0].length).toBe(4)
@@ -94,10 +95,9 @@ describe('ImportCommand', () => {
 
   it('should process price command', () => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
         Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'price', '-f', './foo.json'])
     command.program.project.should.be.equal('foo')
@@ -109,7 +109,7 @@ describe('ImportCommand', () => {
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
+      credentials: fakeCredentials,
     })
     expect(spy1.args[0][1]).toBe('prices.*')
     expect(spy1.args[0].length).toBe(4)
@@ -118,10 +118,9 @@ describe('ImportCommand', () => {
 
   it('should process category command', () => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
           Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'category', '-f', './foo.json'])
     command.program.project.should.be.equal('foo')
@@ -133,7 +132,7 @@ describe('ImportCommand', () => {
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
+      credentials: fakeCredentials,
     })
     expect(spy1.args[0][1]).toBe('categories.*')
     expect(spy1.args[0].length).toBe(4)
@@ -142,10 +141,9 @@ describe('ImportCommand', () => {
 
   it('should process customer command', () => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
           Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'customer', '-f', './foo.json'])
     command.program.project.should.be.equal('foo')
@@ -157,7 +155,7 @@ describe('ImportCommand', () => {
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
+      credentials: fakeCredentials,
     })
     expect(spy1.args[0][1]).toBe('customers.*')
     expect(spy1.args[0].length).toBe(4)
@@ -166,10 +164,9 @@ describe('ImportCommand', () => {
 
   it('should process discount command', () => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
           Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'discount', '-f', './foo.json'])
     command.program.project.should.be.equal('foo')
@@ -181,7 +178,7 @@ describe('ImportCommand', () => {
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
+      credentials: fakeCredentials,
     })
     expect(spy1.args[0][1]).toBe('discounts.*')
     expect(spy1.args[0].length).toBe(4)
@@ -190,10 +187,9 @@ describe('ImportCommand', () => {
 
   it('should process productType command', () => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
           Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'productType', '-f', './foo.json'])
     command.program.project.should.be.equal('foo')
@@ -205,7 +201,7 @@ describe('ImportCommand', () => {
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
+      credentials: fakeCredentials,
     })
     expect(spy1.args[0][1]).toBe('productTypes.*')
     expect(spy1.args[0].length).toBe(4)

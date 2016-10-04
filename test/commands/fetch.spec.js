@@ -3,12 +3,14 @@ import sinon from 'sinon'
 import expect from 'expect'
 import FetchCommand from '../../lib/commands/fetch'
 
+const rewire = require('rewire')('commander')
+
 const BIN_DIR = `${__dirname}/../../bin`
 
 const fakeCredentials = {
-  'project_key': 'foo',
-  'client_id': '123',
-  'client_secret': 'abc'
+  project_key: 'foo',
+  client_id: '123',
+  client_secret: 'abc',
 }
 
 describe('FetchCommand', () => {
@@ -16,7 +18,7 @@ describe('FetchCommand', () => {
 
   beforeEach(() => {
     command = new FetchCommand()
-    command.program = require('rewire')('commander')
+    command.program = rewire
   })
 
   it('should initialize command', () => {
@@ -24,6 +26,7 @@ describe('FetchCommand', () => {
     const spy2 = sinon.stub(command, '_die')
     sinon.stub(command, '_preProcess') // just to stub it
     command.run(['node', `${BIN_DIR}/sphere-fetch`])
+    // eslint-disable-next-line no-unused-expressions
     command.program.name.should.be.a.Function
     command.program.name().should.equal('sphere-fetch')
     command.program.commands.should.have.lengthOf(0)
@@ -39,10 +42,9 @@ describe('FetchCommand', () => {
 
   it('should process command', () => {
     const spy1 = sinon.stub(command, '_fetch')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
-        Object.assign(opts, { credentials: fakeCredentials }))
-    })
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
+      Object.assign(opts, { credentials: fakeCredentials }))
+    )
     command.run(['node', `${BIN_DIR}/sphere-fetch`,
       '-p', 'foo', '-t', 'product'])
     command.program.project.should.be.equal('foo')

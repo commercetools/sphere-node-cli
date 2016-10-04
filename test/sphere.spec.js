@@ -1,6 +1,8 @@
 import 'should'
 import SphereCommand from '../lib/sphere'
 
+const rewire = require('rewire')('commander')
+
 const BIN_DIR = `${__dirname}/../bin`
 
 describe('SphereCommand', () => {
@@ -8,11 +10,12 @@ describe('SphereCommand', () => {
 
   beforeEach(() => {
     command = new SphereCommand()
-    command.program = require('rewire')('commander')
+    command.program = rewire
     command.run(['node', `${BIN_DIR}/sphere`])
   })
 
   it('should initialize command', () => {
+    // eslint-disable-next-line no-unused-expressions
     command.program.name.should.be.a.Function
     command.program.name().should.equal('sphere')
     command.program.commands[0].name().should.equal('fetch')
