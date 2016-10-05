@@ -1,28 +1,23 @@
-import 'should'
+import test from 'tape'
 import SphereCommand from '../lib/sphere'
 
-const rewire = require('rewire')('commander')
+const _commander = require('rewire')('commander')
 
 const BIN_DIR = `${__dirname}/../bin`
 
-describe('SphereCommand', () => {
-  let command
+const command = new SphereCommand()
+command.program = _commander
+command.run(['node', `${BIN_DIR}/sphere`])
 
-  beforeEach(() => {
-    command = new SphereCommand()
-    command.program = rewire
-    command.run(['node', `${BIN_DIR}/sphere`])
-  })
-
-  it('should initialize command', () => {
-    // eslint-disable-next-line no-unused-expressions
-    command.program.name.should.be.a.Function
-    command.program.name().should.equal('sphere')
-    command.program.commands[0].name().should.equal('fetch')
-    command.program.commands[1].name().should.equal('export')
-    command.program.commands[2].name().should.equal('import')
-    command.program.commands[3].name().should.equal('help')
-    command.program.options.should.have.lengthOf(1)
-    command.program.options[0].flags.should.equal('-V, --version')
-  })
+test(`SphereCommand
+  should initialize command`, (t) => {
+  t.equal(typeof command.program.name, 'function')
+  t.equal(command.program.name(), 'sphere')
+  t.equal(command.program.commands[0].name(), 'fetch')
+  t.equal(command.program.commands[1].name(), 'export')
+  t.equal(command.program.commands[2].name(), 'import')
+  t.equal(command.program.commands[3].name(), 'help')
+  t.equal(command.program.options.length, 1)
+  t.equal(command.program.options[0].flags, '-V, --version')
+  t.end()
 })

@@ -1,31 +1,43 @@
 import sinon from 'sinon'
-import expect from 'expect'
+import test from 'tape'
 import Command from '../../lib/utils/command'
 
-describe('Command', () => {
-  let command
+function before () {
+  return Promise.resolve(new Command())
+}
 
-  beforeEach(() => {
-    command = new Command()
+test(`Command
+  should throw when calling run`, (t) => {
+  before().then((command) => {
+    t.throws((() => command.run()), 'Base run method must be overridden')
+    t.end()
   })
+})
 
-  it('should throw when calling run', () => {
-    expect(() => command.run())
-      .toThrow('Base run method must be overridden')
+test(`Command
+  should throw when calling _process`, (t) => {
+  before().then((command) => {
+    t.throws(
+      (() => command._process()),
+      'Base _process method must be overridden'
+    )
+    t.end()
   })
+})
 
-  it('should throw when calling _process', () => {
-    expect(() => command._process())
-      .toThrow('Base _process method must be overridden')
-  })
-
-  it('should validate options', () => {
+test(`Command
+  should validate options`, (t) => {
+  before().then((command) => {
     const spy = sinon.stub(command, '_die')
     command._validateOptions({ foo: 'bar' }, 'type')
-    expect(spy.args[0][0]).toEqual('Missing required options: type')
+    t.equal(spy.args[0][0], 'Missing required options: type')
+    t.end()
   })
+})
 
-  it('should load credentials and call _process', (done) => {
+test(`Command
+  should load credentials and call _process`, (t) => {
+  before().then((command) => {
     let interval
 
     const spy = sinon.stub(command, '_process')
@@ -33,7 +45,7 @@ describe('Command', () => {
 
     function checkCall () {
       if (spy.callCount === 1) {
-        expect(spy.args[0][0]).toEqual({
+        t.deepEqual(spy.args[0][0], {
           foo: 'bar',
           project: 'test',
           config: {},
@@ -42,7 +54,7 @@ describe('Command', () => {
           },
         })
         clearInterval(interval)
-        done()
+        t.end()
       }
     }
 
@@ -51,29 +63,39 @@ describe('Command', () => {
     // (haven't found a better way to do it)
     interval = setInterval(checkCall, 100)
   })
+})
 
-  it('should parse config', (done) => {
+test(`Command
+  should parse config`, (t) => {
+  before().then((command) => {
     command._parseConfig(JSON.stringify({ foo: 'bar' }))
     .then((config) => {
-      expect(config).toEqual({ foo: 'bar' })
-      done()
+      t.deepEqual(config, { foo: 'bar' })
+      t.end()
     })
-    .catch(done)
+    .catch(t.end)
   })
+})
 
-  it('should resolve if config option is not provided', (done) => {
+test(`Command
+  should resolve if config option is not provided`, (t) => {
+  before().then((command) => {
     command._parseConfig()
     .then((config) => {
-      expect(config).toEqual({})
-      done()
+      t.deepEqual(config, {})
+      t.end()
     })
-    .catch(done)
+    .catch(t.end)
   })
+})
 
-  it('should throw if config cannot be parsed', () => {
+test(`Command
+  should throw if config cannot be parsed`, (t) => {
+  before().then((command) => {
     const spy = sinon.stub(command, '_die')
     command._parseConfig('foo=bar')
-    expect(spy.args[0][0]).toEqual('Cannot parse config')
-    expect(spy.args[0].length).toBe(2)
+    t.equal(spy.args[0][0], 'Cannot parse config')
+    t.equal(spy.args[0].length, 2)
+    t.end()
   })
 })
