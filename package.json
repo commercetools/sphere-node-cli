@@ -7,8 +7,6 @@
   "author": "Nicola Molinari <nicola.molinari@commercetools.de>",
   "bin": {
     "sphere": "./bin/sphere",
-    "sphere-fetch": "./bin/sphere-fetch",
-    "sphere-export": "./bin/sphere-export",
     "sphere-import": "./bin/sphere-import"
   },
   "scripts": {
