@@ -14,8 +14,6 @@ The next generation Command-Line-Interface for SPHERE.IO.
 - [Credentials](#credentials)
 - [Commands](#commands)
   - [`sphere-import`](#sphere-import)
-  - [`sphere-export`](#sphere-export)
-  - [`sphere-fetch`](#sphere-fetch)
 - [Development](#development)
 
 ## Getting Started
@@ -26,7 +24,7 @@ $ npm install -g sphere-node-cli
 # show general help
 $ sphere -h
 
-# show help for a command (e.g.: import, export)
+# show help for a command (e.g.: export)
 $ sphere help <cmd>
 ```
 
@@ -149,13 +147,6 @@ Each import type might have / expect some extra specific configuration. In that 
 - [Customer import](https://github.com/sphereio/customer-import)
 - [Stock import]() _TBD_
 
-#### `sphere-export`
-
-TBD
-
-#### `sphere-fetch`
-
-TBD
 
 ## Development
 
