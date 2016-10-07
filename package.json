@@ -43,8 +43,7 @@
     "sphere",
     "sphere.io",
     "stream",
-    "import",
-    "export"
+    "import"
   ],
   "engines": {
     "node": ">= 0.10"

@@ -9,15 +9,7 @@ Feature: CLI
       """
     Then the output should contain:
       """
-      export
-      """
-    Then the output should contain:
-      """
       import
-      """
-    Then the output should contain:
-      """
-      fetch
       """
 
     When I run `sphere -h`
