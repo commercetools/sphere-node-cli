@@ -31,6 +31,10 @@
     "type": "git",
     "url": "git://github.com/sphereio/sphere-node-cli.git"
   },
+  "files": [
+    "dist/",
+    "bin/"
+  ],
   "bugs": {
     "url": "https://github.com/sphereio/sphere-node-cli/issues"
   },
