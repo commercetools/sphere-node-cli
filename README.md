@@ -10,6 +10,18 @@
 
 The next generation Command-Line-Interface for SPHERE.IO.
 
+Table of Contents
+=================
+
+* [Features](#features)
+* [Requirements](#requirements)
+* [Usage](#usage)
+* [Credentials](#credentials)
+* [Docker](#docker)
+  * [Examples](#examples)
+* [Commands](#commands)
+    * [sphere-import](#sphere-import)
+* [Contributing](#contributing)
 
 ## Features
 - import of `stock`, `product`, `price`, `category`, `discount`
@@ -155,30 +167,9 @@ Each import type might have / expect some extra specific configuration. In that 
 - [Stock import]() _TBD_
 
 
-## Development
+## Contributing
 
 See [Contribution guidelines](CONTRIBUTING.md)
-
-```bash
-$ npm i
-
-# build sources
-$ npm run build
-
-# lint code
-$ npm run lint
-
-# run tests
-$ npm test
-$ npm run test:watch
-$ npm run test:features
-
-# release (bump version, create tag, push it and publish to npm)
-$ npm run release # alias for patch
-$ npm run release:patch
-$ npm run release:minor
-$ npm run release:major
-```
 
 [commercetools]: https://commercetools.com/
 [commercetools-icon]: https://cdn.rawgit.com/commercetools/press-kit/master/PNG/72DPI/CT%20logo%20horizontal%20RGB%2072dpi.png
