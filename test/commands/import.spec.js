@@ -25,24 +25,83 @@ test(`ImportCommand
     const spy2 = sinon.stub(command, '_die')
     sinon.stub(command, '_preProcess') // just to stub it
     command.run(['node', `${BIN_DIR}/sphere-import`])
-    t.equal(typeof command.program.name, 'function')
-    t.equal(command.program.name(), 'sphere-import')
-    t.equal(command.program.commands.length, 0)
-    t.equal(command.program.options.length, 6)
-    t.equal(command.program.options[0].flags, '-p, --project <key>')
-    t.equal(command.program.options[1].flags, '-t, --type <name>')
-    t.equal(command.program.options[2].flags, '-f, --from <path>')
-    t.equal(command.program.options[3].flags, '-b, --batch <n>')
-    t.equal(command.program.options[4].flags, '-c, --config <object>')
-    t.equal(command.program.options[5].flags, '--plugin <path>')
-    t.notOk(command.program.project)
-    t.notOk(command.program.type)
-    t.notOk(command.program.from)
-    t.notOk(command.program.config)
-    t.ok(command.program.batch)
-    t.deepEqual(spy1.args[0][0], { batch: 5 })
-    t.deepEqual(spy1.args[0][1], 'type')
-    t.equal(spy2.args[0][0], 'Missing required options: type')
+    t.equal(typeof command.program.name, 'function', 'Importcommand is a class')
+    t.equal(
+      command.program.name(),
+      'sphere-import',
+      'CLI command name is \'sphere-import\''
+    )
+    t.equal(command.program.commands.length, 0, 'No sub command args')
+    t.equal(
+      command.program.options.length,
+      6,
+      'There are 6 flags on the command'
+    )
+    t.equal(
+      command.program.options[0].flags,
+      '-p, --project <key>',
+      '\'project\' flag is present'
+    )
+    t.equal(
+      command.program.options[1].flags,
+      '-t, --type <name>',
+      '\'type\' flag is present'
+    )
+    t.equal(
+      command.program.options[2].flags,
+      '-f, --from <path>',
+      '\'from\' is present'
+    )
+    t.equal(
+      command.program.options[3].flags,
+      '-b, --batch <n>',
+      '\'batch\' flag is present'
+    )
+    t.equal(
+      command.program.options[4].flags,
+      '-c, --config <object>',
+      '\'config\' is present'
+    )
+    t.equal(
+      command.program.options[5].flags,
+      '--plugin <path>',
+      'plugin path flag is present'
+    )
+    t.notOk(
+      command.program.project,
+      'No default value is set for project'
+    )
+    t.notOk(
+      command.program.type,
+      'No default value is set for type'
+    )
+    t.notOk(
+      command.program.from,
+      'No default value is set for from'
+    )
+    t.notOk(
+      command.program.config,
+      'No default value is set for config'
+    )
+    t.ok(
+      command.program.batch,
+      'Default value(5) is set for batch'
+    )
+    t.deepEqual(
+      spy1.args[0][0],
+      { batch: 5 },
+      'Default value for batch flag is 5'
+    )
+    t.deepEqual(
+      spy1.args[0][1],
+      'type',
+      'Type flag is passed to cli parser'
+    )
+    t.equal(
+      spy2.args[0][0],
+      'Missing required options: type',
+      'Missing required options'
+    )
     t.end()
   })
 })
@@ -56,9 +115,21 @@ test(`ImportCommand
     )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'stock', '-f', './foo.json'])
-    t.equal(command.program.project, 'foo')
-    t.equal(command.program.type, 'stock')
-    t.equal(command.program.from, './foo.json')
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'stock',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
     t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'stock',
@@ -66,10 +137,10 @@ test(`ImportCommand
       batch: 5,
       config: {},
       credentials: fakeCredentials,
-    })
-    t.equal(spy1.args[0][1], 'stocks.*')
-    t.equal(spy1.args[0].length, 4)
-    t.equal(spy2.calledOnce, true)
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'stocks.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess command is calledOnce')
     t.end()
   })
 })
@@ -82,9 +153,21 @@ test(`ImportCommand
     )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'product', '-f', './foo.json'])
-    t.equal(command.program.project, 'foo')
-    t.equal(command.program.type, 'product')
-    t.equal(command.program.from, './foo.json')
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'product',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
     t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'product',
@@ -92,10 +175,10 @@ test(`ImportCommand
       batch: 5,
       config: {},
       credentials: fakeCredentials,
-    })
-    t.equal(spy1.args[0][1], 'products.*')
-    t.equal(spy1.args[0].length, 4)
-    t.equal(spy2.calledOnce, true)
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'products.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess is calledOnce')
     t.end()
   })
 })
@@ -109,9 +192,21 @@ test(`ImportCommand
     )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'price', '-f', './foo.json'])
-    t.equal(command.program.project, 'foo')
-    t.equal(command.program.type, 'price')
-    t.equal(command.program.from, './foo.json')
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'price',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
     t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'price',
@@ -119,10 +214,10 @@ test(`ImportCommand
       batch: 5,
       config: {},
       credentials: fakeCredentials,
-    })
-    t.equal(spy1.args[0][1], 'prices.*')
-    t.equal(spy1.args[0].length, 4)
-    t.equal(spy2.calledOnce, true)
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'prices.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess is calledOnce')
     t.end()
   })
 })
@@ -136,9 +231,21 @@ test(`ImportCommand
     )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'category', '-f', './foo.json'])
-    t.equal(command.program.project, 'foo')
-    t.equal(command.program.type, 'category')
-    t.equal(command.program.from, './foo.json')
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'category',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
     t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'category',
@@ -146,10 +253,10 @@ test(`ImportCommand
       batch: 5,
       config: {},
       credentials: fakeCredentials,
-    })
-    t.equal(spy1.args[0][1], 'categories.*')
-    t.equal(spy1.args[0].length, 4)
-    t.equal(spy2.calledOnce, true)
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'categories.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess is calledOnce')
     t.end()
   })
 })
@@ -163,9 +270,20 @@ test(`ImportCommand
     )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'customer', '-f', './foo.json'])
-    t.equal(command.program.project, 'foo')
-    t.equal(command.program.type, 'customer')
-    t.equal(command.program.from, './foo.json')
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli')
+    t.equal(
+      command.program.type,
+      'customer',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
     t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'customer',
@@ -173,10 +291,10 @@ test(`ImportCommand
       batch: 5,
       config: {},
       credentials: fakeCredentials,
-    })
-    t.equal(spy1.args[0][1], 'customers.*')
-    t.equal(spy1.args[0].length, 4)
-    t.equal(spy2.calledOnce, true)
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'customers.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess is calledOnce')
     t.end()
   })
 })
@@ -190,9 +308,21 @@ test(`ImportCommand
     )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'discount', '-f', './foo.json'])
-    t.equal(command.program.project, 'foo')
-    t.equal(command.program.type, 'discount')
-    t.equal(command.program.from, './foo.json')
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'discount',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
     t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'discount',
@@ -200,10 +330,21 @@ test(`ImportCommand
       batch: 5,
       config: {},
       credentials: fakeCredentials,
-    })
-    t.equal(spy1.args[0][1], 'discounts.*')
-    t.equal(spy1.args[0].length, 4)
-    t.equal(spy2.calledOnce, true)
+    }, 'all flags are passed')
+    t.equal(
+      spy1.args[0][1],
+      'discounts.*',
+      'type value is passed'
+    )
+    t.equal(
+      spy1.args[0].length,
+      4,
+      'Correct number of args is parsed'
+    )
+    t.ok(
+      spy2.calledOnce,
+      '_preProcess is calledOnce'
+    )
     t.end()
   })
 })
@@ -217,9 +358,21 @@ test(`ImportCommand
     )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'productType', '-f', './foo.json'])
-    t.equal(command.program.project, 'foo')
-    t.equal(command.program.type, 'productType')
-    t.equal(command.program.from, './foo.json')
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'productType',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
     t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'productType',
@@ -227,10 +380,10 @@ test(`ImportCommand
       batch: 5,
       config: {},
       credentials: fakeCredentials,
-    })
-    t.equal(spy1.args[0][1], 'productTypes.*')
-    t.equal(spy1.args[0].length, 4)
-    t.equal(spy2.calledOnce, true)
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'productTypes.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess is calledOnce')
     t.end()
   })
 })

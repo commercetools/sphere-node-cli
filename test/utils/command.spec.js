@@ -30,7 +30,11 @@ test(`Command
   before().then((command) => {
     const spy = sinon.stub(command, '_die')
     command._validateOptions({ foo: 'bar' }, 'type')
-    t.equal(spy.args[0][0], 'Missing required options: type')
+    t.equal(
+      spy.args[0][0],
+      'Missing required options: type',
+      'Missing required options is reported'
+    )
     t.end()
   })
 })
@@ -52,7 +56,7 @@ test(`Command
           credentials: {
             project_key: 'test',
           },
-        })
+        }, 'All credentials are loaded')
         clearInterval(interval)
         t.end()
       }
@@ -70,7 +74,7 @@ test(`Command
   before().then((command) => {
     command._parseConfig(JSON.stringify({ foo: 'bar' }))
     .then((config) => {
-      t.deepEqual(config, { foo: 'bar' })
+      t.deepEqual(config, { foo: 'bar' }, 'Config object is parsed')
       t.end()
     })
     .catch(t.end)
@@ -82,7 +86,11 @@ test(`Command
   before().then((command) => {
     command._parseConfig()
     .then((config) => {
-      t.deepEqual(config, {})
+      t.deepEqual(
+        config,
+        {},
+        '_parseConfig method returns empty object when no config is parsed'
+      )
       t.end()
     })
     .catch(t.end)
@@ -94,8 +102,12 @@ test(`Command
   before().then((command) => {
     const spy = sinon.stub(command, '_die')
     command._parseConfig('foo=bar')
-    t.equal(spy.args[0][0], 'Cannot parse config')
-    t.equal(spy.args[0].length, 2)
+    t.equal(
+      spy.args[0][0],
+      'Cannot parse config',
+      'Returns error when config cannot be parsed'
+    )
+    t.equal(spy.args[0].length, 2, 'Error and error stack trace is returns')
     t.end()
   })
 })
