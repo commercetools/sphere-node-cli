@@ -1,15 +1,17 @@
 language: node_js
 node_js:
-  - '0.12'
-  - '4.4.0'
+  - '4'
+  - '6'
 before_script:
   - npm install -g npm@latest
 script:
-  - npm test
+  - npm run coverage
   - npm run test:features
 branches:
   except:
     - /^v[0-9]\.[0-9]\.[0-9]$/
+after_success:
+- npm run report-coverage
 env:
   global:
     - secure: HAPhZ+gv96M1QsnRMWdhiTFeEYKEac1doKdHtO+UjbUDGq4ZhaZV0JGzw3lout2fr/Th4xLgHwszR9h/v8JTeXSVEnMIwoYfknpsHK+/tbz4/8P9i9td49RX/XsVFbvXes2gatUfF1tgTeMRCbnO2HmnfbHY6bTj+4WKtgVep1c=

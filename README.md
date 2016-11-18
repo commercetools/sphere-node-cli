@@ -1,24 +1,43 @@
-![SPHERE.IO icon](https://admin.sphere.io/assets/images/sphere_logo_rgb_long.png)
+[![commercetools logo][commercetools-icon]][commercetools]
 
 # Node.js CLI
 
-[![npm](https://img.shields.io/npm/v/sphere-node-cli.svg)](https://www.npmjs.com/package/sphere-node-cli) [![Build Status](https://travis-ci.org/sphereio/sphere-node-cli.svg?branch=master)](https://travis-ci.org/sphereio/sphere-node-cli) [![sphere.io](https://img.shields.io/badge/api-%7B%22name%22:%20%22sphere.io%22%7D-yellow.svg?style=flat)](http://dev.sphere.io)
+[![npm][npm-icon]][npm]
+[![Travis Build Status][travis-icon]][travis]
+[![Codecov Coverage Status][codecov-icon]][codecov]
+[![David Dependencies Status][david-icon]][david]
+[![David devDependencies Status][david-dev-icon]][david-dev]
 
 The next generation Command-Line-Interface for SPHERE.IO.
 
+Table of Contents
+=================
+
+* [Features](#features)
+* [Requirements](#requirements)
+* [Usage](#usage)
+* [Credentials](#credentials)
+* [Docker](#docker)
+  * [Examples](#examples)
+* [Commands](#commands)
+    * [sphere-import](#sphere-import)
+* [Contributing](#contributing)
+
+## Features
+- import of `stock`, `product`, `price`, `category`, `discount`
+- Docker support
+- Custom plugin
+
+## Requirements
+
+
+Make sure you have installed all of the following prerequisites on your development machine:
+  * Git - [Download & Install Git](https://git-scm.com/downloads). MacOS and Linux machines typically have this already installed.
+  * Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager. Make sure to get the latest active LTS version. You could also use a Node.js version manager such as [n](https://github.com/tj/n) or [nvm](https://github.com/creationix/nvm).
+
 > If you were using the [old ruby CLI](https://github.com/sphereio/sphere-cli) make sure to uninstall it first.
 
-# Table of Content
-
-- [Getting Started](#getting-started)
-- [Credentials](#credentials)
-- [Commands](#commands)
-  - [`sphere-import`](#sphere-import)
-  - [`sphere-export`](#sphere-export)
-  - [`sphere-fetch`](#sphere-fetch)
-- [Development](#development)
-
-## Getting Started
+## Usage
 
 ```bash
 $ npm install -g sphere-node-cli
@@ -26,10 +45,10 @@ $ npm install -g sphere-node-cli
 # show general help
 $ sphere -h
 
-# show help for a command (e.g.: import, export)
+# show help for a command (e.g.: import)
 $ sphere help <cmd>
-```
 
+```
 The CLI is **still under development** but already provides a bunch of commands.<br/>
 The idea behind it is to operate as a _proxy_ for the different libraries that are used underneath. For example the `import` command will stream chunks from a given JSON file and pass them to the related library that will handled the rest.
 
@@ -101,8 +120,6 @@ The CLI has _git-like_ sub-commands which can be invoked as `sphere <cmd>`.
 Current available commands:
 
 - **import** (`stock`, `product`, `price`, `category`, `discount`)
-- **export** (`product`)
-- **fetch** (`product`)
 
 Commands expects at least a `-t, --type` option which may vary for each command.
 
@@ -149,35 +166,20 @@ Each import type might have / expect some extra specific configuration. In that 
 - [Customer import](https://github.com/sphereio/customer-import)
 - [Stock import]() _TBD_
 
-#### `sphere-export`
 
-TBD
-
-#### `sphere-fetch`
-
-TBD
-
-## Development
+## Contributing
 
 See [Contribution guidelines](CONTRIBUTING.md)
 
-```bash
-$ npm i
-
-# build sources
-$ npm run build
-
-# lint code
-$ npm run lint
-
-# run tests
-$ npm test
-$ npm run test:watch
-$ npm run test:features
-
-# release (bump version, create tag, push it and publish to npm)
-$ npm run release # alias for patch
-$ npm run release:patch
-$ npm run release:minor
-$ npm run release:major
-```
+[commercetools]: https://commercetools.com/
+[commercetools-icon]: https://cdn.rawgit.com/commercetools/press-kit/master/PNG/72DPI/CT%20logo%20horizontal%20RGB%2072dpi.png
+[npm-icon]: https://img.shields.io/npm/v/sphere-node-cli.svg
+[npm]: https://www.npmjs.com/package/sphere-node-cli
+[travis]: https://travis-ci.org/sphereio/sphere-node-cli
+[travis-icon]: https://img.shields.io/travis/sphereio/sphere-node-cli/master.svg?style=flat-square
+[codecov]: https://codecov.io/gh/sphereio/sphere-node-cli
+[codecov-icon]: https://img.shields.io/codecov/c/github/sphereio/sphere-node-cli.svg?style=flat-square
+[david]: https://david-dm.org/sphereio/sphere-node-cli
+[david-icon]: https://img.shields.io/david/sphereio/sphere-node-cli.svg?style=flat-square
+[david-dev]: https://david-dm.org/sphereio/sphere-node-cli?type=dev
+[david-dev-icon]: https://img.shields.io/david/dev/sphereio/sphere-node-cli.svg?style=flat-square

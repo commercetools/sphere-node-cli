@@ -1,6 +1,0 @@
-#!/usr/bin/env node
-
-var isTest = process.env.NODE_ENV === 'test'
-var cmdPath = isTest ? '/../lib/commands/fetch' : '/../dist/commands/fetch'
-var cmd = require(__dirname + cmdPath)
-new cmd().run(process.argv)

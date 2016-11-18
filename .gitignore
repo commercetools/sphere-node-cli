@@ -11,3 +11,5 @@ config.js
 *.iml
 output
 data
+coverage
+.nyc_output

@@ -1,214 +1,389 @@
-import 'should'
 import sinon from 'sinon'
-import expect from 'expect'
+import test from 'tape'
 import ImportCommand from '../../lib/commands/import'
+
+const _commander = require('rewire')('commander')
 
 const BIN_DIR = `${__dirname}/../../bin`
 
 const fakeCredentials = {
-  'project_key': 'foo',
-  'client_id': '123',
-  'client_secret': 'abc'
+  project_key: 'foo',
+  client_id: '123',
+  client_secret: 'abc',
 }
 
-describe('ImportCommand', () => {
-  let command
+function before () {
+  const command = new ImportCommand()
+  command.program = _commander
+  return Promise.resolve(command)
+}
 
-  beforeEach(() => {
-    command = new ImportCommand()
-    command.program = require('rewire')('commander')
-  })
-
-  it('should initialize command', () => {
+test(`ImportCommand
+  should initialize command`, (t) => {
+  before().then((command) => {
     const spy1 = sinon.spy(command, '_validateOptions')
     const spy2 = sinon.stub(command, '_die')
     sinon.stub(command, '_preProcess') // just to stub it
     command.run(['node', `${BIN_DIR}/sphere-import`])
-    command.program.name.should.be.a.Function
-    command.program.name().should.equal('sphere-import')
-    command.program.commands.should.have.lengthOf(0)
-    command.program.options.should.have.lengthOf(6)
-    command.program.options[0].flags.should.equal('-p, --project <key>')
-    command.program.options[1].flags.should.equal('-t, --type <name>')
-    command.program.options[2].flags.should.equal('-f, --from <path>')
-    command.program.options[3].flags.should.equal('-b, --batch <n>')
-    command.program.options[4].flags.should.equal('-c, --config <object>')
-    command.program.options[5].flags.should.equal('--plugin <path>')
-    command.program.should.not.have.property('project')
-    command.program.should.not.have.property('type')
-    command.program.should.not.have.property('from')
-    command.program.should.not.have.property('config')
-    command.program.should.have.property('batch')
-    expect(spy1.args[0][0]).toEqual({ batch: 5 })
-    expect(spy1.args[0][1]).toEqual('type')
-    expect(spy2.args[0][0]).toEqual('Missing required options: type')
+    t.equal(typeof command.program.name, 'function', 'Importcommand is a class')
+    t.equal(
+      command.program.name(),
+      'sphere-import',
+      'CLI command name is \'sphere-import\''
+    )
+    t.equal(command.program.commands.length, 0, 'No sub command args')
+    t.equal(
+      command.program.options.length,
+      6,
+      'There are 6 flags on the command'
+    )
+    t.equal(
+      command.program.options[0].flags,
+      '-p, --project <key>',
+      '\'project\' flag is present'
+    )
+    t.equal(
+      command.program.options[1].flags,
+      '-t, --type <name>',
+      '\'type\' flag is present'
+    )
+    t.equal(
+      command.program.options[2].flags,
+      '-f, --from <path>',
+      '\'from\' is present'
+    )
+    t.equal(
+      command.program.options[3].flags,
+      '-b, --batch <n>',
+      '\'batch\' flag is present'
+    )
+    t.equal(
+      command.program.options[4].flags,
+      '-c, --config <object>',
+      '\'config\' is present'
+    )
+    t.equal(
+      command.program.options[5].flags,
+      '--plugin <path>',
+      'plugin path flag is present'
+    )
+    t.notOk(
+      command.program.project,
+      'No default value is set for project'
+    )
+    t.notOk(
+      command.program.type,
+      'No default value is set for type'
+    )
+    t.notOk(
+      command.program.from,
+      'No default value is set for from'
+    )
+    t.notOk(
+      command.program.config,
+      'No default value is set for config'
+    )
+    t.ok(
+      command.program.batch,
+      'Default value(5) is set for batch'
+    )
+    t.deepEqual(
+      spy1.args[0][0],
+      { batch: 5 },
+      'Default value for batch flag is 5'
+    )
+    t.deepEqual(
+      spy1.args[0][1],
+      'type',
+      'Type flag is passed to cli parser'
+    )
+    t.equal(
+      spy2.args[0][0],
+      'Missing required options: type',
+      'Missing required options'
+    )
+    t.end()
   })
+})
 
-  it('should process stock command', () => {
+test(`ImportCommand
+  should process stock command`, (t) => {
+  before().then((command) => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
-        Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
+      Object.assign(opts, { config: {}, credentials: fakeCredentials }))
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'stock', '-f', './foo.json'])
-    command.program.project.should.be.equal('foo')
-    command.program.type.should.be.equal('stock')
-    command.program.from.should.be.equal('./foo.json')
-    expect(spy1.args[0][0]).toEqual({
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'stock',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
+    t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'stock',
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
-    })
-    expect(spy1.args[0][1]).toBe('stocks.*')
-    expect(spy1.args[0].length).toBe(4)
-    expect(spy2.calledOnce).toBe(true)
+      credentials: fakeCredentials,
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'stocks.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess command is calledOnce')
+    t.end()
   })
-
-  it('should process product command', () => {
+})
+test(`ImportCommand
+  should process product command`, (t) => {
+  before().then((command) => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
         Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'product', '-f', './foo.json'])
-    command.program.project.should.be.equal('foo')
-    command.program.type.should.be.equal('product')
-    command.program.from.should.be.equal('./foo.json')
-    expect(spy1.args[0][0]).toEqual({
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'product',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
+    t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'product',
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
-    })
-    expect(spy1.args[0][1]).toBe('products.*')
-    expect(spy1.args[0].length).toBe(4)
-    expect(spy2.calledOnce).toBe(true)
+      credentials: fakeCredentials,
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'products.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess is calledOnce')
+    t.end()
   })
+})
 
-  it('should process price command', () => {
+test(`ImportCommand
+  should process price command`, (t) => {
+  before().then((command) => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
         Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'price', '-f', './foo.json'])
-    command.program.project.should.be.equal('foo')
-    command.program.type.should.be.equal('price')
-    command.program.from.should.be.equal('./foo.json')
-    expect(spy1.args[0][0]).toEqual({
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'price',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
+    t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'price',
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
-    })
-    expect(spy1.args[0][1]).toBe('prices.*')
-    expect(spy1.args[0].length).toBe(4)
-    expect(spy2.calledOnce).toBe(true)
+      credentials: fakeCredentials,
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'prices.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess is calledOnce')
+    t.end()
   })
+})
 
-  it('should process category command', () => {
+test(`ImportCommand
+  should process category command`, (t) => {
+  before().then((command) => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
           Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'category', '-f', './foo.json'])
-    command.program.project.should.be.equal('foo')
-    command.program.type.should.be.equal('category')
-    command.program.from.should.be.equal('./foo.json')
-    expect(spy1.args[0][0]).toEqual({
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'category',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
+    t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'category',
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
-    })
-    expect(spy1.args[0][1]).toBe('categories.*')
-    expect(spy1.args[0].length).toBe(4)
-    expect(spy2.calledOnce).toBe(true)
+      credentials: fakeCredentials,
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'categories.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess is calledOnce')
+    t.end()
   })
+})
 
-  it('should process customer command', () => {
+test(`ImportCommand
+  should process customer command`, (t) => {
+  before().then((command) => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
           Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'customer', '-f', './foo.json'])
-    command.program.project.should.be.equal('foo')
-    command.program.type.should.be.equal('customer')
-    command.program.from.should.be.equal('./foo.json')
-    expect(spy1.args[0][0]).toEqual({
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli')
+    t.equal(
+      command.program.type,
+      'customer',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
+    t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'customer',
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
-    })
-    expect(spy1.args[0][1]).toBe('customers.*')
-    expect(spy1.args[0].length).toBe(4)
-    expect(spy2.calledOnce).toBe(true)
+      credentials: fakeCredentials,
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'customers.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess is calledOnce')
+    t.end()
   })
+})
 
-  it('should process discount command', () => {
+test(`ImportCommand
+  should process discount command`, (t) => {
+  before().then((command) => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
           Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'discount', '-f', './foo.json'])
-    command.program.project.should.be.equal('foo')
-    command.program.type.should.be.equal('discount')
-    command.program.from.should.be.equal('./foo.json')
-    expect(spy1.args[0][0]).toEqual({
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'discount',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
+    t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'discount',
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
-    })
-    expect(spy1.args[0][1]).toBe('discounts.*')
-    expect(spy1.args[0].length).toBe(4)
-    expect(spy2.calledOnce).toBe(true)
+      credentials: fakeCredentials,
+    }, 'all flags are passed')
+    t.equal(
+      spy1.args[0][1],
+      'discounts.*',
+      'type value is passed'
+    )
+    t.equal(
+      spy1.args[0].length,
+      4,
+      'Correct number of args is parsed'
+    )
+    t.ok(
+      spy2.calledOnce,
+      '_preProcess is calledOnce'
+    )
+    t.end()
   })
+})
 
-  it('should process productType command', () => {
+test(`ImportCommand
+  should process productType command`, (t) => {
+  before().then((command) => {
     const spy1 = sinon.stub(command, '_stream')
-    const spy2 = sinon.stub(command, '_preProcess', opts => {
-      return command._process(
+    const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
           Object.assign(opts, { config: {}, credentials: fakeCredentials }))
-    })
+    )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'productType', '-f', './foo.json'])
-    command.program.project.should.be.equal('foo')
-    command.program.type.should.be.equal('productType')
-    command.program.from.should.be.equal('./foo.json')
-    expect(spy1.args[0][0]).toEqual({
+    t.equal(
+      command.program.project,
+      'foo',
+      'project flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.type,
+      'productType',
+      'type flag is parsed from the cli'
+    )
+    t.equal(
+      command.program.from,
+      './foo.json',
+      'from flag is parsed from the cli'
+    )
+    t.deepEqual(spy1.args[0][0], {
       project: 'foo',
       type: 'productType',
       from: './foo.json',
       batch: 5,
       config: {},
-      credentials: fakeCredentials
-    })
-    expect(spy1.args[0][1]).toBe('productTypes.*')
-    expect(spy1.args[0].length).toBe(4)
-    expect(spy2.calledOnce).toBe(true)
+      credentials: fakeCredentials,
+    }, 'all flags are passed')
+    t.equal(spy1.args[0][1], 'productTypes.*', 'type value is passed')
+    t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
+    t.ok(spy2.calledOnce, '_preProcess is calledOnce')
+    t.end()
   })
 })
