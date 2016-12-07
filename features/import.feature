@@ -78,6 +78,28 @@ Feature: CLI - Import command
       """
       Summary: there were 2 imported stocks (2 were new and 0 were updates)
       """
+  Scenario: Use accessToken when given to run commands
+    Given a file named "stocks.json" with:
+      """
+      {
+        "stocks": [
+          {
+            "sku": "<id-a>",
+            "quantityOnStock": 10
+          },
+          {
+            "sku": "<id-b>",
+            "quantityOnStock": 20
+          }
+        ]
+      }
+      """
+    When I run with accessToken `sphere import -t stock -f stocks.json --accessToken testingtoken`
+    Then the exit status should be 0
+    Then the output should contain:
+      """
+      Summary: there were 2 imported stocks (2 were new and 0 were updates)
+      """
 
   Scenario: Show error if chunk cannot be parsed as JSON
     Given a file named "stocks.json" with:
