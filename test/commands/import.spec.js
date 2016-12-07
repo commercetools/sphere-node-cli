@@ -34,8 +34,8 @@ test(`ImportCommand
     t.equal(command.program.commands.length, 0, 'No sub command args')
     t.equal(
       command.program.options.length,
-      6,
-      'There are 6 flags on the command'
+      7,
+      'There are 7 flags on the command'
     )
     t.equal(
       command.program.options[0].flags,
@@ -66,6 +66,11 @@ test(`ImportCommand
       command.program.options[5].flags,
       '--plugin <path>',
       'plugin path flag is present'
+    )
+    t.equal(
+      command.program.options[6].flags,
+      '--accessToken <token>',
+      'token flag is present'
     )
     t.notOk(
       command.program.project,
