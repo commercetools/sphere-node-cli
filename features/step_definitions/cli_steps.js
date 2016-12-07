@@ -1,8 +1,13 @@
 /* eslint-disable new-cap */
 import fs from 'fs'
+/* eslint-disable import/no-extraneous-dependencies */
 import mkdirp from 'mkdirp'
 import rimraf from 'rimraf'
+/* eslint-enable import/no-extraneous-dependencies */
+import { OAuth2 } from 'sphere-node-sdk'
 import { exec } from 'child_process'
+
+import loadCredentials from './../../lib/utils/load-credentials'
 
 export default function cliSteps () {
   let cleansingNeeded = true
@@ -12,7 +17,8 @@ export default function cliSteps () {
   mkdirp(tmpDir)
 
   function uniqueId (prefix) {
-    const id = `${++idCounter}`
+    const id = `${idCounter}`
+    idCounter += 1
     return `${prefix + id}${new Date().getTime()}_`
   }
 
@@ -53,12 +59,12 @@ export default function cliSteps () {
 
       // replace placeholder for generate unique ids
       const replacedFileContent = fileContent
-        .replace(/\<id\-(\w)\>/gi, (match, g1) => uniqueId(g1))
+        .replace(/<id-(\w)>/gi, (match, g1) => uniqueId(g1))
 
-      mkdirp(dirName, err1 => {
+      mkdirp(dirName, (err1) => {
         if (err1) throw new Error(err1)
 
-        fs.writeFile(absoluteFilePath, replacedFileContent, err2 => {
+        fs.writeFile(absoluteFilePath, replacedFileContent, (err2) => {
           if (err2) throw new Error(err2)
           callback()
         })
@@ -79,13 +85,43 @@ export default function cliSteps () {
     })
   })
 
+  this.When(
+    /^I run with accessToken `sphere(| .+)`$/,
+    { timeout: 60 * 1000 },
+    (args, callback) => {
+      loadCredentials().then((credentials) => {
+        const oauth2 = new OAuth2({ config: credentials })
+        oauth2.getAccessToken((err, response, body) => {
+          if (err)
+            throw new Error(`Error occurred when fetching accessToken ${err}`)
+          const accessToken = body.access_token
+          const initialCwd = process.cwd()
+          process.chdir(tmpDir)
+
+          const runtimePath = joinPathSegments([ baseDir, 'bin', 'sphere' ])
+          const command = `${runtimePath} ${args} --accessToken ${accessToken}`
+          const env = Object.assign({}, process.env, {
+            SPHERE_CLIENT_ID: undefined,
+            SPHERE_CLIENT_SECRET: undefined,
+          })
+          const options = { env }
+          exec(command, options, (error, stdout, stderr) => {
+            this.lastRun = { error, stdout, stderr }
+            process.chdir(initialCwd)
+            cleansingNeeded = true
+            callback()
+          })
+        })
+      })
+    })
+
   this.Then(/^the exit status should be ([0-9]+)$/, (code, callback) => {
     const actualCode = this.lastRun.error ? this.lastRun.error.code : '0'
 
     if (`${actualCode}` !== `${code}`)
-      throw new Error(`Exit code expected: \"${code}\"\n` +
-                      `Got: \"${actualCode}\"\n` +
-                      getAdditionalErrorText(this.lastRun))
+      throw new Error(`Exit code expected: '${code}\n
+                      Got: '${actualCode}'\n
+                      ${getAdditionalErrorText(this.lastRun)}`)
     callback()
   })
 
@@ -95,21 +131,20 @@ export default function cliSteps () {
     const normalizedExpectedOutput = normalizeText(expectedOutput)
 
     if (actualOutput.indexOf(normalizedExpectedOutput) < 0)
-      throw new Error(`Expected output to match the following:\n` +
-                      `'${normalizedExpectedOutput}'\n` +
-                      `Got:\n'${actualOutput}'.\n` +
-                      getAdditionalErrorText(this.lastRun))
+      throw new Error(`Expected output to match the following:\n
+                      '${normalizedExpectedOutput}'\n
+                      Got:\n'${actualOutput}'.\n
+                      ${getAdditionalErrorText(this.lastRun)}`)
     callback()
   })
 
-  this.Then(/^the output should be a version number$/, callback => {
+  this.Then(/^the output should be a version number$/, (callback) => {
     const actualOutput = normalizeText(this.lastRun.stdout)
 
     if (!new RegExp(/\d\.\d\.\d/).test(actualOutput))
-      throw new Error(`Expected output to match the following:\n` +
-                      `'${expectedOutput}'\n` +
-                      `Got:\n'${actualOutput}'.\n` +
-                      getAdditionalErrorText(this.lastRun))
+      throw new Error(`Expected output to be a version number:\n
+                      Got:\n'${actualOutput}'.\n
+                      ${getAdditionalErrorText(this.lastRun)}`)
     callback()
   })
 }
