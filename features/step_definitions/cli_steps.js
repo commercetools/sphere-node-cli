@@ -17,7 +17,8 @@ export default function cliSteps () {
   mkdirp(tmpDir)
 
   function uniqueId (prefix) {
-    const id = `${++idCounter}` // eslint-disable-line no-plusplus
+    const id = `${idCounter}`
+    idCounter += 1
     return `${prefix + id}${new Date().getTime()}_`
   }
 
