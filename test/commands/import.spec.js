@@ -359,7 +359,7 @@ test(`ImportCommand
   before().then((command) => {
     const spy1 = sinon.stub(command, '_stream')
     const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
-          Object.assign(opts, { config: fakeCredentials }))
+      Object.assign(opts, { config: {}, credentials: fakeCredentials }))
     )
     command.run(['node', `${BIN_DIR}/sphere-import`,
       '-p', 'foo', '-t', 'productType', '-f', './foo.json'])
@@ -390,7 +390,7 @@ test(`ImportCommand
     t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
     t.ok(spy2.calledOnce, '_preProcess is calledOnce')
     t.end()
-  })
+  }).catch(t.fail)
 })
 
 test(`ImportCommand
@@ -398,10 +398,10 @@ test(`ImportCommand
   before().then((command) => {
     const spy1 = sinon.stub(command, '_stream')
     const spy2 = sinon.stub(command, '_preProcess', opts => command._process(
-          Object.assign(opts, { config: {}, credentials: fakeCredentials }))
+      Object.assign(opts, { config: {}, credentials: fakeCredentials }))
     )
     command.run(['node', `${BIN_DIR}/sphere-import`,
-      '-p', 'foo', '-t', 'productType', '-f', './foo.json'])
+      '-p', 'foo', '-t', 'order', '-f', './foo.json'])
     t.equal(
       command.program.project,
       'foo',
@@ -409,7 +409,7 @@ test(`ImportCommand
     )
     t.equal(
       command.program.type,
-      'productType',
+      'order',
       'type flag is parsed from the cli'
     )
     t.equal(
@@ -419,13 +419,13 @@ test(`ImportCommand
     )
     t.deepEqual(spy1.args[0][0], {
       project: 'foo',
-      type: 'productType',
+      type: 'order',
       from: './foo.json',
       batch: 5,
       config: {},
       credentials: fakeCredentials,
     }, 'all flags are passed')
-    t.equal(spy1.args[0][1], 'productTypes.*', 'type value is passed')
+    t.equal(spy1.args[0][1], '*', 'type value is passed')
     t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
     t.ok(spy2.calledOnce, '_preProcess is calledOnce')
     t.end()
