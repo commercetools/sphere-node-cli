@@ -61,7 +61,7 @@
     "instrument": false
   },
   "dependencies": {
-    "@commercetools/orders-update": "1.0.0",
+    "@commercetools/orders-update": "^1.0.0",
     "JSONStream": "1.0.7",
     "commander": "emmenko/commander.js#patch-help",
     "sphere-customer-import": "1.0.4",
