@@ -1,6 +1,11 @@
 import 'should'
+import _ from 'lodash'
 import sinon from 'sinon'
+import path from 'path'
 import expect from 'expect'
+import fs from 'fs'
+import Promise from 'bluebird'
+import tmp from 'tmp'
 import ExportCommand from '../../lib/commands/export'
 
 const BIN_DIR = `${__dirname}/../../bin`
@@ -60,5 +65,48 @@ describe('ExportCommand', () => {
     })
     expect(spy1.args[0].length).toBe(3)
     expect(spy2.calledOnce).toBe(true)
+  })
+
+  it('should export data to output file', (done) => {
+    const tmpDir = tmp.dirSync({ unsafeCleanup: true })
+    const opts = {
+      output: path.join(tmpDir.name, 'out.json'),
+      type: 'products',
+      pretty: false
+    }
+
+    const testData = _.map(Array(5), (val, g) => {
+      return _.map(Array(10), (val, i) => {
+        return {
+          id: 100 * g + i
+        }
+      })
+    })
+
+    const processFn = (cb) =>
+      Promise.map(testData, (results) =>
+        cb({
+          body: {
+            results
+          }
+        })
+      )
+
+    command._stream(opts, processFn, _.noop)
+    .then(() => {
+      const data = fs.readFileSync(opts.output, 'utf-8')
+      let parsed = null
+      try {
+        parsed = JSON.parse(data)
+      } catch (e) {
+        console.error(e)
+        done('Error when parsing exported data')
+      }
+
+      parsed.total.should.be.equal(50)
+      parsed.products.should.be.deepEqual(_.flatten(testData))
+      tmpDir.removeCallback()
+      done()
+    })
   })
 })
