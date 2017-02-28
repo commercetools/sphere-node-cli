@@ -13,7 +13,7 @@ We now have a central repository for the sdk and our tools. Gradually, we will b
 ## Setting Up a Local Copy
 1. Clone the repo with `git clone git@github.com:sphereio/sphere-node-cli.git`
 2. Run `npm install`
-4. To run all packages tests simply do `npm test` (we use [jasmine-node](https://github.com/mhevery/jasmine-node)).
+4. To run all packages tests simply do `npm test` (we use [tape](https://github.com/substack/tape)).
 5. To run tests in watch mode, use `npm run test:watch`
 6. Linting and static checks are done by `npm lint`.
 7. You can check the code coverage by running `npm run coverage`
