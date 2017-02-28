@@ -51,7 +51,7 @@ Please add the relevant labels as needed. When working on an issue, please add t
 
 ## Tests
 Before submitting a PR, please make sure your code is well unit tested, and build passes on CI
-We use [jasmine-node](https://github.com/mhevery/jasmine-node) for testing.
+We use [tape](https://github.com/substack/tape) for testing.
 
 ## Submitting a Pull Request
 Good pull requests, such as patches, improvements, and new features, are a fantastic help. They should remain focused in scope and avoid containing unrelated commits.
