@@ -4,10 +4,11 @@
 #### Description
 <!-- Describe the changes in this PR here and provide some context -->
 
-#### TODO
+#### Todo
 
 - Tests
     - [ ] Unit
     - [ ] Integration
     - [ ] Acceptance
 - [ ] Documentation
+<!-- Two persons should review a PR, don't forget to assign them. -->
