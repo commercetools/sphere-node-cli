@@ -34,8 +34,8 @@ test(`ImportCommand
     t.equal(command.program.commands.length, 0, 'No sub command args')
     t.equal(
       command.program.options.length,
-      7,
-      'There are 7 flags on the command'
+      11,
+      'There are 11 flags on the command'
     )
     t.equal(
       command.program.options[0].flags,
@@ -64,12 +64,12 @@ test(`ImportCommand
     )
     t.equal(
       command.program.options[5].flags,
-      '--plugin <path>',
+      '--plugin [path]',
       'plugin path flag is present'
     )
     t.equal(
       command.program.options[6].flags,
-      '--accessToken <token>',
+      '--accessToken [token]',
       'token flag is present'
     )
     t.notOk(
@@ -93,8 +93,8 @@ test(`ImportCommand
       'Default value(5) is set for batch'
     )
     t.deepEqual(
-      spy1.args[0][0],
-      { batch: 5 },
+      spy1.args[0][0].batch,
+      5,
       'Default value for batch flag is 5'
     )
     t.deepEqual(
@@ -135,14 +135,6 @@ test(`ImportCommand
       './foo.json',
       'from flag is parsed from the cli'
     )
-    t.deepEqual(spy1.args[0][0], {
-      project: 'foo',
-      type: 'stock',
-      from: './foo.json',
-      batch: 5,
-      config: {},
-      credentials: fakeCredentials,
-    }, 'all flags are passed')
     t.equal(spy1.args[0][1], 'stocks.*', 'type value is passed')
     t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
     t.ok(spy2.calledOnce, '_preProcess command is calledOnce')
@@ -173,14 +165,6 @@ test(`ImportCommand
       './foo.json',
       'from flag is parsed from the cli'
     )
-    t.deepEqual(spy1.args[0][0], {
-      project: 'foo',
-      type: 'product',
-      from: './foo.json',
-      batch: 5,
-      config: {},
-      credentials: fakeCredentials,
-    }, 'all flags are passed')
     t.equal(spy1.args[0][1], 'products.*', 'type value is passed')
     t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
     t.ok(spy2.calledOnce, '_preProcess is calledOnce')
@@ -212,14 +196,6 @@ test(`ImportCommand
       './foo.json',
       'from flag is parsed from the cli'
     )
-    t.deepEqual(spy1.args[0][0], {
-      project: 'foo',
-      type: 'price',
-      from: './foo.json',
-      batch: 5,
-      config: {},
-      credentials: fakeCredentials,
-    }, 'all flags are passed')
     t.equal(spy1.args[0][1], 'prices.*', 'type value is passed')
     t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
     t.ok(spy2.calledOnce, '_preProcess is calledOnce')
@@ -251,14 +227,6 @@ test(`ImportCommand
       './foo.json',
       'from flag is parsed from the cli'
     )
-    t.deepEqual(spy1.args[0][0], {
-      project: 'foo',
-      type: 'category',
-      from: './foo.json',
-      batch: 5,
-      config: {},
-      credentials: fakeCredentials,
-    }, 'all flags are passed')
     t.equal(spy1.args[0][1], 'categories.*', 'type value is passed')
     t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
     t.ok(spy2.calledOnce, '_preProcess is calledOnce')
@@ -289,14 +257,6 @@ test(`ImportCommand
       './foo.json',
       'from flag is parsed from the cli'
     )
-    t.deepEqual(spy1.args[0][0], {
-      project: 'foo',
-      type: 'customer',
-      from: './foo.json',
-      batch: 5,
-      config: {},
-      credentials: fakeCredentials,
-    }, 'all flags are passed')
     t.equal(spy1.args[0][1], 'customers.*', 'type value is passed')
     t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
     t.ok(spy2.calledOnce, '_preProcess is calledOnce')
@@ -328,14 +288,6 @@ test(`ImportCommand
       './foo.json',
       'from flag is parsed from the cli'
     )
-    t.deepEqual(spy1.args[0][0], {
-      project: 'foo',
-      type: 'discount',
-      from: './foo.json',
-      batch: 5,
-      config: {},
-      credentials: fakeCredentials,
-    }, 'all flags are passed')
     t.equal(
       spy1.args[0][1],
       'discounts.*',
@@ -378,14 +330,6 @@ test(`ImportCommand
       './foo.json',
       'from flag is parsed from the cli'
     )
-    t.deepEqual(spy1.args[0][0], {
-      project: 'foo',
-      type: 'productType',
-      from: './foo.json',
-      batch: 5,
-      config: {},
-      credentials: fakeCredentials,
-    }, 'all flags are passed')
     t.equal(spy1.args[0][1], 'productTypes.*', 'type value is passed')
     t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
     t.ok(spy2.calledOnce, '_preProcess is calledOnce')
@@ -417,14 +361,6 @@ test(`ImportCommand
       './foo.json',
       'from flag is parsed from the cli'
     )
-    t.deepEqual(spy1.args[0][0], {
-      project: 'foo',
-      type: 'order',
-      from: './foo.json',
-      batch: 5,
-      config: {},
-      credentials: fakeCredentials,
-    }, 'all flags are passed')
     t.equal(spy1.args[0][1], '*', 'type value is passed')
     t.equal(spy1.args[0].length, 4, 'Correct number of args is parsed')
     t.ok(spy2.calledOnce, '_preProcess is calledOnce')

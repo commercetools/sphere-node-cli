@@ -29,7 +29,7 @@ Feature: CLI - Import command
       """
     Then the output should contain:
       """
-      --plugin <path>
+      --plugin [path]
       """
 
   Scenario: Show missing option error
@@ -72,7 +72,7 @@ Feature: CLI - Import command
         ]
       }
       """
-    When I run `sphere import -t stock -f stocks.json`
+    When I run `sphere import -t stock -f stocks.json --host api.sphere.io --protocol https`
     Then the exit status should be 0
     Then the output should contain:
       """
