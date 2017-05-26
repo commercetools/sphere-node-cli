@@ -24,13 +24,11 @@ Table of Contents
 * [Contributing](#contributing)
 
 ## Features
-- import of `stock`, `product`, `price`, `category`, `discount`
+- import of `stock`, `product`, `price`, `category`, `discount`, `order`, `customer`, `productType`
 - Docker support
 - Custom plugin
 
 ## Requirements
-
-
 Make sure you have installed all of the following prerequisites on your development machine:
   * Git - [Download & Install Git](https://git-scm.com/downloads). MacOS and Linux machines typically have this already installed.
   * Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager. Make sure to get the latest active LTS version. You could also use a Node.js version manager such as [n](https://github.com/tj/n) or [nvm](https://github.com/creationix/nvm).
@@ -119,7 +117,7 @@ The CLI has _git-like_ sub-commands which can be invoked as `sphere <cmd>`.
 
 Current available commands:
 
-- **import** (`stock`, `product`, `price`, `category`, `discount`)
+- **import** (`stock`, `product`, `price`, `category`, `discount`, `order`, `customer`, `productType`)
 
 Commands expects at least a `-t, --type` option which may vary for each command.
 
@@ -164,8 +162,8 @@ Each import type might have / expect some extra specific configuration. In that 
 - [Category import](https://github.com/sphereio/sphere-category-sync#json-format)
 - [Product Discount import](https://github.com/sphereio/sphere-product-import/blob/master/readme/product-discounts-importer.md)
 - [Customer import](https://github.com/sphereio/customer-import)
-- [Stock import]() _TBD_
-
+- [Stock import](https://github.com/sphereio/sphere-stock-import)
+- [Order import](https://github.com/commercetools/orders-update)
 
 ## Contributing
 
