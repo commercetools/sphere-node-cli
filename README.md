@@ -164,7 +164,7 @@ Each import type might have / expect some extra specific configuration. In that 
 - [Customer import](https://github.com/sphereio/customer-import)
 - [Stock import](https://github.com/sphereio/sphere-stock-import)
 - [Order import](https://github.com/commercetools/orders-update)
-- [Discount Code import](https://commercetools.github.io/nodejs/cli/discount-code-importer.html/)
+- [Discount Code import](https://commercetools.github.io/nodejs/cli/discount-code-importer.html)
 
 ## Contributing
 
