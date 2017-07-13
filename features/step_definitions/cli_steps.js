@@ -141,7 +141,7 @@ export default function cliSteps () {
   this.Then(/^the output should be a version number$/, (callback) => {
     const actualOutput = normalizeText(this.lastRun.stdout)
 
-    if (!new RegExp(/\d\.\d\.\d/).test(actualOutput))
+    if (!new RegExp(/\d+\.\d+\.\d+/).test(actualOutput))
       throw new Error(`Expected output to be a version number:\n
                       Got:\n'${actualOutput}'.\n
                       ${getAdditionalErrorText(this.lastRun)}`)
