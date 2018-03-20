@@ -63,6 +63,7 @@
   },
   "dependencies": {
     "@commercetools/discount-code-importer": "^1.0.3",
+    "@commercetools/state-importer": "^1.0.0",
     "@commercetools/orders-update": "^2.2.0",
     "JSONStream": "^1.3.1",
     "commander": "emmenko/commander.js#patch-help",
