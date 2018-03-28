@@ -407,7 +407,7 @@ test(`ImportCommand
       Object.assign(opts, { config: {}, credentials: fakeCredentials }))
     )
     command.run(['node', `${BIN_DIR}/sphere-import`,
-      '-p', 'foo', '-t', 'discountCode', '-f', './foo.json'])
+      '-p', 'foo', '-t', 'state', '-f', './foo.json'])
     t.equal(
       command.program.project,
       'foo',
@@ -415,7 +415,7 @@ test(`ImportCommand
     )
     t.equal(
       command.program.type,
-      'discountCode',
+      'state',
       'type flag is parsed from the cli'
     )
     t.equal(
