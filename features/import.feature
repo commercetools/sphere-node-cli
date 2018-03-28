@@ -144,10 +144,12 @@ Feature: CLI - Import command
         "productTypes": [
           {
             "name": "<id-a>",
+            "key": "<id-a>",
             "description": "<desc-a>"
           },
           {
             "name": "<id-b>",
+            "key": "<id-b>",
             "description": "<desc-b>"
           }
         ]
