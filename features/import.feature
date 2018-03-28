@@ -78,6 +78,7 @@ Feature: CLI - Import command
       """
       Summary: there were 2 imported stocks (2 were new and 0 were updates)
       """
+
   Scenario: Use accessToken when given to run commands
     Given a file named "stocks.json" with:
       """

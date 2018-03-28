@@ -1,14 +1,15 @@
-/* eslint-disable new-cap */
-export default function hooks () {
-  this.Before((scenario, callback) => {
-    // TODO: prepare environment
-    // - cleanup
-    // - credentials
-    callback()
-  })
+/* eslint-disable import/no-extraneous-dependencies */
+import { Before, After } from 'cucumber'
 
-  this.After((scenario, callback) => {
-    // TODO: cleanup environment
-    callback()
-  })
-}
+/* eslint-disable new-cap */
+Before((scenario, callback) => {
+  // TODO: prepare environment
+  // - cleanup
+  // - credentials
+  callback()
+})
+
+After((scenario, callback) => {
+  // TODO: cleanup environment
+  callback()
+})

@@ -20,7 +20,7 @@
     "test:watch": "chokidar lib test -c 'npm test'",
     "prepublish": "npm run build",
     "coverage": "npm run lint && npm run clean && cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm test",
-    "test:features": "npm run build && babel-node $(npm bin)/cucumber.js"
+    "test:features": "npm run build && babel-node $(npm bin)/cucumber-js"
   },
   "main": "./dist/sphere",
   "license": "MIT",
