@@ -1,5 +1,6 @@
 /* eslint-disable new-cap */
 import fs from 'fs'
+import path from 'path'
 /* eslint-disable import/no-extraneous-dependencies */
 import mkdirp from 'mkdirp'
 import rimraf from 'rimraf'
@@ -21,10 +22,6 @@ function uniqueId (prefix) {
   const id = `${idCounter}`
   idCounter += 1
   return `${prefix + id}${new Date().getTime()}_`
-}
-
-function joinPathSegments (segments) {
-  return segments.join('/')
 }
 
 function cleanseIfNeeded () {
@@ -55,10 +52,7 @@ Given(
   (filePath, fileContent, callback) => {
     cleanseIfNeeded()
     const absoluteFilePath = `${tmpDir}/${filePath}`
-    const filePathSegments = absoluteFilePath.split('/')
-    filePathSegments.pop()
-    const dirName = joinPathSegments(filePathSegments)
-
+    const dirName = path.dirname(absoluteFilePath)
     // replace placeholder for generate unique ids
     const replacedFileContent = fileContent
       .replace(/<id-(\w)>/gi, (match, g1) => uniqueId(g1))
@@ -79,7 +73,7 @@ When(/^I run `sphere(| .+)`$/, (args, callback) => {
   const initialCwd = process.cwd()
   process.chdir(tmpDir)
 
-  const runtimePath = joinPathSegments([ baseDir, 'bin', 'sphere' ])
+  const runtimePath = path.resolve(baseDir, 'bin', 'sphere')
   const command = runtimePath + args
   exec(command, (error, stdout, stderr) => {
     lastRunSequence = { error, stdout, stderr }
@@ -102,7 +96,7 @@ When(
         const initialCwd = process.cwd()
         process.chdir(tmpDir)
 
-        const runtimePath = joinPathSegments([ baseDir, 'bin', 'sphere' ])
+        const runtimePath = path.resolve(baseDir, 'bin', 'sphere')
         const command = `${runtimePath} ${args} --accessToken ${accessToken}`
         const env = Object.assign({}, process.env, {
           SPHERE_CLIENT_ID: undefined,
