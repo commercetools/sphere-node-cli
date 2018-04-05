@@ -19,7 +19,7 @@ test(`Command
   before().then((command) => {
     t.throws(
       (() => command._process()),
-      'Base _process method must be overridden'
+      'Base _process method must be overridden',
     )
     t.end()
   })
@@ -33,7 +33,7 @@ test(`Command
     t.equal(
       spy.args[0][0],
       'Missing required options: type',
-      'Missing required options is reported'
+      'Missing required options is reported',
     )
     t.end()
   })
@@ -73,11 +73,11 @@ test(`Command
   should parse config`, (t) => {
   before().then((command) => {
     command._parseConfig(JSON.stringify({ foo: 'bar' }))
-    .then((config) => {
-      t.deepEqual(config, { foo: 'bar' }, 'Config object is parsed')
-      t.end()
-    })
-    .catch(t.end)
+      .then((config) => {
+        t.deepEqual(config, { foo: 'bar' }, 'Config object is parsed')
+        t.end()
+      })
+      .catch(t.end)
   })
 })
 
@@ -85,15 +85,15 @@ test(`Command
   should resolve if config option is not provided`, (t) => {
   before().then((command) => {
     command._parseConfig()
-    .then((config) => {
-      t.deepEqual(
-        config,
-        {},
-        '_parseConfig method returns empty object when no config is parsed'
-      )
-      t.end()
-    })
-    .catch(t.end)
+      .then((config) => {
+        t.deepEqual(
+          config,
+          {},
+          '_parseConfig method returns empty object when no config is parsed',
+        )
+        t.end()
+      })
+      .catch(t.end)
   })
 })
 
@@ -105,7 +105,7 @@ test(`Command
     t.equal(
       spy.args[0][0],
       'Cannot parse config',
-      'Returns error when config cannot be parsed'
+      'Returns error when config cannot be parsed',
     )
     t.equal(spy.args[0].length, 2, 'Error and error stack trace is returns')
     t.end()
