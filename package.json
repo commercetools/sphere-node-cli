@@ -74,7 +74,7 @@
     "sphere-customer-import": "1.0.4",
     "sphere-node-sdk": "^2.0.0",
     "sphere-node-utils": "^1.0.0",
-    "sphere-product-import": "^1.0.0",
+    "sphere-product-import": "^1.1.0",
     "sphere-product-type-import": "^2.0.0",
     "sphere-stock-import": "^1.1.1",
     "stream-transform": "1.0.2",
