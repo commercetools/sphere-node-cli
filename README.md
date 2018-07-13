@@ -24,7 +24,7 @@ Table of Contents
 * [Contributing](#contributing)
 
 ## Features
-- import of `stock`, `product`, `price`, `category`, `discount`, `order`, `customer`, `productType`, `discountCode`, `state`
+- import of `stock`, `product`, `price`, `category`, `discount`, `order`, `customer`, `productType`, `discountCode`, `state`, `customObject`
 - Docker support
 - Custom plugin
 
@@ -117,7 +117,7 @@ The CLI has _git-like_ sub-commands which can be invoked as `sphere <cmd>`.
 
 Current available commands:
 
-- **import** (`stock`, `product`, `price`, `category`, `discount`, `order`, `customer`, `productType`, `discountCode`, `state`)
+- **import** (`stock`, `product`, `price`, `category`, `discount`, `order`, `customer`, `productType`, `discountCode`, `state`, `customObject`)
 
 Commands expects at least a `-t, --type` option which may vary for each command.
 
@@ -166,6 +166,7 @@ Each import type might have / expect some extra specific configuration. In that 
 - [Order import](https://github.com/commercetools/orders-update)
 - [Discount Code import](https://commercetools.github.io/nodejs/cli/discount-code-importer.html)
 - [State import](https://commercetools.github.io/nodejs/cli/state-importer.html)
+- [Custom Object import](https://commercetools.github.io/nodejs/cli/custom-objects-importer.html)
 
 ## Contributing
 
