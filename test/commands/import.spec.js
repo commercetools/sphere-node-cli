@@ -417,3 +417,30 @@ test(`ImportCommand
       t.end()
     }).then(after)
 })
+test(`ImportCommand
+  should process customObject command`, (t) => {
+  before()
+    .then((command) => {
+      command.run(['node', `${BIN_DIR}/sphere-import`,
+        '-p', 'foo', '-t', 'customObject', '-f', './foo.json'])
+      t.equal(
+        command.program.project,
+        'foo',
+        'project flag is parsed from the cli',
+      )
+      t.equal(
+        command.program.type,
+        'customObject',
+        'type flag is parsed from the cli',
+      )
+      t.equal(
+        command.program.from,
+        './foo.json',
+        'from flag is parsed from the cli',
+      )
+      t.equal(streamSpy.args[0][1], '*', 'type value is passed')
+      t.equal(streamSpy.args[0].length, 4, 'Correct number of args is parsed')
+      t.ok(preProcessSpy.calledOnce, '_preProcess is calledOnce')
+      t.end()
+    }).then(after)
+})
