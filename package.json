@@ -43,7 +43,7 @@
     "import"
   ],
   "engines": {
-    "node": ">= 0.10"
+    "node": ">= 8"
   },
   "config": {
     "commitizen": {

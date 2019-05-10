@@ -1,4 +1,4 @@
-FROM node:0.12
+FROM node:10
 
 MAINTAINER SPHERE.IO Support <support@sphere.io>
 
