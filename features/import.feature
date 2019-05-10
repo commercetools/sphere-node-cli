@@ -53,7 +53,11 @@ Feature: CLI - Import command
     Then the exit status should be 1
     Then the output should contain:
       """
-      Cannot parse config SyntaxError: Unexpected token o
+      Cannot parse config
+      """
+    Then the output should contain:
+      """
+      Unexpected token o in JSON at position 1
       """
 
   Scenario: Import stock by reading file as stream
