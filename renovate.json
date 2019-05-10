@@ -3,6 +3,6 @@
     "config:base",
     ":preserveSemverRanges",
     ":automergeMinor",
-    "group:all"
+    "group:allNonMajor"
   ]
 }
