@@ -120,7 +120,7 @@
     "nyc": "^11.6.0",
     "rewire": "^3.0.2",
     "rimraf": "^2.5.4",
-    "sinon": "^4.4.10",
+    "sinon": "^7.0.0",
     "tap-spec": "^5.0.0",
     "tape": "^4.6.2",
     "validate-commit-msg": "^2.8.0"
