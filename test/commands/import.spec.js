@@ -17,8 +17,8 @@ let preProcessSpy
 function before () {
   const command = new ImportCommand()
   streamSpy = sinon.stub(command, '_stream')
-  preProcessSpy = sinon.stub(command, '_preProcess').callsFake(opts =>
-    command._process(Object.assign(opts, {
+  preProcessSpy = sinon.stub(command, '_preProcess')
+    .callsFake(opts => command._process(Object.assign(opts, {
       config: {},
       credentials: fakeCredentials,
     })))
