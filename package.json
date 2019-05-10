@@ -106,7 +106,7 @@
     "codecov": "^3.0.0",
     "commitizen": "^2.8.6",
     "cross-env": "^5.0.5",
-    "cucumber": "^4.1.0",
+    "cucumber": "^5.0.0",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.0.0",
     "eslint-config-airbnb": "^16.1.0",
