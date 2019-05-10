@@ -99,7 +99,7 @@
   "devDependencies": {
     "babel-cli": "^6.16.0",
     "babel-eslint": "^10.0.0",
-    "babel-plugin-istanbul": "^4.1.5",
+    "babel-plugin-istanbul": "^5.0.0",
     "babel-preset-es2015": "^6.16.0",
     "babel-register": "^6.16.3",
     "chokidar-cli": "^1.2.0",
