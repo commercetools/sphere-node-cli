@@ -80,7 +80,7 @@ Feature: CLI - Import command
     Then the exit status should be 0
     Then the output should contain:
       """
-      Summary: there were 2 imported stocks (2 were new and 0 were updates)
+      Summary: there were 2 imported stocks (2 were new, 0 were updates)
       """
 
   Scenario: Use accessToken when given to run commands
@@ -103,7 +103,7 @@ Feature: CLI - Import command
     Then the exit status should be 0
     Then the output should contain:
       """
-      Summary: there were 2 imported stocks (2 were new and 0 were updates)
+      Summary: there were 2 imported stocks (2 were new, 0 were updates)
       """
 
   Scenario: Show error if chunk cannot be parsed as JSON
