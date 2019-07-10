@@ -12,7 +12,6 @@
   "scripts": {
     "build": "npm run lint && npm run clean && babel --optional runtime lib --out-dir dist",
     "clean": "rimraf dist coverage",
-    "commit": "git-cz",
     "lint": "./scripts/lint lib test",
     "test": "npm run lint && cross-env NODE_ENV=test babel-node node_modules/.bin/tape test/**/*.spec.js test/*.spec.js | tap-spec",
     "check-coverage": "nyc check-coverage --lines 100 --functions 100 --branches 100 --statements 100",
@@ -46,9 +45,6 @@
     "node": ">= 8"
   },
   "config": {
-    "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
-    },
     "ghooks": {
       "commit-msg": "validate-commit-msg",
       "pre-commit": "./scripts/lint-staged-files"
@@ -113,10 +109,8 @@
     "babel-plugin-istanbul": "^5.1.4",
     "chokidar-cli": "^1.2.0",
     "codecov": "^3.0.0",
-    "commitizen": "^3.0.0",
     "cross-env": "^5.0.5",
     "cucumber": "^5.0.0",
-    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.0.0",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-config-commercetools": "^6.0.0",
