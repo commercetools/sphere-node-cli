@@ -107,7 +107,7 @@
     "@babel/register": "^7.4.4",
     "babel-eslint": "^10.0.1",
     "babel-plugin-istanbul": "^5.1.4",
-    "chokidar-cli": "^1.2.0",
+    "chokidar-cli": "^2.0.0",
     "codecov": "^3.0.0",
     "cross-env": "^5.0.5",
     "cucumber": "^5.0.0",
