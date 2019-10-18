@@ -58,7 +58,7 @@
     "instrument": false
   },
   "dependencies": {
-    "@commercetools/custom-objects-importer": "^2.0.0",
+    "@commercetools/custom-objects-importer": "^3.0.0",
     "@commercetools/discount-code-importer": "^3.0.0",
     "@commercetools/orders-update": "^2.2.2",
     "@commercetools/state-importer": "^3.0.0",
