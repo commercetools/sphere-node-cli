@@ -61,7 +61,7 @@
     "@commercetools/custom-objects-importer": "^2.0.0",
     "@commercetools/discount-code-importer": "^2.0.0",
     "@commercetools/orders-update": "^2.2.2",
-    "@commercetools/state-importer": "^2.0.0",
+    "@commercetools/state-importer": "^3.0.0",
     "JSONStream": "^1.3.4",
     "commander": "github:emmenko/commander.js#patch-help",
     "debug": "4.1.1",
