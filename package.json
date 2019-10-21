@@ -73,7 +73,7 @@
     "sphere-node-utils": "^2.0.1",
     "sphere-product-import": "^2.0.0",
     "sphere-product-type-import": "^2.0.2",
-    "sphere-stock-import": "^2.0.0",
+    "sphere-stock-import": "^3.0.0",
     "stream-transform": "2.0.1",
     "winston": "2.4.4"
   },
