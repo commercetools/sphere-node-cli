@@ -60,7 +60,7 @@
   "dependencies": {
     "@commercetools/custom-objects-importer": "^3.0.0",
     "@commercetools/discount-code-importer": "^3.0.0",
-    "@commercetools/orders-update": "^2.2.2",
+    "@commercetools/orders-update": "^3.0.0",
     "@commercetools/state-importer": "^3.0.0",
     "JSONStream": "^1.3.4",
     "commander": "github:emmenko/commander.js#patch-help",
