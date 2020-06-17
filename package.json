@@ -10,6 +10,7 @@
     "sphere-import": "./bin/sphere-import"
   },
   "scripts": {
+    "preinstall": "node safe-resolution-check.js",
     "build": "npm run lint && npm run clean && babel --optional runtime lib --out-dir dist",
     "clean": "rimraf dist coverage",
     "lint": "./scripts/lint lib test",
@@ -67,15 +68,19 @@
     "debug": "4.1.1",
     "highland": "^2.11.1",
     "inflection": "^1.12.0",
-    "sphere-category-sync": "^1.1.1",
+    "sphere-category-sync": "^1.2.3",
     "sphere-customer-import": "1.0.5",
     "sphere-node-sdk": "^3.0.1",
     "sphere-node-utils": "^2.0.1",
-    "sphere-product-import": "^2.0.0",
+    "sphere-product-import": "^2.0.6",
     "sphere-product-type-import": "^2.0.2",
     "sphere-stock-import": "^3.0.0",
     "stream-transform": "2.0.1",
     "winston": "2.4.4"
+  },
+  "resolutions": {
+    "lodash": "^4.17.15",
+    "sphere-node-utils": "2.0.1"
   },
   "eslintConfig": {
     "extends": "commercetools"
