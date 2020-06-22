@@ -76,7 +76,7 @@
     "sphere-product-type-import": "^2.0.2",
     "sphere-stock-import": "^3.0.0",
     "stream-transform": "2.0.2",
-    "winston": "2.4.4"
+    "winston": "3.3.0"
   },
   "resolutions": {
     "lodash": "^4.17.15",
