@@ -75,7 +75,7 @@
     "sphere-product-import": "^2.0.6",
     "sphere-product-type-import": "^2.0.2",
     "sphere-stock-import": "^3.0.0",
-    "stream-transform": "2.0.1",
+    "stream-transform": "2.0.2",
     "winston": "2.4.4"
   },
   "resolutions": {
