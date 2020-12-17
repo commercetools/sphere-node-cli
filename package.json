@@ -1,7 +1,7 @@
 {
   "name": "sphere-node-cli",
   "description": "A fast, performant, easy-to-use and stream-based CLI for SPHERE.IO",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "preferGlobal": true,
   "private": false,
   "author": "Nicola Molinari <nicola.molinari@commercetools.de>",
