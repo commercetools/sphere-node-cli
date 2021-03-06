@@ -30,7 +30,8 @@
   },
   "files": [
     "dist/",
-    "bin/"
+    "bin/",
+    "safe-resolution-check.js"
   ],
   "bugs": {
     "url": "https://github.com/sphereio/sphere-node-cli/issues"
