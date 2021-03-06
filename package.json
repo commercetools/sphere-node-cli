@@ -118,7 +118,7 @@
     "cross-env": "^6.0.0",
     "cucumber": "^5.0.0",
     "eslint": "^5.0.0",
-    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-airbnb": "^18.0.0",
     "eslint-config-commercetools": "^6.0.0",
     "eslint-formatter-pretty": "^3.0.0",
     "eslint-plugin-import": "^2.14.0",
