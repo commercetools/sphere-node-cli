@@ -131,7 +131,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^7.4.2",
     "tap-spec": "^5.0.0",
-    "tape": "^4.6.2",
+    "tape": "^5.0.0",
     "validate-commit-msg": "^2.8.0"
   }
 }
