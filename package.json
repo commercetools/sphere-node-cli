@@ -78,7 +78,7 @@
     "sphere-product-import": "^1.3.3",
     "sphere-product-type-import": "^2.0.2",
     "sphere-stock-import": "^1.3.2",
-    "stream-transform": "1.0.2",
+    "stream-transform": "2.1.2",
     "winston": "2.4.1"
   },
   "eslintConfig": {
